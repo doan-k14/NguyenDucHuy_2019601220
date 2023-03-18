@@ -146,7 +146,7 @@ const Page: NextPageWithLayout = () => {
           {/* Status */}
           <ActiveStatus
             onSelect={status => setPayload({ ...payload, status: status })}
-            status={product?.status || 0}
+            status={payload.status || product?.status || 0}
           />
 
           <Space>

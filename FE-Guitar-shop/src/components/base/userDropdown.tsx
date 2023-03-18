@@ -1,3 +1,6 @@
+import { useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
+
 import {
   AuditOutlined,
   LockOutlined,
@@ -5,8 +8,23 @@ import {
   UserOutlined
 } from '@ant-design/icons'
 import { Avatar, Button, Popconfirm } from 'antd'
+import useLocalStorage from '@/hooks/localStorage'
+import { UserInfo } from '@/types/user'
 
-const UserDropdown = () => {
+type Props = {
+  username: string | null
+}
+
+const UserDropdown = (props: Props) => {
+  const {username} = props
+  const router = useRouter()
+  const user = useLocalStorage<UserInfo | null>('user', null)
+
+  const onLogout = () => {
+    user[1](null)
+    window.sessionStorage.removeItem('username')
+    router.push('/auth/login')
+  }
 
   return (
     <div style={{ width: '400px', background: 'white' }}>
@@ -39,7 +57,7 @@ const UserDropdown = () => {
             icon={<UserOutlined />}
             size="large"
           />
-          <span>{'@' + 'Huy'}</span>
+          <span>{'@' + username}</span>
         </div>
       </div>
       {/* Menu */}
@@ -89,6 +107,7 @@ const UserDropdown = () => {
           description="Bạn có chắc là muốn đăng xuất không?"
           okText="Có"
           cancelText="Không"
+          onConfirm={onLogout}
         >
           <Button style={{ background: '#2EA7F5', color: 'white' }}>
             <LogoutOutlined />

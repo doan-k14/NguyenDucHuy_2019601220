@@ -86,7 +86,7 @@ export default function User({ children }: LayoutProps) {
         <Layout className="layout">
           <Sider trigger={null} collapsible collapsed={collapsed}>
             <Image
-              onClick={() => router.push('/user')}
+              onClick={() => router.push('/users')}
               style={{ padding: '1rem', width: '100%' }}
               preview={false}
               src="https://firebasestorage.googleapis.com/v0/b/ndhuy-498b5.appspot.com/o/2efd6b44584243558050bfeb3f36751a.png?alt=media&token=45310f90-38bf-4015-8679-8a46f3ff2eff"

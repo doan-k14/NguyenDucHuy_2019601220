@@ -207,3 +207,8 @@ a {
   padding: 2rem;
   color: #FFF;
 }
+
+.ant-checkbox-checked .ant-checkbox-inner {
+  background-color: #0080FF;
+  border-color: #0080FF;
+}

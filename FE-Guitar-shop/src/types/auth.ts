@@ -18,7 +18,7 @@ export type UserResponse = {
   user: UserInfo
 }
 
-export type UserResponseWithAccessToken = {
-  user: UserInfo
-  access_token: string
+export type LoginResponse = {
+  message: string
+  result: UserInfo
 }
