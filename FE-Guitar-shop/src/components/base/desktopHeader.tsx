@@ -1,6 +1,8 @@
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 
 import {
+  Badge,
   Button,
   Col,
   Image,
@@ -20,7 +22,6 @@ import {
 } from '@ant-design/icons'
 import useLocalStorage from '@/hooks/localStorage'
 import { UserInfo } from '@/types/user'
-import { useEffect, useState } from 'react'
 
 const DesktopHeader = () => {
   const router = useRouter()
@@ -92,29 +93,34 @@ const DesktopHeader = () => {
 
   return (
     <>
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          background: 'white',
-          paddingLeft: '10rem',
-          paddingRight: '10rem'
-        }}
-      >
-        <Image
-          preview={false}
-          src="https://firebasestorage.googleapis.com/v0/b/ndhuy-498b5.appspot.com/o/2efd6b44584243558050bfeb3f36751a.png?alt=media&token=45310f90-38bf-4015-8679-8a46f3ff2eff"
-          height="10rem"
-        />
-        <Image
-          preview={false}
-          src="https://images.cdn4.stockunlimited.net/preview1300/music-banner_1826190.jpg"
-          height="10rem"
-        />
-      </div>
+      <Row>
+        <Col
+          xxl={{ span: 14, offset: 5 }}
+          xl={{ span: 18, offset: 3 }}
+          lg={{ span: 20, offset: 2 }}
+          span={24}
+          offset={0}
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center'
+          }}
+        >
+          <Image
+            preview={false}
+            src="https://firebasestorage.googleapis.com/v0/b/ndhuy-498b5.appspot.com/o/2efd6b44584243558050bfeb3f36751a.png?alt=media&token=45310f90-38bf-4015-8679-8a46f3ff2eff"
+            height="10rem"
+          />
+          <Image
+            preview={false}
+            src="https://images.cdn4.stockunlimited.net/preview1300/music-banner_1826190.jpg"
+            height="10rem"
+          />
+        </Col>
+      </Row>
       <div>
         {/* Menu */}
-        <div style={{ background: '#0080FF' }}>
+        <div style={{ background: '#D72027' }}>
           <Row>
             <Col
               xxl={{ span: 14, offset: 5 }}
@@ -123,7 +129,6 @@ const DesktopHeader = () => {
               span={24}
               offset={0}
               style={{
-                padding: '0 1rem',
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'center'
@@ -134,7 +139,7 @@ const DesktopHeader = () => {
                 mode="horizontal"
                 items={items}
                 style={{
-                  background: '#0080FF',
+                  background: '#D72027',
                   color: 'white',
                   display: 'flex',
                   textTransform: 'uppercase',
@@ -145,9 +150,13 @@ const DesktopHeader = () => {
                 <Button size="small" title="Sản phẩm yêu thích">
                   <HeartFilled style={{ color: '#FF1935' }} />
                 </Button>
-                <Button size="small" title="Giỏ hàng">
-                  <ShoppingCartOutlined style={{ color: '#0080FF' }} />
-                </Button>
+                <div style={{ marginRight: '0.5rem' }}>
+                  <Badge size="small" count={5}>
+                    <Button size="small" title="Giỏ hàng">
+                      <ShoppingCartOutlined style={{ color: '#0080FF' }} />
+                    </Button>
+                  </Badge>
+                </div>
                 {username ? (
                   <Popover
                     content={popContent}

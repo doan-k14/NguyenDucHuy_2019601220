@@ -15,7 +15,7 @@ const Footer = () => {
   }
 
   return (
-    <Row style={{ background: '#0080ff' }}>
+    <Row style={{ background: '#D72027' }}>
       <Col
         xxl={{ span: 14, offset: 5 }}
         xl={{ span: 16, offset: 4 }}
@@ -42,7 +42,9 @@ const Footer = () => {
               <strong style={{ fontWeight: 'bolder', paddingLeft: '3px' }}>
                 Trụ sở :
               </strong>{' '}
-              Cổ Nhuế 2, Bắc Từ Liêm, Hà Nội
+              <span style={{ letterSpacing: '0.1rem', fontSize: '1rem' }}>
+                Cổ Nhuế 2, Bắc Từ Liêm, Hà Nội
+              </span>
             </div>
             <h3 style={h3Style}>HỖ TRỢ</h3>
             <div style={colStyle}>
@@ -52,13 +54,14 @@ const Footer = () => {
               <strong
                 style={{
                   fontWeight: 'bolder',
-                  textTransform: 'uppercase',
                   paddingLeft: '3px'
                 }}
               >
-                hotline:
+                Hotline:
               </strong>{' '}
-              0362274026
+              <span style={{ letterSpacing: '0.1rem', fontSize: '1rem' }}>
+                0362274026
+              </span>
             </div>
             <div style={colStyle}>
               <Space>
@@ -67,13 +70,14 @@ const Footer = () => {
               <strong
                 style={{
                   fontWeight: 'bolder',
-                  textTransform: 'uppercase',
                   paddingLeft: '3px'
                 }}
               >
                 Email :
               </strong>{' '}
-              duc4422@gmail.com
+              <span style={{ letterSpacing: '0.1rem', fontSize: '1rem' }}>
+                duc4422@gmail.com
+              </span>
             </div>
           </Col>
           <Col>

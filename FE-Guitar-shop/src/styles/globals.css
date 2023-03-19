@@ -140,7 +140,7 @@ a {
 .homepage-title {
   font-size: 1.2rem;
   font-weight: 700;
-  color: #4b5b68;
+  color: #D72027;
   text-align: center !important;
   text-transform: uppercase;
   margin: 2rem 0 2rem 0;
@@ -165,12 +165,12 @@ a {
 }
 
 .ant-menu-item-selected {
-  background-color: #2EA7F5 !important;
+  background-color: #BF081D !important;
   color: white !important;
 }
 
 .ant-menu-item:hover {
-  background-color: #2EA7F5 !important;
+  background-color: #BF081D !important;
   color: white !important;
 }
 
