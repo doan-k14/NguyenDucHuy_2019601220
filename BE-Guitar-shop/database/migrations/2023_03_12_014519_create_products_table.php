@@ -21,6 +21,15 @@ return new class extends Migration
             $table->integer('price');
             $table->integer('amount');
             $table->string('description')->nullable();
+
+            $table->string('bonus')->nullable();
+            $table->string('origin')->nullable();
+            $table->string('style')->nullable();
+            $table->string('material')->nullable();
+            $table->string('paint')->nullable();
+            $table->string('string_name')->nullable();
+            $table->integer('sold')->nullable();
+
             $table->boolean('status')->default(true);
             $table->timestamps();
         });

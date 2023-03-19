@@ -21,7 +21,7 @@ import CategorySelect from '@/components/utilities/categorySelect'
 
 const Page: NextPageWithLayout = () => {
   const router = useRouter()
-  const [products, setProducts] = useState<Product[] | undefined>()
+  const [products, setProducts] = useState<Product[]>()
 
   const [total, setTotal] = useState<number>(defaultPagination.total)
   const [page, setPage] = useState<number>(defaultPagination.page)

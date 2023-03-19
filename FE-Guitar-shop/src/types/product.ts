@@ -6,6 +6,13 @@ export type Product = {
   price: number
   amount: number
   description: string
+  bonus?: string
+  origin?: string
+  style?: string
+  material?: string
+  paint?: string
+  string_name?: string
+  sold?: number
   status: number
   created_at: string
   updated_at: string
@@ -36,6 +43,12 @@ export type CreatePayload = {
   amount: number | null
   status: number
   description?: string
+  bonus?: string
+  origin?: string
+  style?: string
+  material?: string
+  paint?: string
+  string_name?: string
 }
 
 export type UpdatePayload = {
@@ -46,4 +59,10 @@ export type UpdatePayload = {
   amount?: number | null
   status?: number
   description?: string
+  bonus?: string
+  origin?: string
+  style?: string
+  material?: string
+  paint?: string
+  string_name?: string
 }

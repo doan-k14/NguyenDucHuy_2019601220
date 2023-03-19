@@ -1,22 +1,50 @@
-import { Badge, Button, Card, Space } from 'antd'
+import { Badge, Button, Card, Skeleton, Space } from 'antd'
 import { HeartOutlined } from '@ant-design/icons'
 import { formatPrice } from '@/helpers/currency'
+import { Product } from '@/types/product'
+import useLocalStorage from '@/hooks/localStorage'
 
 const { Meta } = Card
 
-const NewProducts = () => {
-  const description = (
-    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-      <span style={{ color: '#D72027', fontSize: '1rem', fontWeight: 'bold' }}>
-        {formatPrice(2500000)}
-      </span>
-      <Button size="small" title="Sản phẩm yêu thích">
-        <HeartOutlined style={{ color: '#FF1935' }} />
-      </Button>
-    </div>
+type Props = {
+  products?: Product[]
+  loading: boolean
+  label: string
+}
+
+const NewProducts = (props: Props) => {
+  const { products, loading, label } = props
+  const [loveProducts, setLoveProducts] = useLocalStorage<Product[]>(
+    'love-products',
+    []
   )
 
-  const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+  const onSelectLoveProduct = (loveProduct: Product) => {
+    if (!loveProducts.find(product => product === loveProduct)) {
+      const tempList = loveProducts
+      tempList.push(loveProduct)
+      setLoveProducts(tempList)
+    }
+  }
+
+  const description = (product: Product) => {
+    return (
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <span
+          style={{ color: '#D72027', fontSize: '1rem', fontWeight: 'bold' }}
+        >
+          {formatPrice(product.price)}
+        </span>
+        <Button
+          size="small"
+          title="Sản phẩm yêu thích"
+          onClick={() => onSelectLoveProduct(product)}
+        >
+          <HeartOutlined style={{ color: '#FF1935' }} />
+        </Button>
+      </div>
+    )
+  }
 
   return (
     <div
@@ -26,33 +54,33 @@ const NewProducts = () => {
         background: '#F0F0F0'
       }}
     >
-      <Space>
-        {arr.map(key => (
-          <Badge.Ribbon
-            key={key}
-            text="New"
-            color="volcano"
-            style={{ display: 'flex' }}
-          >
-            <Card
-              size="small"
-              hoverable
-              style={{ width: 220 }}
-              cover={
-                <img
-                  alt="example"
-                  src="https://tongkhonhaccu.com/Data/ResizeImage/data/upload/images/product/guitar/manticsaga/gt1-gcbk/dan_guitar_acoustic_gt1bkx500x500x4.jpg"
-                />
-              }
-            >
-              <Meta
-                title="Acoustic Mantic GT-1GCBK"
-                description={description}
-              />
-            </Card>
-          </Badge.Ribbon>
-        ))}
-      </Space>
+      {loading ? (
+        <Skeleton active />
+      ) : (
+        <Space>
+          {products &&
+            products.map(product => (
+              <Badge.Ribbon
+                key={product.id}
+                text={label}
+                color="volcano"
+                style={{ display: 'flex' }}
+              >
+                <Card
+                  size="small"
+                  hoverable
+                  style={{ width: 220 }}
+                  cover={<img alt="product" src={product.image} />}
+                >
+                  <Meta
+                    title={product.name}
+                    description={description(product)}
+                  />
+                </Card>
+              </Badge.Ribbon>
+            ))}
+        </Space>
+      )}
     </div>
   )
 }

@@ -23,6 +23,8 @@ import {
 import useLocalStorage from '@/hooks/localStorage'
 import { UserInfo } from '@/types/user'
 
+import LocalProducts from '../products/localProducts'
+
 const DesktopHeader = () => {
   const router = useRouter()
   const items: MenuProps['items'] = [
@@ -147,9 +149,15 @@ const DesktopHeader = () => {
                 }}
               />
               <Space>
-                <Button size="small" title="Sản phẩm yêu thích">
-                  <HeartFilled style={{ color: '#FF1935' }} />
-                </Button>
+                <Popover
+                  placement="bottom"
+                  content={<LocalProducts />}
+                  trigger="click"
+                >
+                  <Button size="small" title="Sản phẩm yêu thích">
+                    <HeartFilled style={{ color: '#FF1935' }} />
+                  </Button>
+                </Popover>
                 <div style={{ marginRight: '0.5rem' }}>
                   <Badge size="small" count={5}>
                     <Button size="small" title="Giỏ hàng">

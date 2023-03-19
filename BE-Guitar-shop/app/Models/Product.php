@@ -13,6 +13,12 @@ class Product extends Model
         'price',
         'amount',
         'description',
-        'status'
+        'status',
+        'bonus',
+        'origin',
+        'style',
+        'material',
+        'paint',
+        'string_name',
     ];
 }

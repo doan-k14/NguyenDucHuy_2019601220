@@ -6,6 +6,7 @@ import { ColumnsType } from 'antd/es/table'
 import { Product } from '@/types/product'
 
 import ProductActions from './productActions'
+import { getDetail } from './getDetail'
 
 type Props = {
   products: Product[] | undefined
@@ -18,17 +19,6 @@ type Props = {
 const Products = (props: Props) => {
   const { products, pageSize, total, loading, onChange } = props
 
-  const getProductTime = (product: Product) => {
-    const createTime = new Date(product.created_at).toUTCString()
-    const updateTime = new Date(product.updated_at).toUTCString()
-    return (
-      <>
-        <div><span style={{fontWeight: 'bold'}}>Ngày tạo:</span> {createTime}</div>
-        <div><span style={{fontWeight: 'bold'}}>Ngày cập nhật:</span> {updateTime}</div>
-      </>
-    )
-  }
-
   const columns: ColumnsType<Product> = [
     {
       title: 'ID',
@@ -37,7 +27,7 @@ const Products = (props: Props) => {
     {
       title: 'Tên sản phẩm',
       render: (_, data) => (
-        <Popover content={getProductTime(data)} trigger="hover">
+        <Popover content={getDetail(data)} trigger="hover">
           <Button type="text" style={{fontWeight: 'bold'}}>{data.name}</Button>
         </Popover>
       )

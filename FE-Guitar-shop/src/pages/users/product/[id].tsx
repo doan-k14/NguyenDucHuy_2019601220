@@ -131,6 +131,33 @@ const Page: NextPageWithLayout = () => {
               style={{ width: '100px' }}
             />
           </Form.Item>
+          {/* Compare attribute */}
+          <Form.Item
+            name="bonus"
+            label="Quà tặng kèm:"
+            style={{ width: '50%' }}
+          >
+            <Input defaultValue={product?.bonus} />
+          </Form.Item>
+          <Form.Item name="origin" label="Xuất xứ:" style={{ width: '25%' }}>
+            <Input defaultValue={product?.origin} />
+          </Form.Item>
+          <Form.Item name="style" label="Kiểu dáng:" style={{ width: '25%' }}>
+            <Input defaultValue={product?.style} />
+          </Form.Item>
+          <Form.Item name="material" label="Vật liệu:" style={{ width: '25%' }}>
+            <Input defaultValue={product?.material} />
+          </Form.Item>
+          <Form.Item name="paint" label="Loại sơn:" style={{ width: '25%' }}>
+            <Input defaultValue={product?.paint} />
+          </Form.Item>
+          <Form.Item
+            name="string_name"
+            label="Dây đàn:"
+            style={{ width: '25%' }}
+          >
+            <Input defaultValue={product?.string_name} />
+          </Form.Item>
           {/* Status */}
           <ActiveStatus
             onSelect={status => setStatus(status)}

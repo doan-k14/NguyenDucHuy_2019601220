@@ -121,9 +121,28 @@ const Page: NextPageWithLayout = () => {
         >
           <InputNumber min={0} style={{ width: '100px' }} />
         </Form.Item>
+        {/* Compare attribute */}
+        <Form.Item name="bonus" label="Quà tặng kèm:" style={{ width: '50%' }}>
+          <Input />
+        </Form.Item>
+        <Form.Item name="origin" label="Xuất xứ:" style={{ width: '25%' }}>
+          <Input />
+        </Form.Item>
+        <Form.Item name="style" label="Kiểu dáng:" style={{ width: '25%' }}>
+          <Input />
+        </Form.Item>
+        <Form.Item name="material" label="Vật liệu:" style={{ width: '25%' }}>
+          <Input />
+        </Form.Item>
+        <Form.Item name="paint" label="Loại sơn:" style={{ width: '25%' }}>
+          <Input />
+        </Form.Item>
+        <Form.Item name="string_name" label="Dây đàn:" style={{ width: '25%' }}>
+          <Input />
+        </Form.Item>
         {/* Status */}
         <ActiveStatus onSelect={setStatus} status={status} />
-
+        {/* Submit button */}
         <Space>
           <Button onClick={() => router.push('/users/category')}>
             Quay lại
