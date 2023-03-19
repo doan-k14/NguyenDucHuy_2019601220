@@ -19,15 +19,8 @@ const Page: NextPageWithLayout = () => {
   const [loading, setLoading] = useState<boolean>(false)
   const [submitLoading, setSubmitLoading] = useState<boolean>(false)
 
-  const [payload, setPayload] = useState<UpdatePayload>({
-    category_id: product?.category_id,
-    name: product?.name,
-    description: product?.description,
-    image: product?.image,
-    price: product?.price,
-    amount: product?.amount,
-    status: product?.status
-  })
+  const [categoryID, setCategoryID] = useState<number>()
+  const [status, setStatus] = useState<number>()
 
   const fetchProductByID = async () => {
     try {
@@ -41,10 +34,16 @@ const Page: NextPageWithLayout = () => {
     }
   }
 
-  const onUpdate = async () => {
+  const onUpdate = async (payload: UpdatePayload) => {
     try {
       setSubmitLoading(true)
-      if (await ProductService.update(productID, payload))
+      if (
+        await ProductService.update(productID, {
+          ...payload,
+          category_id: categoryID,
+          status: status
+        })
+      )
         notificationSuccess('Cập sản phẩm thành công!')
     } catch {
       notificationError('Có lỗi xảy ra')
@@ -91,62 +90,51 @@ const Page: NextPageWithLayout = () => {
           style={{ marginLeft: '1rem' }}
           layout="vertical"
           autoComplete="off"
+          onFinish={onUpdate}
         >
           {/* Category reference */}
           <Form.Item label="Danh mục:">
             <CategorySelect
-              onSelect={categoryID =>
-                setPayload({ ...payload, category_id: categoryID })
-              }
-              categoryID={payload.category_id || product?.category_id || -1}
+              onSelect={categoryID => setCategoryID(categoryID)}
+              categoryID={categoryID || product?.category_id || -1}
             />
           </Form.Item>
           {/* Product name */}
-          <Form.Item label="Tên sản phẩm:" style={{ width: '50%' }}>
-            <Input
-              defaultValue={product?.name}
-              onChange={e => setPayload({ ...payload, name: e.target.value })}
-            />
+          <Form.Item label="Tên sản phẩm:" style={{ width: '50%' }} name="name">
+            <Input defaultValue={product?.name} />
           </Form.Item>
           {/* Description */}
-          <Form.Item label="Mô tả:" style={{ width: '50%' }}>
-            <Input.TextArea
-              rows={5}
-              defaultValue={product?.description}
-              onChange={e =>
-                setPayload({ ...payload, description: e.target.value })
-              }
-            />
+          <Form.Item label="Mô tả:" style={{ width: '50%' }} name="description">
+            <Input.TextArea rows={5} defaultValue={product?.description} />
           </Form.Item>
           {/* Image url */}
-          <Form.Item label="Đường dẫn ảnh:" style={{ width: '50%' }}>
-            <Input
-              defaultValue={product?.image}
-              onChange={e => setPayload({ ...payload, image: e.target.value })}
-            />
+          <Form.Item
+            label="Đường dẫn ảnh:"
+            style={{ width: '50%' }}
+            name="image"
+          >
+            <Input defaultValue={product?.image} />
           </Form.Item>
           {/* Price */}
-          <Form.Item label="Giá tiền:">
+          <Form.Item label="Giá tiền:" name="price">
             <InputNumber
               min={0}
               defaultValue={product?.price}
               style={{ width: '200px' }}
-              onChange={value => setPayload({ ...payload, price: value })}
             />
           </Form.Item>
           {/* Amount */}
-          <Form.Item label="Số lượng:">
+          <Form.Item label="Số lượng:" name="amount">
             <InputNumber
               min={0}
               defaultValue={product?.amount}
               style={{ width: '100px' }}
-              onChange={value => setPayload({ ...payload, amount: value })}
             />
           </Form.Item>
           {/* Status */}
           <ActiveStatus
-            onSelect={status => setPayload({ ...payload, status: status })}
-            status={payload.status || product?.status || 0}
+            onSelect={status => setStatus(status)}
+            status={status || product?.status || 0}
           />
 
           <Space>
@@ -157,7 +145,6 @@ const Page: NextPageWithLayout = () => {
               style={{ background: '#0080FF', color: 'white' }}
               type="text"
               htmlType="submit"
-              onClick={onUpdate}
               loading={submitLoading}
             >
               Cập nhật

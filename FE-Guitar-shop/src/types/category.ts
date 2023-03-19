@@ -15,7 +15,7 @@ export type CategoryResponse = {
 }
 
 export type CategoryPayload = {
-  name: string | undefined
-  description: string | undefined
-  status: number | undefined
+  name: string
+  description: string | null
+  status: number
 }

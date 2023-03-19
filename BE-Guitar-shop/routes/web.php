@@ -37,6 +37,7 @@ $router->group(['prefix' => 'product'], function () use ($router) {
 $router->group(['prefix' => 'user'], function () use ($router) {
     $router->post('register', 'UserController@register');
     $router->post('login', 'UserController@login');
+    $router->post('change-password', 'UserController@changePassword');
     $router->post('list', 'UserController@index');
     $router->post('{id}', 'UserController@show');
     $router->post('update/{id}', 'UserController@update');

@@ -18,9 +18,9 @@ return new class extends Migration
             $table->string('username')->unique();
             $table->string('password');
             $table->string('full_name');
-            $table->integer('phone')->unique();
+            $table->integer('phone')->unique()->nullable();
             $table->string('email')->unique();
-            $table->string('address');
+            $table->string('address')->nullable();
             $table->boolean('role')->default(false);
             $table->timestamps();
         });

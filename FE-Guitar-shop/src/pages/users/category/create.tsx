@@ -13,21 +13,14 @@ import User from '@/components/layouts/user'
 
 const Page: NextPageWithLayout = () => {
   const router = useRouter()
-  const [name, setName] = useState<string>()
-  const [description, setDescription] = useState<string>('')
   const [status, setStatus] = useState<number>(1)
 
   const [loading, setLoading] = useState<boolean>(false)
 
-  const onSubmit = async () => {
+  const onSubmit = async (payload: CategoryPayload) => {
     try {
       setLoading(true)
-      const payload: CategoryPayload = {
-        name: name,
-        description: description,
-        status: status
-      }
-      if (await CategoryService.create(payload))
+      if (await CategoryService.create({ ...payload, status: status }))
         notificationSuccess('Tạo mới thành công')
       setTimeout(() => {
         router.push('/users/category')
@@ -66,19 +59,24 @@ const Page: NextPageWithLayout = () => {
         <MenuUnfoldOutlined />
         <div>Thêm mới danh mục</div>
       </div>
-      <Form style={{ marginLeft: '1rem' }} layout="vertical" autoComplete="off">
+      <Form
+        style={{ marginLeft: '1rem' }}
+        layout="vertical"
+        autoComplete="off"
+        onFinish={onSubmit}
+      >
         {/* Category name */}
         <Form.Item
           label="Tên danh mục:"
           style={{ width: '50%' }}
-          name="category_name"
+          name="name"
           rules={[{ required: true, message: 'Vui lòng nhập tên danh mục' }]}
         >
-          <Input onChange={e => setName(e.target.value)} />
+          <Input />
         </Form.Item>
         {/* Description */}
-        <Form.Item label="Mô tả:" style={{ width: '50%' }}>
-          <Input.TextArea rows={5} onChange={e => setDescription(e.target.value)} />
+        <Form.Item label="Mô tả:" style={{ width: '50%' }} name="description">
+          <Input.TextArea rows={5} />
         </Form.Item>
         {/* Status */}
         <ActiveStatus onSelect={setStatus} status={status} />
@@ -91,7 +89,6 @@ const Page: NextPageWithLayout = () => {
             style={{ background: '#0080FF', color: 'white' }}
             type="text"
             htmlType="submit"
-            onClick={onSubmit}
             loading={loading}
           >
             Thêm mới

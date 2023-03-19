@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 
 import {
@@ -87,6 +86,7 @@ const UserDropdown = (props: Props) => {
             <Button
               type="link"
               style={{ width: '100%', textAlign: 'left' }}
+              onClick={() => router.push('/auth/change-password')}
             >
               <LockOutlined style={{ color: '#0080FF' }} />
               <span>Thay đổi mật khẩu</span>

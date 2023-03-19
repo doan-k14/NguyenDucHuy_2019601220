@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Users;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -27,7 +28,6 @@ class UserController extends Controller
             'username' => 'required',
             'password' => 'required|min:6',
             'full_name' => 'required',
-            'phone' => 'required|digits:10',
             'email' => 'required|email'
         ]);
 
@@ -58,6 +58,26 @@ class UserController extends Controller
 
         return response()->json([
             'message' => $message,
+            'result' => $user
+        ]);
+    }
+
+    public function changePassword(Request $request)
+    {
+        $user = Users::query()->where('username', $request['username'])->firstOrFail();
+        if ($user->password !== $request['old_password'])
+            return response()->json([
+                'errors' => 'Mật khẩu không đúng',
+                'success' => false,
+                'message' => 'Input error',
+            ], 400);
+
+        $user->password = $request->input('new_password');
+
+        $user->save();
+
+        return response()->json([
+            'message' => 'Change password success',
             'result' => $user
         ]);
     }

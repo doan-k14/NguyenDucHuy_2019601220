@@ -15,31 +15,23 @@ import User from '@/components/layouts/user'
 const Page: NextPageWithLayout = () => {
   const router = useRouter()
   const [categoryID, setCategoryID] = useState<number>(-1)
-  const [name, setName] = useState<string>('')
-  const [description, setDescription] = useState<string>('')
-  const [imageUrl, setImageUrl] = useState<string>('')
-  const [price, setPrice] = useState<number | null>(0)
-  const [amount, setAmount] = useState<number | null>(0)
   const [status, setStatus] = useState<number>(1)
 
   const [loading, setLoading] = useState<boolean>(false)
 
-  const onSubmit = async () => {
+  const onSubmit = async (payload: CreatePayload) => {
     try {
       setLoading(true)
       if (categoryID === -1)
         notificationError('Quý khách vui lòng chọn danh mục')
       else {
-        const payload: CreatePayload = {
-          category_id: categoryID,
-          name: name,
-          image: imageUrl,
-          price: price,
-          amount: amount,
-          description: description,
-          status: status
-        }
-        if (await ProductService.create(payload))
+        if (
+          await ProductService.create({
+            ...payload,
+            category_id: categoryID,
+            status: status
+          })
+        )
           notificationSuccess('Tạo mới thành công')
         setTimeout(() => {
           router.push('/users/product')
@@ -79,7 +71,12 @@ const Page: NextPageWithLayout = () => {
         <MenuUnfoldOutlined />
         <div>Thêm mới sản phẩm</div>
       </div>
-      <Form style={{ marginLeft: '1rem' }} layout="vertical" autoComplete="off">
+      <Form
+        style={{ marginLeft: '1rem' }}
+        layout="vertical"
+        autoComplete="off"
+        onFinish={onSubmit}
+      >
         {/* Category reference */}
         <Form.Item label="Danh mục:">
           <CategorySelect onSelect={setCategoryID} categoryID={categoryID} />
@@ -88,26 +85,23 @@ const Page: NextPageWithLayout = () => {
         <Form.Item
           label="Tên sản phẩm:"
           style={{ width: '50%' }}
-          name="product_name"
+          name="name"
           rules={[{ required: true, message: 'Vui lòng nhập tên sản phẩm' }]}
         >
-          <Input onChange={e => setName(e.target.value)} />
+          <Input />
         </Form.Item>
         {/* Description */}
-        <Form.Item label="Mô tả:" style={{ width: '50%' }}>
-          <Input.TextArea
-            rows={5}
-            onChange={e => setDescription(e.target.value)}
-          />
+        <Form.Item label="Mô tả:" style={{ width: '50%' }} name="description">
+          <Input.TextArea rows={5} />
         </Form.Item>
         {/* Image url */}
         <Form.Item
-          name="url"
+          name="image"
           rules={[{ required: true, message: 'Vui lòng nhập đường dẫn ảnh' }]}
           label="Đường dẫn ảnh:"
           style={{ width: '50%' }}
         >
-          <Input onChange={e => setImageUrl(e.target.value)} />
+          <Input />
         </Form.Item>
         {/* Price */}
         <Form.Item
@@ -115,11 +109,7 @@ const Page: NextPageWithLayout = () => {
           rules={[{ required: true, message: 'Vui lòng nhập giá sản phẩm' }]}
           label="Giá tiền:"
         >
-          <InputNumber
-            min={0}
-            style={{ width: '200px' }}
-            onChange={value => setPrice(value)}
-          />
+          <InputNumber min={0} style={{ width: '200px' }} />
         </Form.Item>
         {/* Amount */}
         <Form.Item
@@ -129,11 +119,7 @@ const Page: NextPageWithLayout = () => {
           ]}
           label="Số lượng:"
         >
-          <InputNumber
-            min={0}
-            style={{ width: '100px' }}
-            onChange={value => setAmount(value)}
-          />
+          <InputNumber min={0} style={{ width: '100px' }} />
         </Form.Item>
         {/* Status */}
         <ActiveStatus onSelect={setStatus} status={status} />
@@ -146,7 +132,6 @@ const Page: NextPageWithLayout = () => {
             style={{ background: '#0080FF', color: 'white' }}
             type="text"
             htmlType="submit"
-            onClick={onSubmit}
             loading={loading}
           >
             Thêm mới

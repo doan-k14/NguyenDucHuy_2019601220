@@ -17,12 +17,6 @@ const Page: NextPageWithLayout = () => {
   const [loading, setLoading] = useState<boolean>(false)
   const [submitLoading, setSubmitLoading] = useState<boolean>(false)
 
-  const [payload, setPayload] = useState<CategoryPayload>({
-    name: category?.name,
-    description: category?.description,
-    status: category?.status
-  })
-
   const fetchCategoryByID = async () => {
     try {
       setLoading(true)
@@ -35,7 +29,7 @@ const Page: NextPageWithLayout = () => {
     }
   }
 
-  const onUpdate = async () => {
+  const onUpdate = async (payload: CategoryPayload) => {
     try {
       setSubmitLoading(true)
       if (await CategoryService.update(categoryID, payload))
@@ -84,39 +78,33 @@ const Page: NextPageWithLayout = () => {
         <Form
           style={{ marginLeft: '1rem' }}
           layout="vertical"
-          name="basic"
           initialValues={{ remember: true }}
           autoComplete="off"
+          onFinish={onUpdate}
         >
           <Form.Item
             label="Tên danh mục:"
             style={{ width: '50%' }}
-            name="category_name"
-            rules={[{ required: true, message: 'Vui lòng nhập tên danh mục' }]}
+            name="name"
           >
-            <Input
-              defaultValue={category?.name}
-              onChange={e => setPayload({ ...payload, name: e.target.value })}
-            />
+            <Input defaultValue={category?.name} />
           </Form.Item>
 
-          <Form.Item label="Mô tả:" style={{ width: '50%' }}>
-            <Input
-              defaultValue={category?.description}
-              onChange={e =>
-                setPayload({ ...payload, description: e.target.value })
-              }
-            />
+          <Form.Item label="Mô tả:" style={{ width: '50%' }} name="description">
+            <Input.TextArea rows={5} defaultValue={category?.description} />
           </Form.Item>
 
-          <Form.Item label="Trạng thái:" style={{ width: '10rem' }}>
+          <Form.Item
+            label="Trạng thái:"
+            style={{ width: '10rem' }}
+            name="status"
+          >
             <Select
               defaultValue={category?.status}
               options={[
                 { value: 1, label: 'Hoạt động' },
                 { value: 0, label: 'Không hoạt động' }
               ]}
-              onChange={value => setPayload({ ...payload, status: value })}
             />
           </Form.Item>
 
@@ -127,7 +115,7 @@ const Page: NextPageWithLayout = () => {
             <Button
               style={{ background: '#0080FF', color: 'white' }}
               type="text"
-              onClick={onUpdate}
+              htmlType="submit"
               loading={submitLoading}
             >
               Cập nhật

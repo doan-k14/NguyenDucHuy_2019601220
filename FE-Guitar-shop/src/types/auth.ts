@@ -14,6 +14,13 @@ export type RegisterPayload = {
   address: string
 }
 
+export type ChangePasswordPayload = {
+  username: string
+  old_password: string
+  new_password: string
+  password_confirm: string
+}
+
 export type UserResponse = {
   user: UserInfo
 }
