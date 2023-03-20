@@ -20,6 +20,13 @@ return new class extends Migration
             $table->string('name');
             $table->string('image');
             $table->integer('price');
+            $table->integer('quantity');
+            $table->string('bonus')->nullable();
+            $table->string('origin')->nullable();
+            $table->string('style')->nullable();
+            $table->string('material')->nullable();
+            $table->string('paint')->nullable();
+            $table->string('string_name')->nullable();
             $table->timestamps();
         });
     }

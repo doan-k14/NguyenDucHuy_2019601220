@@ -2,8 +2,6 @@ import { ReactElement, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 
 import {
-  ArrowDownOutlined,
-  ArrowUpOutlined,
   MenuUnfoldOutlined,
   MonitorOutlined,
   PlusOutlined
@@ -17,6 +15,7 @@ import { ProductService } from '@/services/product'
 
 import User from '@/components/layouts/user'
 import Products from '@/components/products'
+import SortFilter from '@/components/filters/sortFilter'
 import CategorySelect from '@/components/utilities/categorySelect'
 
 const Page: NextPageWithLayout = () => {
@@ -113,33 +112,11 @@ const Page: NextPageWithLayout = () => {
       </div>
       {/* Sort filter */}
       <div style={{ marginBottom: '0.5rem', marginLeft: '1rem' }}>
-        <Space>
-          <Select
-            defaultValue="created_at"
-            style={{ width: '150px' }}
-            options={[
-              { value: 'created_at', label: 'Ngày tạo' },
-              { value: 'price', label: 'Giá' },
-              { value: 'amount', label: 'Số lượng còn' }
-            ]}
-            status="error"
-            onChange={value => setSortField(value)}
-          />
-          {sortString === 'desc' ? (
-            <Button
-              style={{ background: '#1677FF', color: 'white' }}
-              onClick={() => setSortString('asc')}
-            >
-              <ArrowDownOutlined />
-              Giảm dần
-            </Button>
-          ) : (
-            <Button type="primary" onClick={() => setSortString('desc')}>
-              <ArrowUpOutlined />
-              Tăng dần
-            </Button>
-          )}
-        </Space>
+        <SortFilter
+          sortString={sortString}
+          onSortField={setSortField}
+          onSorting={setSortString}
+        />
       </div>
       {/* Select and text filter */}
       <Space style={{ marginBottom: '1rem', marginLeft: '1rem' }}>

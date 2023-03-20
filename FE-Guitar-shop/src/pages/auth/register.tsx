@@ -16,10 +16,8 @@ const Register: NextPageWithLayout = () => {
   const onSubmit = async (payload: RegisterPayload) => {
     try {
       setLoading(true)
-      if (await AuthService.register(payload)) {
+      if (await AuthService.register(payload))
         notificationSuccess('Đăng ký thành công!')
-        router.push('/users')
-      }
     } catch {
       notificationError('Có lỗi xảy ra')
     } finally {
@@ -106,7 +104,7 @@ const Register: NextPageWithLayout = () => {
 
           <div style={{ display: 'flex', justifyContent: 'end' }}>
             <Button
-              style={{ background: '#0080FF', color: 'white', width: '100%' }}
+              style={{ background: '#D72027', color: 'white', width: '100%' }}
               htmlType="submit"
               loading={loading}
             >

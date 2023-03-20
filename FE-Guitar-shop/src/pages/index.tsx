@@ -94,11 +94,11 @@ const Page: NextPageWithLayout = () => {
       </Row>
       {/* Static banner */}
       <Row>
-        <Image preview={false} src="images/slide3.jpg" />
+        <Image preview={false} src="/images/slide3.jpg" />
       </Row>
       {/* News */}
       <Row style={{ background: 'white', marginBottom: '2rem' }}>
-        <Col span={18} offset={3} style={{ padding: '0 1rem' }}>
+        <Col span={16} offset={4} style={{ padding: '0 1rem' }}>
           <div
             style={{
               color: '#00264D'
@@ -109,19 +109,11 @@ const Page: NextPageWithLayout = () => {
           </div>
         </Col>
       </Row>
-      {/* Co-op */}
-      <Row style={{ background: 'white', marginBottom: '2rem' }}>
-        <Col span={18} offset={3} style={{ padding: '0 1rem' }}>
-          <div
-            style={{
-              color: '#00264D'
-            }}
-          >
-            <h2 className="homepage-title">Nhãn hàng</h2>
-            <Image src="images/footer-banner.jpg" preview={false} />
-          </div>
-        </Col>
-      </Row>
+      {/* Brand */}
+      <h2 className="homepage-title">Nhãn hàng</h2>
+      <div style={{ display: 'flex', justifyContent: 'center' }}>
+        <Image src="/images/footer-banner.jpg" preview={false} />
+      </div>
     </>
   )
 }

@@ -6,7 +6,7 @@ export type UserInfo = {
   phone: number
   email: string
   address: string
-  role: boolean
+  role: number
   created_at: string
   updated_at: string
 }

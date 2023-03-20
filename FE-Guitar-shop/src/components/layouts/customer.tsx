@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
 
@@ -8,28 +8,18 @@ import {
   MenuFoldOutlined,
   MenuUnfoldOutlined
 } from '@ant-design/icons'
-import { UserInfo } from '@/types/user'
-import useSessionStorage from '@/hooks/sessionStorage'
-import useLocalStorage from '@/hooks/localStorage'
 
 import UserDesktop from '../base/userHeader'
-import { userMenu } from './menuRender'
+import { customerMenu } from './menuRender'
 
 type LayoutProps = {
   children: React.ReactNode
 }
 
-export default function User({ children }: LayoutProps) {
+export default function Customer({ children }: LayoutProps) {
   const { Header, Sider } = Layout
   const router = useRouter()
   const [collapsed, setCollapsed] = useState(false)
-
-  const user = useLocalStorage<UserInfo>('user', null)
-  const userSession = useSessionStorage<UserInfo | null>('user', null)
-
-  useEffect(() => {
-    if (user[0]?.role === 0 || userSession[0]?.role === 0) router.push('/')
-  }, [])
 
   const menuOnClick: MenuProps['onClick'] = ({ key }) => {
     router.push(key || '/')
@@ -54,7 +44,7 @@ export default function User({ children }: LayoutProps) {
             <Menu
               theme="dark"
               mode="inline"
-              items={userMenu}
+              items={customerMenu}
               defaultSelectedKeys={[router.pathname]}
               onClick={menuOnClick}
             />

@@ -1,20 +1,22 @@
 import React, { ReactElement, useState } from 'react'
 import { useRouter } from 'next/router'
 
+import { notificationError, notificationSuccess } from '@/helpers/notification'
 import { Button, Checkbox, Form, Input } from 'antd'
 import { LockOutlined, UserOutlined } from '@ant-design/icons'
-
-import Landing from '@/components/layouts/landing'
 import { NextPageWithLayout } from '@/types/next-page'
 import { LoginPayload } from '@/types/auth'
-import { notificationError, notificationSuccess } from '@/helpers/notification'
 import { AuthService } from '@/services/auth'
-import useLocalStorage from '@/hooks/localStorage'
 import { UserInfo } from '@/types/user'
+import useSessionStorage from '@/hooks/sessionStorage'
+import useLocalStorage from '@/hooks/localStorage'
+
+import Landing from '@/components/layouts/landing'
 
 const Login: NextPageWithLayout = () => {
   const router = useRouter()
-  const userInfo = useLocalStorage<UserInfo>('user', null)
+  const userLocalInfo = useLocalStorage<UserInfo>('user', null)
+  const userSessionInfo = useSessionStorage<UserInfo>('user', null)
   const [autoLogin, setAutoLogin] = useState<boolean>(false)
 
   const [loading, setLoading] = useState<boolean>(false)
@@ -27,9 +29,12 @@ const Login: NextPageWithLayout = () => {
         notificationError('Tài khoản hoặc mật khẩu không đúng')
       } else {
         notificationSuccess('Đăng nhập thành công!')
-        if(autoLogin) userInfo[1]({...response[0], password: '******'})
-        else window.sessionStorage.setItem('username', response[0].username)
-        router.push('/users')
+        if (autoLogin) userLocalInfo[1]({ ...response[0], password: '******' })
+        else userSessionInfo[1](response[0])
+
+        response[0].role === 1
+          ? router.push('/users')
+          : router.push('/customers')
       }
     } catch {
       notificationError('Có lỗi xảy ra')
@@ -76,14 +81,17 @@ const Login: NextPageWithLayout = () => {
               placeholder="Mật khẩu"
             />
           </Form.Item>
-          <Checkbox onClick={() => setAutoLogin(!autoLogin)} style={{ color: '#0080FF', marginBottom: '0.5rem' }}>
+          <Checkbox
+            onClick={() => setAutoLogin(!autoLogin)}
+            style={{ color: '#0080FF', marginBottom: '0.5rem' }}
+          >
             Ghi nhớ đăng nhập
           </Checkbox>
 
           <Form.Item>
             <Button
               style={{
-                background: '#0080FF',
+                background: '#D72027',
                 color: 'white',
                 width: '100%',
                 marginBottom: '0.5rem'

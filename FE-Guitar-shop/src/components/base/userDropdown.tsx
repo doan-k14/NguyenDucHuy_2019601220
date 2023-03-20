@@ -7,21 +7,23 @@ import {
   UserOutlined
 } from '@ant-design/icons'
 import { Avatar, Button, Popconfirm } from 'antd'
-import useLocalStorage from '@/hooks/localStorage'
 import { UserInfo } from '@/types/user'
+import useSessionStorage from '@/hooks/sessionStorage'
+import useLocalStorage from '@/hooks/localStorage'
 
 type Props = {
   username: string | null
 }
 
 const UserDropdown = (props: Props) => {
-  const {username} = props
+  const { username } = props
   const router = useRouter()
   const user = useLocalStorage<UserInfo | null>('user', null)
+  const userSession = useSessionStorage<UserInfo | null>('user', null)
 
   const onLogout = () => {
     user[1](null)
-    window.sessionStorage.removeItem('username')
+    userSession[1](null)
     router.push('/auth/login')
   }
 

@@ -20,10 +20,9 @@ import {
   LogoutOutlined,
   ShoppingCartOutlined
 } from '@ant-design/icons'
-import useLocalStorage from '@/hooks/localStorage'
 import { UserInfo } from '@/types/user'
-
-import LocalProducts from '../products/localProducts'
+import useSessionStorage from '@/hooks/sessionStorage'
+import useLocalStorage from '@/hooks/localStorage'
 
 const DesktopHeader = () => {
   const router = useRouter()
@@ -40,25 +39,37 @@ const DesktopHeader = () => {
       key: '/'
     },
     {
-      label: 'Hướng dẫn',
-      key: '/guide'
+      label: 'Guitar Classic',
+      key: '/category/1'
     },
     {
-      label: 'Điều khoản',
-      key: '/rules'
+      label: 'Guitar Aucostic',
+      key: '/category/2'
     },
     {
-      label: 'Liên hệ',
-      key: '/contact'
+      label: 'Ukulele',
+      key: '/category/3'
+    },
+    {
+      label: 'Phụ kiện',
+      key: '/category/4'
     }
   ]
 
-  const [user, setUser] = useLocalStorage<UserInfo | null>('user', null)
-  const [username, setUsername] = useState<string | null>(null)
+  const [userLocal, setUserLocal] = useLocalStorage<UserInfo | null>(
+    'user',
+    null
+  )
+  const [userSession, setUserSession] = useSessionStorage<UserInfo | null>(
+    'user',
+    null
+  )
+  const [user, setUser] = useState<UserInfo | null>(null)
 
   const onLogout = () => {
+    setUserLocal(null)
+    setUserSession(null)
     setUser(null)
-    setUsername(null)
     router.push('/auth/login')
   }
 
@@ -68,7 +79,9 @@ const DesktopHeader = () => {
         <Button
           type="text"
           style={{ marginBottom: '0.5rem', color: '#0080FF' }}
-          onClick={() => router.push('/users')}
+          onClick={() =>
+            user?.role === 1 ? router.push('/users') : router.push('/customers')
+          }
         >
           <AreaChartOutlined />
           Đến trang quản lý
@@ -88,9 +101,12 @@ const DesktopHeader = () => {
     </div>
   )
 
+  const onClick: MenuProps['onClick'] = ({ key }) => {
+    router.push(key || '/')
+  }
+
   useEffect(() => {
-    const sessionUsername = window.sessionStorage.getItem('username')
-    setUsername(sessionUsername || user?.username || null)
+    setUser(userSession || userLocal)
   }, [])
 
   return (
@@ -137,7 +153,7 @@ const DesktopHeader = () => {
               }}
             >
               <Menu
-                // onClick={onClick}
+                onClick={onClick}
                 mode="horizontal"
                 items={items}
                 style={{
@@ -149,15 +165,13 @@ const DesktopHeader = () => {
                 }}
               />
               <Space>
-                <Popover
-                  placement="bottom"
-                  content={<LocalProducts />}
-                  trigger="click"
+                <Button
+                  size="small"
+                  title="Sản phẩm yêu thích"
+                  onClick={() => router.push('/customers/love-products')}
                 >
-                  <Button size="small" title="Sản phẩm yêu thích">
-                    <HeartFilled style={{ color: '#FF1935' }} />
-                  </Button>
-                </Popover>
+                  <HeartFilled style={{ color: '#FF1935' }} />
+                </Button>
                 <div style={{ marginRight: '0.5rem' }}>
                   <Badge size="small" count={5}>
                     <Button size="small" title="Giỏ hàng">
@@ -165,14 +179,14 @@ const DesktopHeader = () => {
                     </Button>
                   </Badge>
                 </div>
-                {username ? (
+                {user ? (
                   <Popover
                     content={popContent}
                     placement="bottom"
                     trigger="click"
                   >
                     <Button type="text" style={{ color: 'white' }}>
-                      Xin chào, {username}!
+                      Xin chào, {user.full_name}!
                     </Button>
                   </Popover>
                 ) : (

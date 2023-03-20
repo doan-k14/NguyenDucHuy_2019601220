@@ -1,5 +1,6 @@
 import { Badge, Button, Card, Skeleton, Space } from 'antd'
-import { HeartOutlined } from '@ant-design/icons'
+import { HeartFilled, HeartOutlined } from '@ant-design/icons'
+import { notificationSuccess } from '@/helpers/notification'
 import { formatPrice } from '@/helpers/currency'
 import { Product } from '@/types/product'
 import useLocalStorage from '@/hooks/localStorage'
@@ -20,28 +21,44 @@ const NewProducts = (props: Props) => {
   )
 
   const onSelectLoveProduct = (loveProduct: Product) => {
-    if (!loveProducts.find(product => product === loveProduct)) {
-      const tempList = loveProducts
-      tempList.push(loveProduct)
-      setLoveProducts(tempList)
+    if (!loveProducts.find(product => product.id === loveProduct.id)) {
+      setLoveProducts([...loveProducts, loveProduct])
+      notificationSuccess('Thêm sản phẩm yêu thích thành công!')
     }
   }
 
-  const description = (product: Product) => {
+  const onDeleteLoveProduct = (loveProduct: Product) => {
+    setLoveProducts(
+      loveProducts.filter(product => product.id !== loveProduct.id)
+    )
+    notificationSuccess('Xóa sản phẩm yêu thích thành công!')
+  }
+
+  const description = (loveProduct: Product) => {
     return (
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
         <span
           style={{ color: '#D72027', fontSize: '1rem', fontWeight: 'bold' }}
         >
-          {formatPrice(product.price)}
+          {formatPrice(loveProduct.price)}
         </span>
-        <Button
-          size="small"
-          title="Sản phẩm yêu thích"
-          onClick={() => onSelectLoveProduct(product)}
-        >
-          <HeartOutlined style={{ color: '#FF1935' }} />
-        </Button>
+        {loveProducts.find(product => product.id === loveProduct.id) ? (
+          <Button
+            size="small"
+            title="Đã trong mục ưa thích"
+            onClick={() => onDeleteLoveProduct(loveProduct)}
+          >
+            <HeartFilled style={{ color: '#FF1935' }} />
+          </Button>
+        ) : (
+          <Button
+            size="small"
+            title="Thêm vào mục ưa thích"
+            onClick={() => onSelectLoveProduct(loveProduct)}
+          >
+            <HeartOutlined style={{ color: '#FF1935' }} />
+          </Button>
+        )}
       </div>
     )
   }
@@ -63,7 +80,7 @@ const NewProducts = (props: Props) => {
               <Badge.Ribbon
                 key={product.id}
                 text={label}
-                color="volcano"
+                color={label === 'Hot' ? 'volcano' : 'green'}
                 style={{ display: 'flex' }}
               >
                 <Card

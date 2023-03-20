@@ -103,7 +103,7 @@ const Page: NextPageWithLayout = () => {
           <Form.Item>
             <Button
               style={{
-                background: '#0080FF',
+                background: '#D72027',
                 color: 'white',
                 width: '100%',
                 marginBottom: '0.5rem'
