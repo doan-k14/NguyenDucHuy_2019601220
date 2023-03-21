@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 
 import {
-  Badge,
   Button,
   Col,
   Image,
@@ -125,11 +124,13 @@ const DesktopHeader = () => {
           }}
         >
           <Image
+            alt="logo"
             preview={false}
             src="https://firebasestorage.googleapis.com/v0/b/ndhuy-498b5.appspot.com/o/2efd6b44584243558050bfeb3f36751a.png?alt=media&token=45310f90-38bf-4015-8679-8a46f3ff2eff"
             height="10rem"
           />
           <Image
+            alt="header-banner"
             preview={false}
             src="https://images.cdn4.stockunlimited.net/preview1300/music-banner_1826190.jpg"
             height="10rem"
@@ -173,11 +174,13 @@ const DesktopHeader = () => {
                   <HeartFilled style={{ color: '#FF1935' }} />
                 </Button>
                 <div style={{ marginRight: '0.5rem' }}>
-                  <Badge size="small" count={5}>
-                    <Button size="small" title="Giỏ hàng">
-                      <ShoppingCartOutlined style={{ color: '#0080FF' }} />
-                    </Button>
-                  </Badge>
+                  <Button
+                    size="small"
+                    title="Giỏ hàng"
+                    onClick={() => router.push('/customers/cart')}
+                  >
+                    <ShoppingCartOutlined style={{ color: '#0080FF' }} />
+                  </Button>
                 </div>
                 {user ? (
                   <Popover

@@ -1,7 +1,8 @@
+import { notificationError, notificationSuccess } from '@/helpers/notification'
 import { DeleteOutlined, ShoppingCartOutlined } from '@ant-design/icons'
 import { Button, Popconfirm, Space } from 'antd'
-import { notificationSuccess } from '@/helpers/notification'
 import { Product } from '@/types/product'
+import { Cart } from '@/types/cart'
 import useLocalStorage from '@/hooks/localStorage'
 
 type Props = {
@@ -14,6 +15,16 @@ const LoveProductActions = (props: Props) => {
     'love-products',
     []
   )
+  const [cart, setCart] = useLocalStorage<Cart[]>('cart', [])
+
+  const onAddToCart = (product: Product) => {
+    if (!cart.find(productCart => productCart.id === product.id)) {
+      setCart([...cart, { ...product, quantity: 1, total: product.price }])
+      notificationSuccess('Thêm vào giỏ hàng thành công!')
+    } else {
+      notificationError('Sản phẩm này đã có trong giỏ hàng')
+    }
+  }
 
   const onDelete = (loveProduct: Product) => {
     setProducts(products.filter(product => product.id !== loveProduct.id))
@@ -22,7 +33,12 @@ const LoveProductActions = (props: Props) => {
 
   return (
     <Space>
-      <Button type="text" size="small" style={{ color: '#1677FF' }}>
+      <Button
+        type="text"
+        size="small"
+        style={{ color: '#1677FF' }}
+        onClick={() => onAddToCart(loveProduct)}
+      >
         <ShoppingCartOutlined />
       </Button>
       <Popconfirm

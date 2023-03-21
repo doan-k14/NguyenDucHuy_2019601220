@@ -3,8 +3,8 @@ import { ReactElement } from 'react'
 import { NextPageWithLayout } from '@/types/next-page'
 import { MenuUnfoldOutlined } from '@ant-design/icons'
 
-import LoveProducts from '@/components/products/loveProducts'
 import Customer from '@/components/layouts/customer'
+import Cart from '@/components/cart'
 
 const Page: NextPageWithLayout = () => {
   return (
@@ -32,9 +32,9 @@ const Page: NextPageWithLayout = () => {
         }}
       >
         <MenuUnfoldOutlined />
-        <div>Danh sách yêu thích</div>
+        <div>Giỏ hàng</div>
       </div>
-      <LoveProducts />
+      <Cart />
     </div>
   )
 }

@@ -5,6 +5,12 @@ export const getDetail = (product: Product) => {
   const updateTime = new Date(product.updated_at).toUTCString()
   return (
     <>
+      {product.description && (
+        <div>
+          <span style={{ fontWeight: 'bold' }}>Mô tả:</span>{' '}
+          {product.description}
+        </div>
+      )}
       {product.bonus && (
         <div>
           <span style={{ fontWeight: 'bold' }}>Quà tặng kèm:</span>{' '}

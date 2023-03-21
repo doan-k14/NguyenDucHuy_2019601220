@@ -7,7 +7,7 @@ import useLocalStorage from '@/hooks/localStorage'
 
 import { loveProductsColumn } from './columnsConfig'
 
-const LocalProducts = () => {
+const LoveProducts = () => {
   const [loveProducts, setLoveProducts] = useState<Product[]>([])
   const products = useLocalStorage<Product[]>('love-products', [])
 
@@ -19,10 +19,14 @@ const LocalProducts = () => {
     <Table
       columns={loveProductsColumn}
       dataSource={loveProducts}
-      pagination={paginationConfig}
+      pagination={{
+        ...paginationConfig,
+        total: loveProducts.length,
+        pageSizeOptions: [5, 10, 20]
+      }}
       rowKey="id"
     />
   )
 }
 
-export default LocalProducts
+export default LoveProducts

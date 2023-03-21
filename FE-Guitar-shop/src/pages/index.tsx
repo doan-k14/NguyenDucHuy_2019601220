@@ -94,7 +94,7 @@ const Page: NextPageWithLayout = () => {
       </Row>
       {/* Static banner */}
       <Row>
-        <Image preview={false} src="/images/slide3.jpg" />
+        <Image alt="middle-banner" preview={false} src="/images/slide3.jpg" />
       </Row>
       {/* News */}
       <Row style={{ background: 'white', marginBottom: '2rem' }}>
@@ -112,7 +112,7 @@ const Page: NextPageWithLayout = () => {
       {/* Brand */}
       <h2 className="homepage-title">Nhãn hàng</h2>
       <div style={{ display: 'flex', justifyContent: 'center' }}>
-        <Image src="/images/footer-banner.jpg" preview={false} />
+        <Image alt="brands" src="/images/footer-banner.jpg" preview={false} />
       </div>
     </>
   )

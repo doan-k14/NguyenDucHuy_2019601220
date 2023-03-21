@@ -67,7 +67,7 @@ export const customerMenu: MenuProps['items'] = [
         label: 'Dashboard'
       },
       {
-        key: '/customers/1',
+        key: '/customers/cart',
         icon: <ShoppingCartOutlined />,
         label: 'Giỏ hàng'
       },

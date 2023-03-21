@@ -92,13 +92,17 @@ const Page: NextPageWithLayout = () => {
         <span
           style={{ color: '#D72027', fontSize: '1rem', fontWeight: 'bold' }}
         >
-          {formatPrice(loveProduct.price)}
+          <span>{formatPrice(loveProduct.price)}</span>
+          <span style={{ fontSize: '0.8rem' }}> VND</span>
         </span>
         {loveProducts.find(product => product.id === loveProduct.id) ? (
           <Button
             size="small"
             title="Đã trong mục ưa thích"
-            onClick={() => onDeleteLoveProduct(loveProduct)}
+            onClick={e => {
+              e.stopPropagation()
+              onDeleteLoveProduct(loveProduct)
+            }}
           >
             <HeartFilled style={{ color: '#FF1935' }} />
           </Button>
@@ -106,7 +110,10 @@ const Page: NextPageWithLayout = () => {
           <Button
             size="small"
             title="Thêm vào mục ưa thích"
-            onClick={() => onSelectLoveProduct(loveProduct)}
+            onClick={e => {
+              e.stopPropagation()
+              onSelectLoveProduct(loveProduct)
+            }}
           >
             <HeartOutlined style={{ color: '#FF1935' }} />
           </Button>
@@ -163,7 +170,7 @@ const Page: NextPageWithLayout = () => {
                     size="small"
                     hoverable
                     style={{ width: 220 }}
-                    cover={<img alt="product" src={product.image} />}
+                    cover={<Image alt="product" src={product.image} />}
                     onClick={() => router.push(`/product/${product.id}`)}
                   >
                     <Meta
@@ -173,7 +180,7 @@ const Page: NextPageWithLayout = () => {
                   </Card>
                 ))
               ) : (
-                <Empty />
+                <Empty description="Không có sản phẩm nào" />
               )}
             </div>
           </Spin>
@@ -210,7 +217,7 @@ const Page: NextPageWithLayout = () => {
       </Row>
       {/* Middle banner */}
       <Row>
-        <Image preview={false} src="/images/slide3.jpg" />
+        <Image alt="middle-banner" preview={false} src="/images/slide3.jpg" />
       </Row>
       {/* News */}
       <Row style={{ background: 'white', marginBottom: '2rem' }}>
@@ -228,7 +235,7 @@ const Page: NextPageWithLayout = () => {
       {/* Brand */}
       <h2 className="homepage-title">Nhãn hàng</h2>
       <div style={{ display: 'flex', justifyContent: 'center' }}>
-        <Image src="/images/footer-banner.jpg" preview={false} />
+        <Image alt="brands" src="/images/footer-banner.jpg" preview={false} />
       </div>
     </>
   )

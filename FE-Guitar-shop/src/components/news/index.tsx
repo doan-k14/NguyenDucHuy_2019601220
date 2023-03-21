@@ -11,6 +11,7 @@ const News = () => {
           <Row>
             <Col span={3}>
               <Image
+                alt="news-image"
                 preview={false}
                 src="https://firebasestorage.googleapis.com/v0/b/ndhuy-498b5.appspot.com/o/2efd6b44584243558050bfeb3f36751a.png?alt=media&token=45310f90-38bf-4015-8679-8a46f3ff2eff"
               />

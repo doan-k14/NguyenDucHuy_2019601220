@@ -1,4 +1,6 @@
-import { Badge, Button, Card, Skeleton, Space } from 'antd'
+import { useRouter } from 'next/router'
+
+import { Badge, Button, Card, Image, Skeleton, Space } from 'antd'
 import { HeartFilled, HeartOutlined } from '@ant-design/icons'
 import { notificationSuccess } from '@/helpers/notification'
 import { formatPrice } from '@/helpers/currency'
@@ -14,6 +16,7 @@ type Props = {
 }
 
 const NewProducts = (props: Props) => {
+  const router = useRouter()
   const { products, loading, label } = props
   const [loveProducts, setLoveProducts] = useLocalStorage<Product[]>(
     'love-products',
@@ -40,13 +43,17 @@ const NewProducts = (props: Props) => {
         <span
           style={{ color: '#D72027', fontSize: '1rem', fontWeight: 'bold' }}
         >
-          {formatPrice(loveProduct.price)}
+          <span>{formatPrice(loveProduct.price)}</span>
+          <span style={{ fontSize: '0.8rem' }}> VND</span>
         </span>
         {loveProducts.find(product => product.id === loveProduct.id) ? (
           <Button
             size="small"
             title="Đã trong mục ưa thích"
-            onClick={() => onDeleteLoveProduct(loveProduct)}
+            onClick={e => {
+              e.stopPropagation()
+              onDeleteLoveProduct(loveProduct)
+            }}
           >
             <HeartFilled style={{ color: '#FF1935' }} />
           </Button>
@@ -54,7 +61,10 @@ const NewProducts = (props: Props) => {
           <Button
             size="small"
             title="Thêm vào mục ưa thích"
-            onClick={() => onSelectLoveProduct(loveProduct)}
+            onClick={e => {
+              e.stopPropagation()
+              onSelectLoveProduct(loveProduct)
+            }}
           >
             <HeartOutlined style={{ color: '#FF1935' }} />
           </Button>
@@ -87,7 +97,8 @@ const NewProducts = (props: Props) => {
                   size="small"
                   hoverable
                   style={{ width: 220 }}
-                  cover={<img alt="product" src={product.image} />}
+                  cover={<Image alt="product" src={product.image} />}
+                  onClick={() => router.push(`/product/${product.id}`)}
                 >
                   <Meta
                     title={product.name}

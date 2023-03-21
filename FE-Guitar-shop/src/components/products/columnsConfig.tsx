@@ -24,12 +24,8 @@ export const productColumns: ColumnsType<Product> = [
     )
   },
   {
-    title: 'Mô tả',
-    render: (_, data) => data.description
-  },
-  {
     title: 'Ảnh',
-    render: (_, data) => <Image width={100} src={data.image} />
+    render: (_, data) => <Image alt='product' width={100} src={data.image} />
   },
   {
     title: 'Giá',
@@ -72,12 +68,8 @@ export const loveProductsColumn: ColumnsType<Product> = [
     )
   },
   {
-    title: 'Mô tả',
-    render: (_, data) => data.description
-  },
-  {
     title: 'Ảnh',
-    render: (_, data) => <Image width={100} src={data.image} />
+    render: (_, data) => <Image alt='product' width={100} src={data.image} />
   },
   {
     title: 'Giá',
