@@ -23,9 +23,9 @@ import { ProductService } from '@/services/product'
 import { formatPrice } from '@/helpers/currency'
 import useLocalStorage from '@/hooks/localStorage'
 
+import BottomContent from '@/components/base/bottomContent'
 import SortFilter from '@/components/filters/sortFilter'
 import Landing from '@/components/layouts/landing'
-import News from '@/components/news'
 
 const { Meta } = Card
 
@@ -150,7 +150,6 @@ const Page: NextPageWithLayout = () => {
               Tìm kiếm
             </Button>
           </Space>
-          <Space style={{ marginBottom: '0.5rem', marginLeft: '1rem' }}></Space>
           {/* Products */}
           <Spin spinning={loading}>
             <div
@@ -170,7 +169,13 @@ const Page: NextPageWithLayout = () => {
                     size="small"
                     hoverable
                     style={{ width: 220 }}
-                    cover={<Image alt="product" src={product.image} />}
+                    cover={
+                      <Image
+                        preview={false}
+                        alt="product"
+                        src={product.image}
+                      />
+                    }
                     onClick={() => router.push(`/product/${product.id}`)}
                   >
                     <Meta
@@ -215,28 +220,7 @@ const Page: NextPageWithLayout = () => {
           />
         </Col>
       </Row>
-      {/* Middle banner */}
-      <Row>
-        <Image alt="middle-banner" preview={false} src="/images/slide3.jpg" />
-      </Row>
-      {/* News */}
-      <Row style={{ background: 'white', marginBottom: '2rem' }}>
-        <Col span={14} offset={5} style={{ padding: '0 1rem' }}>
-          <div
-            style={{
-              color: '#00264D'
-            }}
-          >
-            <h2 className="homepage-title">Tin tức</h2>
-            <News />
-          </div>
-        </Col>
-      </Row>
-      {/* Brand */}
-      <h2 className="homepage-title">Nhãn hàng</h2>
-      <div style={{ display: 'flex', justifyContent: 'center' }}>
-        <Image alt="brands" src="/images/footer-banner.jpg" preview={false} />
-      </div>
+      <BottomContent />
     </>
   )
 }

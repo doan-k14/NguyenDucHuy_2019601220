@@ -11,6 +11,13 @@ class OrderDetail extends Model
         'product_id',
         'name',
         'image',
-        'price'
+        'price',
+        'quantity',
+        'bonus',
+        'origin',
+        'style',
+        'material',
+        'paint',
+        'string_name'
     ];
 }

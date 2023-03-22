@@ -55,7 +55,8 @@ class OrderController extends Controller
         ]);
     }
 
-    public function insert(Request $request){
+    public function insert(Request $request)
+    {
         $this->validate($request, [
             'order_id' => 'required',
             'product_id' => 'required',
@@ -73,13 +74,7 @@ class OrderController extends Controller
 
     public function show($id)
     {
-        // $user = Users::find($id);
         $orderDetail = OrderDetail::query()->where('order_id', $id)->get();
-
-        // if (!$user)
-        //     $message = "Cannot find username by id:$id!";
-        // else
-        //     $message = 'Success!';
 
         return response()->json([
             'message' => 'success',

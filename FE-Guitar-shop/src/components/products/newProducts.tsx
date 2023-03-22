@@ -97,7 +97,9 @@ const NewProducts = (props: Props) => {
                   size="small"
                   hoverable
                   style={{ width: 220 }}
-                  cover={<Image alt="product" src={product.image} />}
+                  cover={
+                    <Image preview={false} alt="product" src={product.image} />
+                  }
                   onClick={() => router.push(`/product/${product.id}`)}
                 >
                   <Meta

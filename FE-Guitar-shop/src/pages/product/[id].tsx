@@ -17,8 +17,8 @@ import { Product } from '@/types/product'
 import { Cart } from '@/types/cart'
 import useLocalStorage from '@/hooks/localStorage'
 
+import BottomContent from '@/components/base/bottomContent'
 import Landing from '@/components/layouts/landing'
-import News from '@/components/news'
 
 const Page: NextPageWithLayout = () => {
   const router = useRouter()
@@ -216,28 +216,7 @@ const Page: NextPageWithLayout = () => {
           </Spin>
         </Col>
       </Row>
-      {/* Middle banner */}
-      <Row>
-        <Image alt="middle-banner" preview={false} src="/images/slide3.jpg" />
-      </Row>
-      {/* News */}
-      <Row style={{ background: 'white', marginBottom: '2rem' }}>
-        <Col span={14} offset={5} style={{ padding: '0 1rem' }}>
-          <div
-            style={{
-              color: '#00264D'
-            }}
-          >
-            <h2 className="homepage-title">Tin tức</h2>
-            <News />
-          </div>
-        </Col>
-      </Row>
-      {/* Brand */}
-      <h2 className="homepage-title">Nhãn hàng</h2>
-      <div style={{ display: 'flex', justifyContent: 'center' }}>
-        <Image alt="brands" src="/images/footer-banner.jpg" preview={false} />
-      </div>
+      <BottomContent />
     </>
   )
 }

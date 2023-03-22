@@ -79,7 +79,7 @@ const DesktopHeader = () => {
           type="text"
           style={{ marginBottom: '0.5rem', color: '#0080FF' }}
           onClick={() =>
-            user?.role === 1 ? router.push('/users') : router.push('/customers')
+            user?.role === 1 ? router.push('/') : router.push('/customers')
           }
         >
           <AreaChartOutlined />
@@ -169,7 +169,7 @@ const DesktopHeader = () => {
                 <Button
                   size="small"
                   title="Sản phẩm yêu thích"
-                  onClick={() => router.push('/customers/love-products')}
+                  onClick={() => router.push('/product/favourite')}
                 >
                   <HeartFilled style={{ color: '#FF1935' }} />
                 </Button>
@@ -177,7 +177,7 @@ const DesktopHeader = () => {
                   <Button
                     size="small"
                     title="Giỏ hàng"
-                    onClick={() => router.push('/customers/cart')}
+                    onClick={() => router.push('/cart')}
                   >
                     <ShoppingCartOutlined style={{ color: '#0080FF' }} />
                   </Button>

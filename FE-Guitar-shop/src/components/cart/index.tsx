@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 
-import { Col, Empty, Row } from 'antd'
+import { Button, Col, Empty, Input, Row } from 'antd'
+import { formatPrice } from '@/helpers/currency'
 import { Cart } from '@/types/cart'
 import useLocalStorage from '@/hooks/localStorage'
 
@@ -38,13 +39,18 @@ const Cart = () => {
       <Row
         style={{ marginBottom: '1rem', fontWeight: 'bold', color: '#888888' }}
       >
-        <Col span={1}>STT</Col>
-        <Col span={5}>Tên sản phẩm</Col>
-        <Col span={3}>Ảnh</Col>
-        <Col span={5}>Giá</Col>
-        <Col span={3}>Số lượng mua</Col>
-        <Col span={5}>Thành tiền</Col>
-        <Col span={2}>Thao tác</Col>
+        <Col span={1} style={{ textAlign: 'center' }}>
+          STT
+        </Col>
+        <Col span={7} style={{ textAlign: 'center' }}>
+          Sản phẩm
+        </Col>
+        <Col span={4}>Giá</Col>
+        <Col span={4}>Số lượng mua</Col>
+        <Col span={4}>Thành tiền</Col>
+        <Col span={2} style={{ textAlign: 'center' }}>
+          Thao tác
+        </Col>
       </Row>
       {products.length > 0 ? (
         products.map((product, key) => (
@@ -61,7 +67,34 @@ const Cart = () => {
       ) : (
         <Empty description="Không có sản phẩm nào" />
       )}
-      <div>{getTotalPrice()}</div>
+      <Row style={{ marginTop: '1rem', marginBottom: '1rem' }}>
+        <Col span={6} offset={11}>
+          <Input placeholder="Nhập mã giảm giá" />
+        </Col>
+        <Col span={6}>
+          <Button style={{ background: '#D72027', color: 'white' }}>
+            Áp dụng
+          </Button>
+        </Col>
+      </Row>
+      <Row>
+        <Col span={12} offset={11}>
+          <span style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>
+            Tổng tiền:
+          </span>
+          <span
+            style={{
+              fontWeight: 'bold',
+              fontSize: '1.5rem',
+              color: '#D72027',
+              marginLeft: '0.8rem'
+            }}
+          >
+            {formatPrice(getTotalPrice())}
+          </span>
+          <span style={{ color: '#D72027', fontWeight: 'bold' }}> VND</span>
+        </Col>
+      </Row>
     </div>
   )
 }

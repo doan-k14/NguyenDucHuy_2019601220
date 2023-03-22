@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
 
-import { Button, Col, Image, InputNumber, Popover, Row } from 'antd'
+import { Button, Col, Image, InputNumber, Popconfirm, Row } from 'antd'
+import { notificationSuccess } from '@/helpers/notification'
+import { DeleteOutlined } from '@ant-design/icons'
 import { formatPrice } from '@/helpers/currency'
 import { Cart } from '@/types/cart'
 import useLocalStorage from '@/hooks/localStorage'
-import CartAction from './cartAction'
-
-import { getDetail } from '../products/getDetail'
 
 type Props = {
   product: Cart
@@ -17,6 +17,7 @@ type Props = {
 }
 
 const CartItem = (props: Props) => {
+  const router = useRouter()
   const { product, keyItem, products, onDelete, onChangeTotal } = props
   const [cart, setCart] = useLocalStorage<Cart[]>('cart', [])
   const [totalPrice, setTotalPrice] = useState<number>(product.price)
@@ -28,6 +29,12 @@ const CartItem = (props: Props) => {
       return obj
     })
     setCart(tempProducts)
+  }
+
+  const onDeleteCart = (cartProduct: Cart) => {
+    onDelete(cartProduct.id)
+    setCart(cart.filter(product => product.id !== cartProduct.id))
+    notificationSuccess('Xóa sản phẩm thành công!')
   }
 
   useEffect(() => {
@@ -45,23 +52,28 @@ const CartItem = (props: Props) => {
         alignItems: 'center'
       }}
     >
-      <Col span={1}>{keyItem}</Col>
-      <Col span={5}>
-        <Popover content={getDetail(product)} trigger="hover">
-          <Button type="text" style={{ fontWeight: 'bold' }}>
+      <Col span={1} style={{ textAlign: 'center', fontWeight: 'bold' }}>
+        {keyItem}
+      </Col>
+      <Col span={7} style={{ textAlign: 'center', cursor: 'pointer' }}>
+        <Image alt="product" width={100} src={product.image} />
+        <div>
+          <Button
+            type="link"
+            title="Xem chi tiết sản phẩm"
+            style={{ fontWeight: 'bold' }}
+            onClick={() => router.push(`/product/${product.id}`)}
+          >
             {product.name}
           </Button>
-        </Popover>
+        </div>
       </Col>
-      <Col span={3}>
-        <Image alt="product" width={100} src={product.image} />
-      </Col>
-      <Col span={5}>
+      <Col span={4}>
         <div style={{ color: '#F64F61', fontWeight: 'bold' }}>
           {formatPrice(product.price)}
         </div>
       </Col>
-      <Col span={3}>
+      <Col span={4}>
         <InputNumber
           defaultValue={product.quantity || 1}
           min={1}
@@ -73,13 +85,23 @@ const CartItem = (props: Props) => {
           }}
         />
       </Col>
-      <Col span={5}>
+      <Col span={4}>
         <div style={{ color: '#F64F61', fontWeight: 'bold' }}>
           {formatPrice(totalPrice)}
         </div>
       </Col>
       <Col span={2}>
-        <CartAction product={product} onChange={onDelete} />
+        <Popconfirm
+          title="Thông báo"
+          description="Bạn có chắc muốn xóa sản phẩm này?"
+          onConfirm={() => onDeleteCart(product)}
+          okText="Đồng ý"
+          cancelText="Đóng"
+        >
+          <Button style={{ color: '#BF081D' }} type="text" block>
+            <DeleteOutlined />
+          </Button>
+        </Popconfirm>
       </Col>
     </Row>
   )
