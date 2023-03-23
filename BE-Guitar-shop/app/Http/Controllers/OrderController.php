@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Order;
+use Illuminate\Support\Facades\Mail;
 use App\Models\OrderDetail;
+use App\Models\Order;
 
 class OrderController extends Controller
 {
@@ -55,20 +56,34 @@ class OrderController extends Controller
         ]);
     }
 
+    public function latest(){
+        $order = Order::orderby('created_at', 'desc')->first();
+
+        return response()->json([
+            'message' => 'Success',
+            'result' => $order
+        ]);
+    }
+
     public function insert(Request $request)
     {
         $this->validate($request, [
-            'order_id' => 'required',
-            'product_id' => 'required',
-            'name' => 'required',
-            'price' => 'required'
+            'products' => 'required|array'
         ]);
 
-        $orderDetail = OrderDetail::create($request->input());
+        $products = $request['products'];
+        foreach($products as $product) {
+            OrderDetail::create($product);
+        }
+
+        Mail::send('order-success', ['test' => 'test mail'], function($email){
+            $email->to('inuyasha160201@gmail.com', 'Huy');
+            $email->subject('Thông tin đơn hàng từ Elden Song');
+        });
 
         return response()->json([
             'message' => 'Create success',
-            'result' => $orderDetail
+            'result' => $products
         ]);
     }
 

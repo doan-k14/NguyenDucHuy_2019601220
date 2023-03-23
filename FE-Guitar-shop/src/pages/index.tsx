@@ -9,7 +9,6 @@ import { banners } from '@/configs/landingBanners'
 
 import NewProducts from '@/components/products/newProducts'
 import Landing from '@/components/layouts/landing'
-import News from '@/components/news'
 
 const Page: NextPageWithLayout = () => {
   const shouldEffect = useRef(true)

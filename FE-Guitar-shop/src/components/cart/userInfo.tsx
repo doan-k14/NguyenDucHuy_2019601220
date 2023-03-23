@@ -1,13 +1,29 @@
 import { useRouter } from 'next/router'
 
 import { Button, Form, Input, Radio, Space } from 'antd'
+import { Cart, CartFormResult } from '@/types/cart'
+import { notificationError } from '@/helpers/notification'
+import { UserInfo } from '@/types/user'
+import useSessionStorage from '@/hooks/sessionStorage'
+import useLocalStorage from '@/hooks/localStorage'
 
-const UserInfo = () => {
+type Props = {
+  loading: boolean
+  onSubmit: (user: CartFormResult) => void
+}
+
+const UserInfo = (props: Props) => {
+  const { loading, onSubmit } = props
   const router = useRouter()
+  const userSession = useSessionStorage<UserInfo>('user', null)
+  const userLocal = useLocalStorage<UserInfo>('user', null)
+  const cart = useLocalStorage<Cart[]>('cart', [])
 
   return (
     <div style={{ marginLeft: '5rem' }}>
-      <div>Thông tin người mua hàng</div>
+      <div style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>
+        Thông tin người mua hàng
+      </div>
       <Form
         style={{
           background: '#fff',
@@ -15,13 +31,21 @@ const UserInfo = () => {
           paddingRight: '2rem',
           borderRadius: '6px'
         }}
-        //   onFinish={onSubmit}
+        onFinish={value =>
+          cart[0].length > 0
+            ? onSubmit({
+                ...value,
+                user_id: userLocal[0]?.id || userSession[0]?.id
+              })
+            : notificationError('Giỏ hàng của bạn chưa có sản phẩm nào')
+        }
         layout="vertical"
       >
         <Form.Item
           label="Họ tên:"
           name="full_name"
           rules={[{ required: true, message: 'Vui lòng nhập họ tên!' }]}
+          initialValue={userSession[0]?.full_name || userLocal[0]?.full_name}
         >
           <Input style={{ width: '50%' }} />
         </Form.Item>
@@ -29,6 +53,7 @@ const UserInfo = () => {
           label="Địa chỉ:"
           name="address"
           rules={[{ required: true, message: 'Vui lòng nhập địa chỉ!' }]}
+          initialValue={userSession[0]?.address || userLocal[0]?.address}
         >
           <Input />
         </Form.Item>
@@ -36,6 +61,7 @@ const UserInfo = () => {
           label="Số điện thoại:"
           name="phone"
           rules={[{ required: true, message: 'Vui lòng nhập số điện thoại!' }]}
+          initialValue={userSession[0]?.phone || userLocal[0]?.phone}
         >
           <Input style={{ width: '30%' }} />
         </Form.Item>
@@ -43,6 +69,7 @@ const UserInfo = () => {
           label="Email:"
           name="email"
           rules={[{ required: true, message: 'Vui lòng nhập email!' }]}
+          initialValue={userSession[0]?.email || userLocal[0]?.email}
         >
           <Input style={{ width: '40%' }} />
         </Form.Item>
@@ -53,7 +80,11 @@ const UserInfo = () => {
           <Radio checked>Thanh toán khi nhận hàng - COD</Radio>
         </div>
         <Space>
-          <Button style={{ background: '#FF1935', color: 'white' }}>
+          <Button
+            htmlType="submit"
+            style={{ background: '#FF1935', color: 'white' }}
+            loading={loading}
+          >
             Hoàn tất mua hàng
           </Button>
           <Button

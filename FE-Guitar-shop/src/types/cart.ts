@@ -19,3 +19,12 @@ export type Cart = {
   created_at: string
   updated_at: string
 }
+
+export type CartFormResult = {
+  user_id: number
+  full_name: string
+  address: string
+  phone: number
+  email: string
+  note?: string
+}

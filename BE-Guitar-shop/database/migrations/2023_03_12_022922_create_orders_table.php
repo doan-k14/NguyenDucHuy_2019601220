@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('address');
             $table->integer('phone');
             $table->string('email');
-            $table->string('note');
+            $table->string('note')->nullable();
             $table->integer('quantity');
             $table->integer('total_price');
             $table->tinyInteger('status');

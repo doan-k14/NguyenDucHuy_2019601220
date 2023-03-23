@@ -7,12 +7,25 @@ import useLocalStorage from '@/hooks/localStorage'
 
 import CartItem from './cartItem'
 
-const Cart = () => {
+type Props = {
+  onChangeProducts: (products: Cart[]) => void
+}
+
+const Cart = (props: Props) => {
+  const { onChangeProducts } = props
   const [products, setProducts] = useState<Cart[]>([])
   const cart = useLocalStorage<Cart[]>('cart', [])
 
+  const getTotalPrice = () => {
+    let total = 0
+    products.map(product => (total += product.total))
+    return total
+  }
+
   const onDelete = (productID: number) => {
-    setProducts(products.filter(product => product.id !== productID))
+    const tempProducts = products.filter(product => product.id !== productID)
+    setProducts(tempProducts)
+    onChangeProducts(tempProducts)
   }
 
   const onChangeTotal = (id: number, quantity: number) => {
@@ -22,12 +35,7 @@ const Cart = () => {
       return obj
     })
     setProducts(tempProducts)
-  }
-
-  const getTotalPrice = () => {
-    let total = 0
-    products.map(product => (total += product.total))
-    return total
+    onChangeProducts(tempProducts)
   }
 
   useEffect(() => {
@@ -68,7 +76,7 @@ const Cart = () => {
         <Empty description="Không có sản phẩm nào" />
       )}
       <Row style={{ marginTop: '1rem', marginBottom: '1rem' }}>
-        <Col span={6} offset={11}>
+        <Col span={6} offset={12}>
           <Input placeholder="Nhập mã giảm giá" />
         </Col>
         <Col span={6}>
@@ -78,7 +86,7 @@ const Cart = () => {
         </Col>
       </Row>
       <Row>
-        <Col span={12} offset={11}>
+        <Col span={12} offset={12}>
           <span style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>
             Tổng tiền:
           </span>

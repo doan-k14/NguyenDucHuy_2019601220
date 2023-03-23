@@ -17,16 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('order_id')->constrained('orders');
             $table->foreignId('product_id')->constrained('products');
-            $table->string('name');
-            $table->string('image');
-            $table->integer('price');
-            $table->integer('quantity');
-            $table->string('bonus')->nullable();
-            $table->string('origin')->nullable();
-            $table->string('style')->nullable();
-            $table->string('material')->nullable();
-            $table->string('paint')->nullable();
-            $table->string('string_name')->nullable();
+            $table->integer('quantity')->default(1);
             $table->timestamps();
         });
     }

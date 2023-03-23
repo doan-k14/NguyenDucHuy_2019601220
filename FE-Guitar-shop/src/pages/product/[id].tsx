@@ -13,6 +13,7 @@ import {
 import { notificationError, notificationSuccess } from '@/helpers/notification'
 import { NextPageWithLayout } from '@/types/next-page'
 import { ProductService } from '@/services/product'
+import { formatPrice } from '@/helpers/currency'
 import { Product } from '@/types/product'
 import { Cart } from '@/types/cart'
 import useLocalStorage from '@/hooks/localStorage'
@@ -32,7 +33,17 @@ const Page: NextPageWithLayout = () => {
       setCart([...cart, { ...product, quantity: 1, total: product.price }])
       notificationSuccess('Thêm vào giỏ hàng thành công!')
     } else {
-      notificationError('Sản phẩm này đã có trong giỏ hàng')
+      const temProducts = cart.map(obj => {
+        if (product.id === obj.id)
+          return {
+            ...obj,
+            quantity: (obj.quantity || 1) + 1,
+            total: ((obj.quantity || 1) + 1) * obj.price
+          }
+        return obj
+      })
+      setCart(temProducts)
+      notificationSuccess('Đã tăng 1 số lượng trong giỏ hàng')
     }
   }
 
@@ -106,7 +117,7 @@ const Page: NextPageWithLayout = () => {
                           }}
                         >
                           {' '}
-                          {product.price} đ
+                          {formatPrice(product.price)} đ
                         </span>
                       </div>
                       <div>

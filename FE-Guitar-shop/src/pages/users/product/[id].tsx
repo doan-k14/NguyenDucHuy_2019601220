@@ -1,4 +1,4 @@
-import { ReactElement, useEffect, useState } from 'react'
+import { ReactElement, useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/router'
 
 import { Button, Form, Input, InputNumber, Skeleton, Space } from 'antd'
@@ -14,6 +14,7 @@ import CategorySelect from '@/components/utilities/categorySelect'
 
 const Page: NextPageWithLayout = () => {
   const router = useRouter()
+  const shouldEffect = useRef(true)
   const productID = router.query.id
   const [product, setProduct] = useState<Product>()
   const [loading, setLoading] = useState<boolean>(false)
@@ -53,7 +54,8 @@ const Page: NextPageWithLayout = () => {
   }
 
   useEffect(() => {
-    if (productID) fetchProductByID()
+    if (productID && shouldEffect.current) fetchProductByID()
+    shouldEffect.current = false
   }, [router])
 
   return (

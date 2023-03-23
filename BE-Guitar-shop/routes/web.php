@@ -50,3 +50,4 @@ $router->group(['prefix' => 'order'], function () use ($router) {
     $router->post('{id}', 'OrderController@show');
     $router->post('update/{id}', 'OrderController@update');
 });
+$router->post('latest', 'OrderController@latest');
