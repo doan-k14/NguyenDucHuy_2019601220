@@ -1,19 +1,37 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" style="width:100%;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;padding:0;Margin:0">
-
-<head>
-    <meta charset="UTF-8">
-    <meta content="width=device-width, initial-scale=1" name="viewport">
-    <meta name="x-apple-disable-message-reformatting">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta content="telephone=no" name="format-detection">
-    <title>New email template 2023-03-09</title>
-    <link href="https://fonts.googleapis.com/css?family=Lato:400,400i,700,700i" rel="stylesheet">
-    
-</head>
-
-<body>
-    <div>Hello</div>
-</body>
-
-</html>
+<h2>Cám ơn bạn đã đặt hàng, {{$order->full_name}}</h2>
+<p>Mã đơn của bạn: {{$order->id}}</p>
+<h3>Thông tin người mua hàng</h3>
+<table>
+    <tr>
+        <th>Họ tên</th>
+        <th>Địa chỉ</th>
+        <th>Số điện thoại</th>
+        <th>Email</th>
+    </tr>
+    <tr>
+        <td>{{$order->full_name}}</td>
+        <td>{{$order->address}}</td>
+        <td>0{{$order->phone}}</td>
+        <td>{{$order->email}}</td>
+    </tr>
+</table>
+<h3>Thông tin đơn hàng</h3>
+<table>
+    <tr>
+        <th>Mã sản phẩm</th>
+        <th>Tên sản phẩm</th>
+        <th>Giá</th>
+        <th>Số lượng</th>
+        <th>Thành tiền</th>
+    </tr>
+    @foreach($orderDetail as $product)
+    <tr>
+        <td>{{$product->id}}</td>
+        <td>{{$product->name}}</td>
+        <td>{{$product->price}}</td>
+        <td>{{$product->quantity}}</td>
+        <td>{{$product->price * $product->quantity}}</td>
+    </tr>
+    @endforeach
+</table>
+<h4>Đây là Email trả lời tự động của hệ thống, quý khách vui lòng không trả lời Email này</h4>

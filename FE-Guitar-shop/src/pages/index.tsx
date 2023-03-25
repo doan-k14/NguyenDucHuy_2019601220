@@ -1,13 +1,14 @@
 import { ReactElement, useEffect, useRef, useState } from 'react'
 
-import { Carousel, Col, Image, Row } from 'antd'
 import { ListPayload, Product } from '@/types/product'
 import { NextPageWithLayout } from '@/types/next-page'
 import { notificationError } from '@/helpers/notification'
 import { ProductService } from '@/services/product'
-import { banners } from '@/configs/landingBanners'
+import { Col, Row } from 'antd'
 
+import BottomContent from '@/components/base/bottomContent'
 import NewProducts from '@/components/products/newProducts'
+import TopBanners from '@/components/base/topBanners'
 import Landing from '@/components/layouts/landing'
 
 const Page: NextPageWithLayout = () => {
@@ -49,22 +50,7 @@ const Page: NextPageWithLayout = () => {
   return (
     <>
       {/* Banner */}
-      <Row>
-        <Col>
-          <Carousel autoplay dotPosition="right" effect="fade">
-            {banners.map(banner => (
-              <div key={banner.id}>
-                <Image
-                  src={banner.src}
-                  preview={false}
-                  alt={banner.src}
-                  style={{ width: '100%', height: 'auto' }}
-                />
-              </div>
-            ))}
-          </Carousel>
-        </Col>
-      </Row>
+      <TopBanners />
       {/* New products */}
       <Row style={{ background: 'white' }}>
         <Col span={18} offset={3} style={{ padding: '0 1rem' }}>
@@ -91,7 +77,7 @@ const Page: NextPageWithLayout = () => {
           </div>
         </Col>
       </Row>
-      
+      <BottomContent />
     </>
   )
 }

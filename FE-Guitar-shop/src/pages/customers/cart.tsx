@@ -10,6 +10,7 @@ import { Col, Row } from 'antd'
 import useLocalStorage from '@/hooks/localStorage'
 
 import BottomContent from '@/components/base/bottomContent'
+import TopBanners from '@/components/base/topBanners'
 import UserInfo from '@/components/cart/userInfo'
 import Landing from '@/components/layouts/landing'
 import Cart from '@/components/cart'
@@ -62,9 +63,9 @@ const Page: NextPageWithLayout = () => {
         const payload = orderDetailPayload()
 
         if (await OrderService.createOrderDetail({ products: payload })) {
-          notificationSuccess('Đặt hàng thành công')
           cart[1]([])
-          router.push('/')
+          notificationSuccess('Đặt hàng thành công')
+          router.push('/customers/order-success')
         }
       }
     } catch {
@@ -76,6 +77,9 @@ const Page: NextPageWithLayout = () => {
 
   return (
     <div>
+      {/* Banners */}
+      <TopBanners />
+      {/* Content */}
       <h2 className="homepage-title">Giỏ hàng</h2>
       <div style={{ padding: '0 1rem' }}>
         {/* Products */}

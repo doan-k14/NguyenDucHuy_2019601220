@@ -19,6 +19,7 @@ import { Cart } from '@/types/cart'
 import useLocalStorage from '@/hooks/localStorage'
 
 import BottomContent from '@/components/base/bottomContent'
+import TopBanners from '@/components/base/topBanners'
 import Landing from '@/components/layouts/landing'
 
 const Page: NextPageWithLayout = () => {
@@ -65,6 +66,9 @@ const Page: NextPageWithLayout = () => {
 
   return (
     <>
+      {/* Banners */}
+      <TopBanners />
+      {/* Content */}
       <h2 className="homepage-title">chi tiết sản phẩm #{productID}</h2>
       <Row style={{ background: 'white', marginBottom: '4rem' }}>
         <Col span={16} offset={4}>
@@ -212,6 +216,12 @@ const Page: NextPageWithLayout = () => {
                       >
                         <Button
                           style={{ color: 'white', background: '#D72027' }}
+                          onClick={() => {
+                            setCart([
+                              { ...product, quantity: 1, total: product.price }
+                            ])
+                            router.push('/customers/cart')
+                          }}
                         >
                           <RocketOutlined />
                           Mua ngay

@@ -22,6 +22,15 @@ class UserController extends Controller
         ]);
     }
 
+    public function newUser(){
+        $user = Users::orderby('created_at', 'desc')->first();
+
+        return response()->json([
+            'message' => 'Success',
+            'result' => $user
+        ]);
+    }
+
     public function register(Request $request)
     {
         $this->validate($request, [

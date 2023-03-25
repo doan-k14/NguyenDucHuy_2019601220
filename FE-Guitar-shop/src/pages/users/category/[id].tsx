@@ -86,12 +86,21 @@ const Page: NextPageWithLayout = () => {
             label="Tên danh mục:"
             style={{ width: '50%' }}
             name="name"
+            initialValue={category?.name}
+            rules={[
+              { required: true, message: 'Tên danh mục không được để trống' }
+            ]}
           >
-            <Input defaultValue={category?.name} />
+            <Input />
           </Form.Item>
 
-          <Form.Item label="Mô tả:" style={{ width: '50%' }} name="description">
-            <Input.TextArea rows={5} defaultValue={category?.description} />
+          <Form.Item
+            label="Mô tả:"
+            style={{ width: '50%' }}
+            name="description"
+            initialValue={category?.description}
+          >
+            <Input.TextArea rows={5} />
           </Form.Item>
 
           <Form.Item

@@ -32,7 +32,8 @@ const Login: NextPageWithLayout = () => {
         if (autoLogin) userLocalInfo[1]({ ...response[0], password: '******' })
         else userSessionInfo[1](response[0])
 
-        response[0].role === 1 ? router.push('/users') : router.push('/')
+        if (response[0].role === 1) router.push('/users')
+        else window.location.replace('/')
       }
     } catch {
       notificationError('Có lỗi xảy ra')

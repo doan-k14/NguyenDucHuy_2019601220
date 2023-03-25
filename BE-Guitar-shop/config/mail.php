@@ -39,8 +39,8 @@ return [
             'host' => 'smtp.gmail.com',
             'port' => 587,
             'encryption' => 'tls',
-            'username' => 'duc4422@gmail.com',
-            'password' => 'ytmwhpfsftgvonmp',
+            'username' => 'inuyasha160201@gmail.com',
+            'password' => 'ifplstrvdhermvls',
             'timeout' => null,
             'local_domain' => null,
         ],
@@ -98,7 +98,7 @@ return [
     */
 
     'from' => [
-        'address' => 'duc4422@gmail.com',
+        'address' => 'inuyasha160201@gmail.com',
         'name' => 'Elden Song',
     ],
 

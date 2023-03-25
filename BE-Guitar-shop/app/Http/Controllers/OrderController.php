@@ -38,7 +38,6 @@ class OrderController extends Controller
     public function create(Request $request)
     {
         $this->validate($request, [
-            'user_id' => 'required',
             'full_name' => 'required',
             'address' => 'required',
             'phone' => 'required',
@@ -56,7 +55,8 @@ class OrderController extends Controller
         ]);
     }
 
-    public function latest(){
+    public function latest()
+    {
         $order = Order::orderby('created_at', 'desc')->first();
 
         return response()->json([
@@ -72,12 +72,21 @@ class OrderController extends Controller
         ]);
 
         $products = $request['products'];
-        foreach($products as $product) {
+        foreach ($products as $product) {
             OrderDetail::create($product);
         }
 
-        Mail::send('order-success', ['test' => 'test mail'], function($email){
-            $email->to('inuyasha160201@gmail.com', 'Huy');
+        $order = Order::orderby('created_at', 'desc')->first();
+        $orderDetail = OrderDetail::query()
+            ->where('order_id', $order->id)
+            ->join('products', 'products.id', '=', 'order_details.product_id')
+            ->get();
+
+        Mail::send('order-success', [
+            'order' => $order,
+            'orderDetail' => $orderDetail
+        ], function ($email) use ($order) {
+            $email->to($order->email, $order->full_name);
             $email->subject('Thông tin đơn hàng từ Elden Song');
         });
 

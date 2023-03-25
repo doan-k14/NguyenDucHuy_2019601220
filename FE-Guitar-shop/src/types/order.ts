@@ -7,7 +7,7 @@ export type OrderDetail = {
 
 export type Order = {
   id: number
-  user_id: number
+  user_id: number | null
   full_name: string
   address: string
   phone: number

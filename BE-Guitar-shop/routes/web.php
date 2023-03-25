@@ -42,6 +42,7 @@ $router->group(['prefix' => 'user'], function () use ($router) {
     $router->post('{id}', 'UserController@show');
     $router->post('update/{id}', 'UserController@update');
 });
+$router->post('new-user', 'UserController@newUser');
 //Order
 $router->group(['prefix' => 'order'], function () use ($router) {
     $router->post('', 'OrderController@index');

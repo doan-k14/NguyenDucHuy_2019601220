@@ -17,5 +17,8 @@ export const AuthService = {
   },
   changePassword(payload: ChangePasswordPayload) {
     return client.post('/user/change-password', { ...payload })
+  },
+  newUser(): Promise<UserInfo> {
+    return client.post('/new-user')
   }
 }

@@ -102,63 +102,108 @@ const Page: NextPageWithLayout = () => {
             />
           </Form.Item>
           {/* Product name */}
-          <Form.Item label="Tên sản phẩm:" style={{ width: '50%' }} name="name">
-            <Input defaultValue={product?.name} />
+          <Form.Item
+            label="Tên sản phẩm:"
+            style={{ width: '50%' }}
+            name="name"
+            rules={[
+              { required: true, message: 'Tên sản phẩm không được để trống' }
+            ]}
+            initialValue={product?.name}
+          >
+            <Input />
           </Form.Item>
           {/* Description */}
-          <Form.Item label="Mô tả:" style={{ width: '50%' }} name="description">
-            <Input.TextArea rows={5} defaultValue={product?.description} />
+          <Form.Item
+            label="Mô tả:"
+            style={{ width: '50%' }}
+            name="description"
+            initialValue={product?.description}
+          >
+            <Input.TextArea rows={5} />
           </Form.Item>
           {/* Image url */}
           <Form.Item
             label="Đường dẫn ảnh:"
             style={{ width: '50%' }}
             name="image"
+            rules={[
+              { required: true, message: 'Đường dẫn ảnh không được để trống' }
+            ]}
+            initialValue={product?.image}
           >
-            <Input defaultValue={product?.image} />
+            <Input />
           </Form.Item>
           {/* Price */}
-          <Form.Item label="Giá tiền:" name="price">
-            <InputNumber
-              min={0}
-              defaultValue={product?.price}
-              style={{ width: '200px' }}
-            />
+          <Form.Item
+            label="Giá tiền:"
+            name="price"
+            rules={[
+              { required: true, message: 'Giá tiền không được để trống' }
+            ]}
+            initialValue={product?.price}
+          >
+            <InputNumber min={0} style={{ width: '200px' }} />
           </Form.Item>
           {/* Amount */}
-          <Form.Item label="Số lượng:" name="amount">
-            <InputNumber
-              min={0}
-              defaultValue={product?.amount}
-              style={{ width: '100px' }}
-            />
+          <Form.Item
+            label="Số lượng:"
+            name="amount"
+            initialValue={product?.amount}
+            rules={[
+              { required: true, message: 'Số lượng không được để trống' }
+            ]}
+          >
+            <InputNumber min={0} style={{ width: '100px' }} />
           </Form.Item>
           {/* Compare attribute */}
           <Form.Item
             name="bonus"
             label="Quà tặng kèm:"
             style={{ width: '50%' }}
+            initialValue={product?.bonus}
           >
-            <Input defaultValue={product?.bonus} />
+            <Input />
           </Form.Item>
-          <Form.Item name="origin" label="Xuất xứ:" style={{ width: '25%' }}>
-            <Input defaultValue={product?.origin} />
+          <Form.Item
+            name="origin"
+            label="Xuất xứ:"
+            style={{ width: '25%' }}
+            initialValue={product?.origin}
+          >
+            <Input />
           </Form.Item>
-          <Form.Item name="style" label="Kiểu dáng:" style={{ width: '25%' }}>
-            <Input defaultValue={product?.style} />
+          <Form.Item
+            name="style"
+            label="Kiểu dáng:"
+            style={{ width: '25%' }}
+            initialValue={product?.style}
+          >
+            <Input />
           </Form.Item>
-          <Form.Item name="material" label="Vật liệu:" style={{ width: '25%' }}>
-            <Input defaultValue={product?.material} />
+          <Form.Item
+            name="material"
+            label="Vật liệu:"
+            style={{ width: '25%' }}
+            initialValue={product?.material}
+          >
+            <Input />
           </Form.Item>
-          <Form.Item name="paint" label="Loại sơn:" style={{ width: '25%' }}>
-            <Input defaultValue={product?.paint} />
+          <Form.Item
+            name="paint"
+            label="Loại sơn:"
+            style={{ width: '25%' }}
+            initialValue={product?.paint}
+          >
+            <Input />
           </Form.Item>
           <Form.Item
             name="string_name"
             label="Dây đàn:"
             style={{ width: '25%' }}
+            initialValue={product?.string_name}
           >
-            <Input defaultValue={product?.string_name} />
+            <Input />
           </Form.Item>
           {/* Status */}
           <ActiveStatus

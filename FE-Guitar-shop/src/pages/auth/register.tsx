@@ -6,18 +6,27 @@ import { Button, Form, Input, Space } from 'antd'
 import { NextPageWithLayout } from '@/types/next-page'
 import { RegisterPayload } from '@/types/auth'
 import { AuthService } from '@/services/auth'
+import { UserInfo } from '@/types/user'
+import useSessionStorage from '@/hooks/sessionStorage'
 
 import Landing from '@/components/layouts/landing'
 
 const Register: NextPageWithLayout = () => {
   const router = useRouter()
   const [loading, setLoading] = useState<boolean>(false)
+  const user = useSessionStorage<UserInfo>('user', null)
 
   const onSubmit = async (payload: RegisterPayload) => {
     try {
       setLoading(true)
-      if (await AuthService.register(payload))
+      if (await AuthService.register(payload)) {
         notificationSuccess('Đăng ký thành công!')
+        const newUser = await AuthService.newUser()
+        if (newUser) {
+          user[1](newUser)
+          window.location.replace('/')
+        }
+      }
     } catch {
       notificationError('Có lỗi xảy ra')
     } finally {

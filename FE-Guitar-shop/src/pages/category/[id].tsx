@@ -25,6 +25,7 @@ import useLocalStorage from '@/hooks/localStorage'
 
 import BottomContent from '@/components/base/bottomContent'
 import SortFilter from '@/components/filters/sortFilter'
+import TopBanners from '@/components/base/topBanners'
 import Landing from '@/components/layouts/landing'
 
 const { Meta } = Card
@@ -128,6 +129,9 @@ const Page: NextPageWithLayout = () => {
 
   return (
     <>
+      {/* Banners */}
+      <TopBanners />
+      {/* Content */}
       <h2 className="homepage-title">Danh sách sản phẩm</h2>
       <Row style={{ background: 'white', marginBottom: '2rem' }}>
         <Col span={18} offset={3} style={{ padding: '0 1rem' }}>
