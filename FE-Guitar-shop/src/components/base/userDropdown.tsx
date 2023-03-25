@@ -1,7 +1,6 @@
 import { useRouter } from 'next/router'
 
 import {
-  AuditOutlined,
   LockOutlined,
   LogoutOutlined,
   UserOutlined
@@ -70,7 +69,7 @@ const UserDropdown = (props: Props) => {
         }}
       >
         <div>
-          <div
+          {/* <div
             style={{
               borderBottomStyle: 'solid',
               borderBottomWidth: '1px',
@@ -83,7 +82,7 @@ const UserDropdown = (props: Props) => {
               <AuditOutlined style={{ color: '#0080FF' }} />
               <span>Thông tin tài khoản</span>
             </Button>
-          </div>
+          </div> */}
           <div style={{ paddingTop: '0.5rem', paddingBottom: '0.5rem' }}>
             <Button
               type="link"

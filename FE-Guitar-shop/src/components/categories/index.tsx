@@ -14,12 +14,17 @@ const Categories = (props: Props) => {
   const { categories, loading } = props
 
   const getCategoryTime = (product: Category) => {
-    const createTime = new Date(product.created_at).toUTCString()
-    const updateTime = new Date(product.updated_at).toUTCString()
+    const createTime = new Date(product.created_at).toLocaleString()
+    const updateTime = new Date(product.updated_at).toLocaleString()
     return (
       <>
-        <div><span style={{fontWeight: 'bold'}}>Ngày tạo:</span> {createTime}</div>
-        <div><span style={{fontWeight: 'bold'}}>Ngày cập nhật:</span> {updateTime}</div>
+        <div>
+          <span style={{ fontWeight: 'bold' }}>Ngày tạo:</span> {createTime}
+        </div>
+        <div>
+          <span style={{ fontWeight: 'bold' }}>Ngày cập nhật:</span>{' '}
+          {updateTime}
+        </div>
       </>
     )
   }
@@ -33,7 +38,9 @@ const Categories = (props: Props) => {
       title: 'Tên danh mục',
       render: (_, data) => (
         <Popover content={getCategoryTime(data)} trigger="hover">
-          <Button type="text" style={{fontWeight: 'bold'}}>{data.name}</Button>
+          <Button type="text" style={{ fontWeight: 'bold' }}>
+            {data.name}
+          </Button>
         </Popover>
       )
     },
@@ -49,8 +56,8 @@ const Categories = (props: Props) => {
       }
     },
     {
-        title: 'Thao tác',
-        render: (_, data) => <CategoryActions id={data.id} />
+      title: 'Thao tác',
+      render: (_, data) => <CategoryActions id={data.id} />
     }
   ]
 

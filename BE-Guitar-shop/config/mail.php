@@ -40,7 +40,7 @@ return [
             'port' => 587,
             'encryption' => 'tls',
             'username' => 'inuyasha160201@gmail.com',
-            'password' => 'ifplstrvdhermvls',
+            'password' => 'pjivfbkyoyjlrlwk',
             'timeout' => null,
             'local_domain' => null,
         ],

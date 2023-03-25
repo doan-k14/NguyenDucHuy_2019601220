@@ -15,7 +15,7 @@ import CategorySelect from '@/components/utilities/categorySelect'
 const Page: NextPageWithLayout = () => {
   const router = useRouter()
   const shouldEffect = useRef(true)
-  const productID = router.query.id
+  const productID = router.query.id?.toString()
   const [product, setProduct] = useState<Product>()
   const [loading, setLoading] = useState<boolean>(false)
   const [submitLoading, setSubmitLoading] = useState<boolean>(false)
@@ -26,7 +26,7 @@ const Page: NextPageWithLayout = () => {
   const fetchProductByID = async () => {
     try {
       setLoading(true)
-      const response = await ProductService.show(productID)
+      const response = await ProductService.show(parseInt(productID || '0'))
       if (response) setProduct(response)
     } catch {
       notificationError('Có lỗi xảy ra')
@@ -39,7 +39,7 @@ const Page: NextPageWithLayout = () => {
     try {
       setSubmitLoading(true)
       if (
-        await ProductService.update(productID, {
+        await ProductService.update(parseInt(productID || '0'), {
           ...payload,
           category_id: categoryID,
           status: status

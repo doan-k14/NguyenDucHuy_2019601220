@@ -1,7 +1,17 @@
 import { ReactElement, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 
-import { Button, Col, Empty, Image, Rate, Row, Space, Spin } from 'antd'
+import {
+  Button,
+  Col,
+  Empty,
+  Image,
+  Popconfirm,
+  Rate,
+  Row,
+  Space,
+  Spin
+} from 'antd'
 import {
   DollarCircleFilled,
   GiftFilled,
@@ -24,7 +34,7 @@ import Landing from '@/components/layouts/landing'
 
 const Page: NextPageWithLayout = () => {
   const router = useRouter()
-  const productID = router.query.id
+  const productID = router.query.id?.toString()
   const [loading, setLoading] = useState<boolean>(false)
   const [product, setProduct] = useState<Product>()
   const [cart, setCart] = useLocalStorage<Cart[]>('cart', [])
@@ -51,7 +61,7 @@ const Page: NextPageWithLayout = () => {
   const fetchProductByID = async () => {
     try {
       setLoading(true)
-      const response = await ProductService.show(productID)
+      const response = await ProductService.show(parseInt(productID || '0'))
       if (response) setProduct(response)
     } catch {
       notificationError('Không tìm thấy sản phẩm')
@@ -158,6 +168,10 @@ const Page: NextPageWithLayout = () => {
                           <>
                             <div>
                               {' '}
+                              - <b>Hãng:</b> {product.brand}
+                            </div>
+                            <div>
+                              {' '}
                               - <b>Kiểu dáng:</b> {product.style}
                             </div>
                             <div>
@@ -214,18 +228,31 @@ const Page: NextPageWithLayout = () => {
                           marginBottom: '0.5rem'
                         }}
                       >
-                        <Button
-                          style={{ color: 'white', background: '#D72027' }}
-                          onClick={() => {
+                        <Popconfirm
+                          title="Cảnh báo"
+                          description={
+                            <div>
+                              Hành động này sẽ xóa hết giỏ hàng của bạn trước
+                              <br />
+                              đó, bạn có chắc muốn đặt mua sản phẩm này?
+                            </div>
+                          }
+                          onConfirm={() => {
                             setCart([
                               { ...product, quantity: 1, total: product.price }
                             ])
                             router.push('/customers/cart')
                           }}
+                          okText="Đồng ý"
+                          cancelText="Đóng"
                         >
-                          <RocketOutlined />
-                          Mua ngay
-                        </Button>
+                          <Button
+                            style={{ color: 'white', background: '#D72027' }}
+                          >
+                            <RocketOutlined />
+                            Mua ngay
+                          </Button>
+                        </Popconfirm>
                       </div>
                     </div>
                   </Col>

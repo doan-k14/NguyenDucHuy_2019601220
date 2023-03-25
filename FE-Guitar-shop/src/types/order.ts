@@ -5,6 +5,11 @@ export type OrderDetail = {
   quantity: number
 }
 
+export type ShowOrderDetail = {
+  message: string
+  result: OrderDetail[]
+}
+
 export type Order = {
   id: number
   user_id: number | null
@@ -16,6 +21,8 @@ export type Order = {
   quantity: number
   total_price: number
   status: number
+  created_at: string
+  updated_at: string
 }
 
 export type OrderDetailItem = {
@@ -38,4 +45,55 @@ export type OrderPayload = {
   quantity: number
   total_price: number
   status: number
+}
+
+export type OrderDetailResponse = {
+  id: number
+  order_id: number
+  product_id: number
+  quantity: number
+  created_at: string
+  updated_at: string
+  category_id: number
+  name: string
+  image: string
+  price: number
+  amount: number
+  description: null | string
+  bonus: string
+  origin: string
+  style: string
+  material: string
+  paint: string
+  string_name: string
+  sold: null
+  status: number
+}
+
+export type UserID = {
+  user_id: number
+}
+
+export type OrderID = {
+  order_id: string | string[] | undefined
+}
+
+export type OrderUpdate = {
+  status: number
+}
+
+export type FilterPayload = {
+  email?: string
+  sortField?: string
+  sortOrder?: string
+  page?: number
+  pageSize?: number
+  status?: number
+}
+
+export type OrderResponse = {
+  total: number
+  orders?: Order[]
+  page: number
+  pageSize: number
 }

@@ -17,10 +17,10 @@ export const ProductService = {
   delete(id: number) {
     return client.delete(`/product/${id}`)
   },
-  show(id: string | string[] | undefined): Promise<Product> {
+  show(id: number): Promise<Product> {
     return client.post(`/product/${id}`)
   },
-  update(id: string | string[] | undefined, payload: UpdatePayload) {
+  update(id: number, payload: UpdatePayload) {
     return client.post(`/product/update/${id}`, { ...payload })
   }
 }

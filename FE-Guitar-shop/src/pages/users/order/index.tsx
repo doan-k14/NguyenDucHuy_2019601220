@@ -1,64 +1,50 @@
 import { ReactElement, useEffect, useState } from 'react'
-import { useRouter } from 'next/router'
 
-import {
-  MenuUnfoldOutlined,
-  MonitorOutlined,
-  PlusOutlined
-} from '@ant-design/icons'
-import { Button, Input, Select, Space } from 'antd'
-import { ListPayload, Product } from '@/types/product'
+import { Button, Input, Select, Space, Table, notification } from 'antd'
+import { MenuUnfoldOutlined, MonitorOutlined } from '@ant-design/icons'
+import { defaultPagination, paginationConfig } from '@/configs/pagination'
+import { FilterPayload, Order } from '@/types/order'
 import { NextPageWithLayout } from '@/types/next-page'
 import { notificationError } from '@/helpers/notification'
-import { defaultPagination } from '@/configs/pagination'
-import { ProductService } from '@/services/product'
-import { productFilter } from '@/configs/selectOptions'
+import { OrderService } from '@/services/order'
+import { orderFilter } from '@/configs/selectOptions'
 
-import User from '@/components/layouts/user'
-import Products from '@/components/products'
+import { adminOrderColumns } from '@/components/products/columnsConfig'
 import SortFilter from '@/components/filters/sortFilter'
-import CategorySelect from '@/components/utilities/categorySelect'
+import User from '@/components/layouts/user'
 
 const Page: NextPageWithLayout = () => {
-  const router = useRouter()
-  const [products, setProducts] = useState<Product[]>()
+  const [orders, setOrders] = useState<Order[]>([])
+  const [loading, setLoading] = useState<boolean>(false)
 
   const [total, setTotal] = useState<number>(defaultPagination.total)
   const [page, setPage] = useState<number>(defaultPagination.page)
   const [pageSize, setPageSize] = useState<number>(defaultPagination.size)
 
   const [search, setSearch] = useState<string>()
-  const [categoryID, setCategoryID] = useState<number>(-1)
   const [status, setStatus] = useState<number>(-1)
   const [sortString, setSortString] = useState<string>('desc')
   const [sortField, setSortField] = useState<string>('created_at')
 
-  const [loading, setLoading] = useState<boolean>(false)
-
-  const getCurrentPage = (page: number, pageSize: number) => {
-    setPage(page)
-    setPageSize(pageSize)
-  }
-
-  const fetchProducts = async () => {
+  const fetchOrders = async () => {
     try {
       setLoading(true)
-      const payload: ListPayload = {
+      const payload: FilterPayload = {
         page: page,
         pageSize: pageSize,
-        name: search,
-        categoryID: categoryID,
-        status: status,
         sortField: sortField,
-        sortOrder: sortString
+        sortOrder: sortString,
+        email: search,
+        status: status
       }
-      const response = await ProductService.getList(payload)
+      const response = await OrderService.getList(payload)
       if (response) {
-        setProducts(response.products)
+        setOrders(response.orders || [])
         setTotal(response.total)
         setPage(response.page)
       }
     } catch {
+      notification.destroy()
       notificationError('Có lỗi xảy ra')
     } finally {
       setLoading(false)
@@ -66,7 +52,7 @@ const Page: NextPageWithLayout = () => {
   }
 
   useEffect(() => {
-    fetchProducts()
+    fetchOrders()
   }, [page, pageSize])
 
   return (
@@ -94,63 +80,55 @@ const Page: NextPageWithLayout = () => {
         }}
       >
         <MenuUnfoldOutlined />
-        <div>Danh sách sản phẩm</div>
-      </div>
-      {/* Create new */}
-      <div>
-        <Button
-          style={{
-            marginBottom: '1rem',
-            marginLeft: '1rem',
-            background: '#1677FF',
-            color: 'white'
-          }}
-          onClick={() => router.push('/users/product/create')}
-        >
-          <PlusOutlined />
-          Thêm mới
-        </Button>
+        <div>Danh sách đơn hàng</div>
       </div>
       {/* Sort filter */}
       <div style={{ marginBottom: '0.5rem', marginLeft: '1rem' }}>
         <SortFilter
           sortString={sortString}
-          options={productFilter}
+          options={orderFilter}
           onSortField={setSortField}
           onSorting={setSortString}
         />
       </div>
       {/* Select and text filter */}
       <Space style={{ marginBottom: '1rem', marginLeft: '1rem' }}>
-        <CategorySelect onSelect={setCategoryID} categoryID={categoryID} />
         <Select
           defaultValue={-1}
           style={{ width: '150px' }}
           options={[
             { value: -1, label: '--- Trạng thái ---' },
-            { value: 0, label: 'Không hoạt động' },
-            { value: 1, label: 'Hoạt động' }
+            { value: 0, label: 'Đã hủy' },
+            { value: 1, label: 'Chờ xử lý' },
+            { value: 2, label: 'Đang giao hàng' },
+            { value: 3, label: 'Thành công' }
           ]}
           status="error"
           onChange={value => setStatus(value)}
         />
         <Input
-          placeholder="Nhập tên/hãng"
+          placeholder="Nhập email"
           onBlur={e => setSearch(e.target.value)}
         />
-        <Button type="primary" onClick={fetchProducts}>
+        <Button type="primary" onClick={fetchOrders}>
           <MonitorOutlined /> Lọc
         </Button>
       </Space>
-      <div>
-        <Products
-          products={products}
-          pageSize={pageSize}
-          total={total}
-          loading={loading}
-          onChange={getCurrentPage}
-        />
-      </div>
+      <Table
+        columns={adminOrderColumns}
+        dataSource={orders}
+        pagination={{
+          ...paginationConfig,
+          pageSize: pageSize,
+          total: total
+        }}
+        onChange={pagination => {
+          setPage(pagination.current || defaultPagination.page)
+          setPageSize(pagination.pageSize || defaultPagination.size)
+        }}
+        rowKey="id"
+        loading={loading}
+      />
     </div>
   )
 }

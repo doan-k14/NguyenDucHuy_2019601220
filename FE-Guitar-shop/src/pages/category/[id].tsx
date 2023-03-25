@@ -20,6 +20,7 @@ import { ListPayload, Product } from '@/types/product'
 import { NextPageWithLayout } from '@/types/next-page'
 import { defaultPagination } from '@/configs/pagination'
 import { ProductService } from '@/services/product'
+import { productFilter } from '@/configs/selectOptions'
 import { formatPrice } from '@/helpers/currency'
 import useLocalStorage from '@/hooks/localStorage'
 
@@ -139,12 +140,13 @@ const Page: NextPageWithLayout = () => {
           <Space style={{ marginBottom: '0.5rem', marginLeft: '1rem' }}>
             <SortFilter
               sortString={sortString}
+              options={productFilter}
               onSortField={setSortField}
               onSorting={setSortString}
             />
             <Input
               allowClear={true}
-              placeholder="Nhập tên sản phẩm"
+              placeholder="Nhập tên/hãng"
               onBlur={e => setSearch(e.target.value)}
             />
             <Button

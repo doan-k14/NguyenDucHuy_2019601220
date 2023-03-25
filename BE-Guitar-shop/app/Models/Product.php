@@ -20,5 +20,6 @@ class Product extends Model
         'material',
         'paint',
         'string_name',
+        'sold'
     ];
 }

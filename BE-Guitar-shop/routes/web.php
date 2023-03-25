@@ -52,3 +52,5 @@ $router->group(['prefix' => 'order'], function () use ($router) {
     $router->post('update/{id}', 'OrderController@update');
 });
 $router->post('latest', 'OrderController@latest');
+$router->post('order-by-user', 'OrderController@getOrderByUser');
+$router->post('order-detail', 'OrderController@getOrderDetailByID');

@@ -1,8 +1,9 @@
+import { OrderDetailResponse } from '@/types/order'
 import { Product } from '@/types/product'
 
-export const getDetail = (product: Product) => {
-  const createTime = new Date(product.created_at).toUTCString()
-  const updateTime = new Date(product.updated_at).toUTCString()
+export const getDetail = (product: Product | OrderDetailResponse) => {
+  const createTime = new Date(product.created_at).toLocaleString()
+  const updateTime = new Date(product.created_at).toLocaleString()
   return (
     <>
       {product.description && (

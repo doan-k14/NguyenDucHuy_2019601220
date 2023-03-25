@@ -17,8 +17,12 @@ class ProductController extends Controller
 
         if ($request->has('categoryID') && $request['categoryID'] !== -1)
             $products = $products->where('category_id', $request['categoryID']);
-        if ($request->has('name'))
-            $products = $products->where('name', 'like', '%' . $request['name'] . '%');
+        if ($request->has('name')) {
+            $products = $products->where(function ($products) use ($request) {
+                $products->where('name', 'like', '%' . $request['name'] . '%')
+                    ->orWhere('brand', 'like', '%' . $request['name'] . '%');
+            });
+        }
         if ($request->has('status') && $request['status'] !== -1)
             $products = $products->where('status', $request['status']);
 

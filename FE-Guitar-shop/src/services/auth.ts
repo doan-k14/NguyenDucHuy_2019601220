@@ -20,5 +20,8 @@ export const AuthService = {
   },
   newUser(): Promise<UserInfo> {
     return client.post('/new-user')
+  },
+  getList(): Promise<UserInfo[]> {
+    return client.post('/list')
   }
 }

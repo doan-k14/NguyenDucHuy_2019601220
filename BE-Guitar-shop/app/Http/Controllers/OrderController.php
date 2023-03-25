@@ -17,6 +17,17 @@ class OrderController extends Controller
 
         $orders = Order::query();
 
+        if ($request->has('user_id') && $request['user_id'] !== -1)
+            $orders = $orders->where('user_id', $request['user_id']);
+        if ($request->has('email'))
+            $orders = $orders->where('email', 'like', '%' . $request['email'] . '%');
+        if ($request->has('status') && $request['status'] !== -1)
+            $orders = $orders->where('status', $request['status']);
+
+        $sort_field = $request->input('sortField', 'created_at');
+        $sort_order = $request->input('sortOrder', 'desc');
+        $orders = $orders->orderBy($sort_field, $sort_order);
+
         $orders = $orders
             ->skip($start)
             ->take($pageSize)
@@ -120,6 +131,39 @@ class OrderController extends Controller
         return response()->json([
             'message' => 'Update success',
             'result' => $order
+        ]);
+    }
+
+    public function getOrderByUser(Request $request)
+    {
+        $this->validate($request, [
+            'user_id' => 'required'
+        ]);
+
+        $orders = Order::query()
+            ->where('user_id', $request['user_id'])
+            ->get();
+
+        return response()->json([
+            'message' => 'Success',
+            'result' => $orders
+        ]);
+    }
+
+    public function getOrderDetailByID(Request $request)
+    {
+        $this->validate($request, [
+            'order_id' => 'required'
+        ]);
+
+        $detail = OrderDetail::query()
+            ->where('order_id', $request['order_id'])
+            ->join('products', 'products.id', '=', 'order_details.product_id')
+            ->get();
+
+        return response()->json([
+            'message' => 'Success',
+            'result' => $detail
         ]);
     }
 }

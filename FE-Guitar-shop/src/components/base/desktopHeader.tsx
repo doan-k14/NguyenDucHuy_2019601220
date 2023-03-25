@@ -79,7 +79,9 @@ const DesktopHeader = () => {
           type="text"
           style={{ marginBottom: '0.5rem', color: '#0080FF' }}
           onClick={() =>
-            user?.role === 1 ? router.push('/users') : router.push('/')
+            user?.role === 1
+              ? router.push('/users')
+              : router.push('/customers/orders')
           }
         >
           <AreaChartOutlined />

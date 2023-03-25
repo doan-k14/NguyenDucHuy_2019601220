@@ -34,4 +34,5 @@
     </tr>
     @endforeach
 </table>
+<h3>Tổng tiền: {{$order->total_price}} VND</h3>
 <h4>Đây là Email trả lời tự động của hệ thống, quý khách vui lòng không trả lời Email này</h4>

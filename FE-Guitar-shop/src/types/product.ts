@@ -13,6 +13,7 @@ export type Product = {
   paint?: string
   string_name?: string
   sold?: number
+  brand?: string
   status: number
   created_at: string
   updated_at: string
@@ -49,6 +50,7 @@ export type CreatePayload = {
   material?: string
   paint?: string
   string_name?: string
+  brand?: string
 }
 
 export type UpdatePayload = {
@@ -65,4 +67,6 @@ export type UpdatePayload = {
   material?: string
   paint?: string
   string_name?: string
+  brand?: string
+  sold?: number
 }

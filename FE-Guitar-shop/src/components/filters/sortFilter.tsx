@@ -1,25 +1,23 @@
 import { ArrowDownOutlined, ArrowUpOutlined } from '@ant-design/icons'
 import { Button, Select, Space } from 'antd'
+import { DefaultOptionType } from 'antd/es/select'
 
 type Props = {
   sortString: string
+  options: DefaultOptionType[]
   onSorting: (sortString: string) => void
   onSortField: (sortField: string) => void
 }
 
 const SortFilter = (props: Props) => {
-  const { sortString, onSorting, onSortField } = props
+  const { sortString, options, onSorting, onSortField } = props
 
   return (
     <Space>
       <Select
         defaultValue="created_at"
         style={{ width: '150px' }}
-        options={[
-          { value: 'created_at', label: 'Ngày tạo' },
-          { value: 'price', label: 'Giá' },
-          { value: 'amount', label: 'Số lượng còn' }
-        ]}
+        options={options}
         status="error"
         onChange={value => onSortField(value)}
       />
