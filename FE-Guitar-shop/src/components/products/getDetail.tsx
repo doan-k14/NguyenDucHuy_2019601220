@@ -12,6 +12,11 @@ export const getDetail = (product: Product | OrderDetailResponse) => {
           {product.description}
         </div>
       )}
+      {product.brand && (
+        <div>
+          <span style={{ fontWeight: 'bold' }}>Hãng:</span> {product.brand}
+        </div>
+      )}
       {product.bonus && (
         <div>
           <span style={{ fontWeight: 'bold' }}>Quà tặng kèm:</span>{' '}

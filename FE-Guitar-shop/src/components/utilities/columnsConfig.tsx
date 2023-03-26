@@ -3,11 +3,13 @@ import { categoryStatus, orderStatus } from '@/configs/status'
 import { Order, OrderDetailResponse } from '@/types/order'
 import { ColumnsType } from 'antd/es/table'
 import { formatPrice } from '@/helpers/currency'
+import { Discount } from '@/types/discount'
 import { Product } from '@/types/product'
 
-import { getDetail } from './getDetail'
+import { getDetail } from '../products/getDetail'
 import AdminOrderActions from '../orders/adminOrderActions'
-import ProductActions from './actions/productActions'
+import ProductActions from '../products/actions/productActions'
+import DiscountAction from '../discount/discountAction'
 import OrderActions from '../orders/orderActions'
 
 export const productColumns: ColumnsType<Product> = [
@@ -196,5 +198,47 @@ export const adminOrderColumns: ColumnsType<Order> = [
   {
     title: 'Thao tác',
     render: (_, data) => <AdminOrderActions order={data} />
+  }
+]
+
+export const discountColumns: ColumnsType<Discount> = [
+  {
+    title: 'ID',
+    render: (_, data) => data.id
+  },
+  {
+    title: 'Mã giảm giá',
+    render: (_, data) => data.code
+  },
+  {
+    title: 'Giá trị',
+    render: (_, data) => data.value
+  },
+  {
+    title: 'Nhãn',
+    render: (_, data) => data.label
+  },
+  {
+    title: 'Trạng thái',
+    render: (_, data) => {
+      const tag = categoryStatus.find(tag => tag.value === data.status)
+      return <Tag color={tag?.color}>{tag?.label}</Tag>
+    }
+  },
+  {
+    title: 'Ngày tạo',
+    render: (_, data) => <div>{new Date(data.created_at).toLocaleString()}</div>
+  },
+  {
+    title: 'Ngày cập nhật',
+    render: (_, data) => <div>{new Date(data.updated_at).toLocaleString()}</div>
+  },
+  {
+    title: 'Thao tác',
+    render: (_, data) => (
+      <div>
+        <DiscountAction discount={data} />
+      </div>
+    )
   }
 ]

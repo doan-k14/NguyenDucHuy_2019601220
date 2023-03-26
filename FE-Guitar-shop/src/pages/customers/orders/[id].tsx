@@ -7,7 +7,7 @@ import { NextPageWithLayout } from '@/types/next-page'
 import { notificationError } from '@/helpers/notification'
 import { OrderService } from '@/services/order'
 
-import { orderDetailColumns } from '@/components/products/columnsConfig'
+import { orderDetailColumns } from '@/components/utilities/columnsConfig'
 import BottomContent from '@/components/base/bottomContent'
 import TopBanners from '@/components/base/topBanners'
 import Landing from '@/components/layouts/landing'

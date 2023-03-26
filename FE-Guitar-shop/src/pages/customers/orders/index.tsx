@@ -10,7 +10,7 @@ import { Order } from '@/types/order'
 import useSessionStorage from '@/hooks/sessionStorage'
 import useLocalStorage from '@/hooks/localStorage'
 
-import { orderColumns } from '@/components/products/columnsConfig'
+import { orderColumns } from '@/components/utilities/columnsConfig'
 import BottomContent from '@/components/base/bottomContent'
 import TopBanners from '@/components/base/topBanners'
 import Landing from '@/components/layouts/landing'

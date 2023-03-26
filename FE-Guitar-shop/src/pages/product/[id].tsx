@@ -164,12 +164,12 @@ const Page: NextPageWithLayout = () => {
                           {' '}
                           - <b>Xuất xứ:</b> {product.origin}
                         </div>
+                        <div>
+                          {' '}
+                          - <b>Hãng:</b> {product.brand}
+                        </div>
                         {product.style && (
                           <>
-                            <div>
-                              {' '}
-                              - <b>Hãng:</b> {product.brand}
-                            </div>
                             <div>
                               {' '}
                               - <b>Kiểu dáng:</b> {product.style}

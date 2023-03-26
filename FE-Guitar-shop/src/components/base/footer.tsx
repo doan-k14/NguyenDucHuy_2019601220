@@ -76,7 +76,7 @@ const Footer = () => {
                 Email :
               </strong>{' '}
               <span style={{ letterSpacing: '0.1rem', fontSize: '1rem' }}>
-                duc4422@gmail.com
+                eldensong160201@gmail.com
               </span>
             </div>
           </Col>

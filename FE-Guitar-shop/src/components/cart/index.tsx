@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react'
 
 import { Button, Col, Empty, Input, Row } from 'antd'
+import { Discount, DiscountPayload } from '@/types/discount'
+import { notificationError } from '@/helpers/notification'
+import { DiscountService } from '@/services/discount'
 import { formatPrice } from '@/helpers/currency'
 import { Cart } from '@/types/cart'
 import useLocalStorage from '@/hooks/localStorage'
@@ -8,12 +11,15 @@ import useLocalStorage from '@/hooks/localStorage'
 import CartItem from './cartItem'
 
 type Props = {
+  discount: Discount | undefined
   onChangeProducts: (products: Cart[]) => void
+  onDiscount: (discount: Discount) => void
 }
 
 const Cart = (props: Props) => {
-  const { onChangeProducts } = props
+  const { discount, onChangeProducts, onDiscount } = props
   const [products, setProducts] = useState<Cart[]>([])
+  const [discountCode, setDiscountCode] = useState<string>('')
   const cart = useLocalStorage<Cart[]>('cart', [])
 
   const getTotalPrice = () => {
@@ -36,6 +42,23 @@ const Cart = (props: Props) => {
     })
     setProducts(tempProducts)
     onChangeProducts(tempProducts)
+  }
+
+  const getDiscount = async () => {
+    try {
+      if (discountCode === '') notificationError('Bạn chưa điền mã giảm giá')
+      else {
+        const payload: DiscountPayload = {
+          status: 1,
+          code: discountCode
+        }
+        const response = await DiscountService.get(payload)
+        if (response.length === 0) notificationError('Mã giảm giá không đúng')
+        else onDiscount(response[0])
+      }
+    } catch {
+      notificationError('Mã giảm giá không đúng')
+    }
   }
 
   useEffect(() => {
@@ -77,10 +100,16 @@ const Cart = (props: Props) => {
       )}
       <Row style={{ marginTop: '1rem', marginBottom: '1rem' }}>
         <Col span={6} offset={12}>
-          <Input placeholder="Nhập mã giảm giá" />
+          <Input
+            placeholder="Nhập mã giảm giá"
+            onChange={e => setDiscountCode(e.target.value)}
+          />
         </Col>
         <Col span={6}>
-          <Button style={{ background: '#D72027', color: 'white' }}>
+          <Button
+            style={{ background: '#D72027', color: 'white' }}
+            onClick={getDiscount}
+          >
             Áp dụng
           </Button>
         </Col>
@@ -98,9 +127,25 @@ const Cart = (props: Props) => {
               marginLeft: '0.8rem'
             }}
           >
-            {formatPrice(getTotalPrice())}
+            {formatPrice(getTotalPrice() * (discount?.value || 1))}
           </span>
           <span style={{ color: '#D72027', fontWeight: 'bold' }}> VND</span>
+          <div style={{ fontWeight: 'bold' }}>
+            {discount && (
+              <>
+                <span>{discount.label}: </span>
+                <span
+                  style={{
+                    color: '#D72027',
+                    fontSize: '1rem',
+                    textDecorationLine: 'line-through'
+                  }}
+                >
+                  {formatPrice(getTotalPrice())}
+                </span>
+              </>
+            )}
+          </div>
         </Col>
       </Row>
     </div>

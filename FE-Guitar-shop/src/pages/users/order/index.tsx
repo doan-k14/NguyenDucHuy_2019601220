@@ -9,7 +9,7 @@ import { notificationError } from '@/helpers/notification'
 import { OrderService } from '@/services/order'
 import { orderFilter } from '@/configs/selectOptions'
 
-import { adminOrderColumns } from '@/components/products/columnsConfig'
+import { adminOrderColumns } from '@/components/utilities/columnsConfig'
 import SortFilter from '@/components/filters/sortFilter'
 import User from '@/components/layouts/user'
 

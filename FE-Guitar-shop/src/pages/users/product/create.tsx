@@ -128,6 +128,9 @@ const Page: NextPageWithLayout = () => {
         <Form.Item name="origin" label="Xuất xứ:" style={{ width: '25%' }}>
           <Input />
         </Form.Item>
+        <Form.Item name="brand" label="Hãng:" style={{ width: '25%' }}>
+          <Input />
+        </Form.Item>
         <Form.Item name="style" label="Kiểu dáng:" style={{ width: '25%' }}>
           <Input />
         </Form.Item>

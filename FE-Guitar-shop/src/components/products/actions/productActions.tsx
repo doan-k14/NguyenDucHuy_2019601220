@@ -1,8 +1,14 @@
 import { useRouter } from 'next/router'
+import { useState } from 'react'
 
+import {
+  AppstoreAddOutlined,
+  DeleteOutlined,
+  FormOutlined,
+  SettingOutlined
+} from '@ant-design/icons'
+import { Button, InputNumber, Popconfirm, Popover, Space } from 'antd'
 import { notificationError, notificationSuccess } from '@/helpers/notification'
-import { DeleteOutlined, FormOutlined } from '@ant-design/icons'
-import { Button, Popconfirm, Space } from 'antd'
 import { ProductService } from '@/services/product'
 
 type Props = {
@@ -12,6 +18,8 @@ type Props = {
 const ProductActions = (props: Props) => {
   const { id } = props
   const router = useRouter()
+  const [amount, setAmount] = useState<number>(0)
+  const [loading, setLoading] = useState<boolean>(false)
 
   const onConfirm = async () => {
     try {
@@ -22,17 +30,55 @@ const ProductActions = (props: Props) => {
     }
   }
 
-  return (
+  const onUpdate = async () => {
+    try {
+      setLoading(true)
+      const product = await ProductService.show(id)
+      if (product) {
+        if (
+          await ProductService.update(id, { amount: amount + product.amount })
+        )
+          notificationSuccess('Nhập số lượng thành công')
+      }
+    } catch {
+      notificationError('Nhập số lượng thất bại')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const amountIncrease = (
+    <Space>
+      <InputNumber min={1} onChange={value => setAmount(value || 0)} />
+      <Button
+        style={{ background: '#BF081D', color: 'white' }}
+        onClick={onUpdate}
+        loading={loading}
+      >
+        Nhập
+      </Button>
+    </Space>
+  )
+
+  const content = (
     <>
-      <Space>
+      <div>
         <Button
           type="text"
-          size="small"
           style={{ color: '#1677FF' }}
           onClick={() => router.push(`/users/product/${id}`)}
         >
-          <FormOutlined />
+          <FormOutlined /> Cập nhật sản phẩm
         </Button>
+      </div>
+      <div>
+        <Popover content={amountIncrease} trigger="click">
+          <Button type="text" style={{ color: '#56003A' }}>
+            <AppstoreAddOutlined /> Nhập hàng
+          </Button>
+        </Popover>
+      </div>
+      <div>
         <Popconfirm
           title="Thông báo"
           description="Bạn có chắc muốn xóa sản phẩm này?"
@@ -41,11 +87,21 @@ const ProductActions = (props: Props) => {
           cancelText="Đóng"
           placement="left"
         >
-          <Button type="text" size="small" style={{ color: 'red' }}>
-            <DeleteOutlined />
+          <Button type="text" style={{ color: 'red' }}>
+            <DeleteOutlined /> Xóa sản phẩm
           </Button>
         </Popconfirm>
-      </Space>
+      </div>
+    </>
+  )
+
+  return (
+    <>
+      <Popover placement="left" content={content} trigger="click">
+        <Button>
+          <SettingOutlined />
+        </Button>
+      </Popover>
     </>
   )
 }

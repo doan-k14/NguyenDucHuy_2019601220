@@ -3,7 +3,7 @@ import { Table } from 'antd'
 
 import { Product } from '@/types/product'
 
-import { productColumns } from './columnsConfig'
+import { productColumns } from '../utilities/columnsConfig'
 
 type Props = {
   products: Product[] | undefined

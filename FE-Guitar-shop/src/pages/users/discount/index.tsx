@@ -1,40 +1,38 @@
-import { ReactElement, useEffect, useState } from 'react'
+import { ReactElement, useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/router'
 
-import { Button, Table, notification } from 'antd'
-import { OrderDetailResponse } from '@/types/order'
+import { MenuUnfoldOutlined, PlusOutlined } from '@ant-design/icons'
 import { NextPageWithLayout } from '@/types/next-page'
-import { MenuUnfoldOutlined } from '@ant-design/icons'
 import { notificationError } from '@/helpers/notification'
-import { OrderService } from '@/services/order'
+import { DiscountService } from '@/services/discount'
+import { Button, Table } from 'antd'
+import { Discount } from '@/types/discount'
 
-import { orderDetailColumns } from '@/components/utilities/columnsConfig'
+import { discountColumns } from '@/components/utilities/columnsConfig'
 import User from '@/components/layouts/user'
 
 const Page: NextPageWithLayout = () => {
   const router = useRouter()
-  const orderID = router.query.id
-  const [orderDetail, setOrderDetail] = useState<OrderDetailResponse[]>([])
+  const shouldEffect = useRef(true)
   const [loading, setLoading] = useState<boolean>(false)
+  const [discounts, setDiscounts] = useState<Discount[]>([])
 
-  const fetchOrderDetails = async () => {
+  const fetchDiscounts = async () => {
     try {
       setLoading(true)
-      const response = await OrderService.getOrderDetailByID({
-        order_id: orderID
-      })
-      if (response) setOrderDetail(response)
+      const response = await DiscountService.getList()
+      if (response) setDiscounts(response.discounts)
     } catch {
-      notification.destroy()
-      notificationError('Có lỗi xảy ra')
+      notificationError('Không có mã giảm giá nào')
     } finally {
       setLoading(false)
     }
   }
 
   useEffect(() => {
-    if (orderID) fetchOrderDetails()
-  }, [router])
+    if (shouldEffect.current) fetchDiscounts()
+    shouldEffect.current = false
+  }, [])
 
   return (
     <div
@@ -61,23 +59,30 @@ const Page: NextPageWithLayout = () => {
         }}
       >
         <MenuUnfoldOutlined />
-        <div>Chi tiết đơn hàng #{orderID}</div>
+        <div>Danh sách mã giảm giá</div>
+      </div>
+      {/* Create new */}
+      <div>
+        <Button
+          style={{
+            marginBottom: '1rem',
+            marginLeft: '1rem',
+            background: '#1677FF',
+            color: 'white'
+          }}
+          onClick={() => router.push('/users/discount/create')}
+        >
+          <PlusOutlined />
+          Thêm mới
+        </Button>
       </div>
       <Table
-        columns={orderDetailColumns}
-        dataSource={orderDetail}
+        columns={discountColumns}
+        dataSource={discounts}
         pagination={false}
         rowKey="id"
         loading={loading}
       />
-      <div>
-        <Button
-          style={{ background: '#D72027', color: 'white' }}
-          onClick={() => router.push('/users/order')}
-        >
-          Quay lại
-        </Button>
-      </div>
     </div>
   )
 }

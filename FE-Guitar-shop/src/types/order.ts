@@ -68,6 +68,7 @@ export type OrderDetailResponse = {
   string_name: string
   sold: null
   status: number
+  brand?: string
 }
 
 export type UserID = {

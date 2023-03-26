@@ -1,12 +1,12 @@
 import { ReactElement, useState } from 'react'
 import { useRouter } from 'next/router'
 
+import { Button, Form, Input, InputNumber, Space } from 'antd'
 import { notificationError, notificationSuccess } from '@/helpers/notification'
-import { Button, Form, Input, Space } from 'antd'
 import { NextPageWithLayout } from '@/types/next-page'
 import { MenuUnfoldOutlined } from '@ant-design/icons'
-import { CategoryService } from '@/services/category'
-import { CategoryPayload } from '@/types/category'
+import { DiscountPayload } from '@/types/discount'
+import { DiscountService } from '@/services/discount'
 
 import ActiveStatus from '@/components/utilities/activeStatus'
 import User from '@/components/layouts/user'
@@ -14,19 +14,18 @@ import User from '@/components/layouts/user'
 const Page: NextPageWithLayout = () => {
   const router = useRouter()
   const [status, setStatus] = useState<number>(1)
-
   const [loading, setLoading] = useState<boolean>(false)
 
-  const onSubmit = async (payload: CategoryPayload) => {
+  const onSubmit = async (payload: DiscountPayload) => {
     try {
       setLoading(true)
-      if (await CategoryService.create({ ...payload, status: status }))
+      if (await DiscountService.create({ ...payload, status: status }))
         notificationSuccess('Tạo mới thành công')
       setTimeout(() => {
-        router.push('/users/category')
+        router.push('/users/discount')
       }, 1000)
     } catch {
-      notificationError('Có lỗi xảy ra')
+      notificationError('Tạo mã giảm giá thất bại')
     } finally {
       setLoading(false)
     }
@@ -57,7 +56,7 @@ const Page: NextPageWithLayout = () => {
         }}
       >
         <MenuUnfoldOutlined />
-        <div>Thêm mới danh mục</div>
+        <div>Thêm mới mã giảm giá</div>
       </div>
       <Form
         style={{ marginLeft: '1rem' }}
@@ -65,24 +64,33 @@ const Page: NextPageWithLayout = () => {
         autoComplete="off"
         onFinish={onSubmit}
       >
-        {/* Category name */}
+        {/* Code */}
         <Form.Item
-          label="Tên danh mục:"
-          style={{ width: '50%' }}
-          name="name"
-          rules={[{ required: true, message: 'Vui lòng nhập tên danh mục' }]}
+          label="Mã giảm giá:"
+          style={{ width: '30%' }}
+          name="code"
+          rules={[{ required: true, message: 'Vui lòng nhập mã giảm giá' }]}
         >
           <Input />
         </Form.Item>
-        {/* Description */}
-        <Form.Item label="Mô tả:" style={{ width: '50%' }} name="description">
-          <Input.TextArea rows={5} />
+        {/* Value */}
+        <Form.Item
+          label="Giá trị:"
+          style={{ width: '50%' }}
+          name="value"
+          rules={[{ required: true, message: 'Vui lòng nhập giá trị' }]}
+        >
+          <InputNumber min={0} max={1} step={0.1} />
+        </Form.Item>
+        {/* Label */}
+        <Form.Item name="label" label="Nhãn:" style={{ width: '25%' }}>
+          <Input />
         </Form.Item>
         {/* Status */}
         <ActiveStatus onSelect={setStatus} status={status} />
-
+        {/* Submit button */}
         <Space>
-          <Button onClick={() => router.push('/users/category')}>
+          <Button onClick={() => router.push('/users/discount')}>
             Quay lại
           </Button>
           <Button

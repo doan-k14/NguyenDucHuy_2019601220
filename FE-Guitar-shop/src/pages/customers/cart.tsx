@@ -7,6 +7,7 @@ import { NextPageWithLayout } from '@/types/next-page'
 import { CartFormResult } from '@/types/cart'
 import { OrderService } from '@/services/order'
 import { Col, Row } from 'antd'
+import { Discount } from '@/types/discount'
 import useLocalStorage from '@/hooks/localStorage'
 
 import BottomContent from '@/components/base/bottomContent'
@@ -21,6 +22,7 @@ const Page: NextPageWithLayout = () => {
   const [totalPrice, setTotalPrice] = useState<number>(0)
   const [quantity, setQuantity] = useState<number>(0)
   const [loading, setLoading] = useState<boolean>(false)
+  const [discount, setDiscount] = useState<Discount>()
   const cart = useLocalStorage<Cart[]>('cart', [])
 
   useEffect(() => {
@@ -34,7 +36,8 @@ const Page: NextPageWithLayout = () => {
       total += product.total
       productQuantity += product.quantity || 1
     })
-    setTotalPrice(total)
+    if (discount) setTotalPrice(total * discount.value)
+    else setTotalPrice(total)
     setQuantity(productQuantity)
   }, [products])
 
@@ -95,7 +98,11 @@ const Page: NextPageWithLayout = () => {
               <UserInfo onSubmit={onOrder} loading={loading} />
             </Col>
             <Col span={12}>
-              <Cart onChangeProducts={products => setProducts(products)} />
+              <Cart
+                discount={discount}
+                onChangeProducts={products => setProducts(products)}
+                onDiscount={setDiscount}
+              />
             </Col>
           </Row>
         </div>

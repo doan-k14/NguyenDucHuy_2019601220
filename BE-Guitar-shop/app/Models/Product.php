@@ -19,6 +19,7 @@ class Product extends Model
         'style',
         'material',
         'paint',
+        'brand',
         'string_name',
         'sold'
     ];

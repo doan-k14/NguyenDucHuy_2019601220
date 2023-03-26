@@ -54,3 +54,11 @@ $router->group(['prefix' => 'order'], function () use ($router) {
 $router->post('latest', 'OrderController@latest');
 $router->post('order-by-user', 'OrderController@getOrderByUser');
 $router->post('order-detail', 'OrderController@getOrderDetailByID');
+//Discount
+$router->group(['prefix' => 'discount'], function () use ($router) {
+    $router->post('', 'DiscountController@index');
+    $router->post('create', 'DiscountController@store');
+    $router->post('{id}', 'DiscountController@show');
+    $router->post('update/{id}', 'DiscountController@update');
+    $router->post('get', 'DiscountController@checkDiscount');
+});
