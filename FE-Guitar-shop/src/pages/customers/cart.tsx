@@ -39,7 +39,7 @@ const Page: NextPageWithLayout = () => {
     if (discount) setTotalPrice(total * discount.value)
     else setTotalPrice(total)
     setQuantity(productQuantity)
-  }, [products])
+  }, [products, discount])
 
   const onOrder = async (user: CartFormResult) => {
     try {

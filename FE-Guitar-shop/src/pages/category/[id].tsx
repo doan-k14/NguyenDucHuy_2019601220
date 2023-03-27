@@ -14,8 +14,8 @@ import {
   Space,
   Spin
 } from 'antd'
+import { HeartFilled, HeartOutlined, SwapOutlined } from '@ant-design/icons'
 import { notificationError, notificationSuccess } from '@/helpers/notification'
-import { HeartFilled, HeartOutlined } from '@ant-design/icons'
 import { ListPayload, Product } from '@/types/product'
 import { NextPageWithLayout } from '@/types/next-page'
 import { defaultPagination } from '@/configs/pagination'
@@ -49,6 +49,21 @@ const Page: NextPageWithLayout = () => {
     'love-products',
     []
   )
+  const [compareProducts, setCompareProducts] = useLocalStorage<Product[]>(
+    'compare',
+    []
+  )
+
+  const onCompare = (product: Product) => {
+    if (!compareProducts.find(item => item.id === product.id)) {
+      if (compareProducts.length === 3) {
+        const tempProducts = [product].concat(compareProducts)
+        setCompareProducts(tempProducts.slice(0, 3))
+      } else setCompareProducts([...compareProducts, product])
+      notificationSuccess('Thêm sản phẩm so sánh thành công')
+    } else notificationError('Sản phẩm nay đã có trong danh sách')
+  }
+
   const fetchProductByID = async () => {
     try {
       setLoading(true)
@@ -95,31 +110,43 @@ const Page: NextPageWithLayout = () => {
           style={{ color: '#D72027', fontSize: '1rem', fontWeight: 'bold' }}
         >
           <span>{formatPrice(loveProduct.price)}</span>
-          <span style={{ fontSize: '0.8rem' }}> VND</span>
+          <span style={{ fontSize: '0.8rem' }}> đ</span>
         </span>
-        {loveProducts.find(product => product.id === loveProduct.id) ? (
+        <span>
           <Button
             size="small"
-            title="Đã trong mục ưa thích"
+            title="So sánh sản phẩm"
             onClick={e => {
               e.stopPropagation()
-              onDeleteLoveProduct(loveProduct)
+              onCompare(loveProduct)
             }}
           >
-            <HeartFilled style={{ color: '#FF1935' }} />
+            <SwapOutlined />
           </Button>
-        ) : (
-          <Button
-            size="small"
-            title="Thêm vào mục ưa thích"
-            onClick={e => {
-              e.stopPropagation()
-              onSelectLoveProduct(loveProduct)
-            }}
-          >
-            <HeartOutlined style={{ color: '#FF1935' }} />
-          </Button>
-        )}
+          {loveProducts.find(product => product.id === loveProduct.id) ? (
+            <Button
+              size="small"
+              title="Đã trong mục ưa thích"
+              onClick={e => {
+                e.stopPropagation()
+                onDeleteLoveProduct(loveProduct)
+              }}
+            >
+              <HeartFilled style={{ color: '#FF1935' }} />
+            </Button>
+          ) : (
+            <Button
+              size="small"
+              title="Thêm vào mục ưa thích"
+              onClick={e => {
+                e.stopPropagation()
+                onSelectLoveProduct(loveProduct)
+              }}
+            >
+              <HeartOutlined style={{ color: '#FF1935' }} />
+            </Button>
+          )}
+        </span>
       </div>
     )
   }

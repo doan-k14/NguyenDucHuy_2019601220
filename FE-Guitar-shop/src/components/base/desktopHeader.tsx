@@ -16,8 +16,11 @@ import {
   AreaChartOutlined,
   HeartFilled,
   HomeFilled,
+  LockOutlined,
   LogoutOutlined,
-  ShoppingCartOutlined
+  ShoppingCartOutlined,
+  SwapOutlined,
+  UserOutlined
 } from '@ant-design/icons'
 import { UserInfo } from '@/types/user'
 import useSessionStorage from '@/hooks/sessionStorage'
@@ -25,6 +28,15 @@ import useLocalStorage from '@/hooks/localStorage'
 
 const DesktopHeader = () => {
   const router = useRouter()
+  const [userLocal, setUserLocal] = useLocalStorage<UserInfo | null>(
+    'user',
+    null
+  )
+  const [userSession, setUserSession] = useSessionStorage<UserInfo | null>(
+    'user',
+    null
+  )
+  const [user, setUser] = useState<UserInfo | null>(null)
   const items: MenuProps['items'] = [
     {
       itemIcon: (
@@ -55,16 +67,6 @@ const DesktopHeader = () => {
     }
   ]
 
-  const [userLocal, setUserLocal] = useLocalStorage<UserInfo | null>(
-    'user',
-    null
-  )
-  const [userSession, setUserSession] = useSessionStorage<UserInfo | null>(
-    'user',
-    null
-  )
-  const [user, setUser] = useState<UserInfo | null>(null)
-
   const onLogout = () => {
     setUserLocal(null)
     setUserSession(null)
@@ -88,6 +90,40 @@ const DesktopHeader = () => {
           {user?.role === 1 ? 'Trang quản lý' : 'Theo dõi đơn hàng'}
         </Button>
       </div>
+      {user?.role === 0 && (
+        <>
+          <div
+            style={{
+              paddingTop: '0.5rem',
+              paddingBottom: '0.5rem'
+            }}
+          >
+            <Button
+              type="text"
+              style={{ width: '100%', textAlign: 'left', color: '#0080FF' }}
+              onClick={() => router.push('/auth/profile')}
+            >
+              <UserOutlined />
+              <span>Thông tin người dùng</span>
+            </Button>
+          </div>
+          <div
+            style={{
+              paddingTop: '0.5rem',
+              paddingBottom: '0.5rem'
+            }}
+          >
+            <Button
+              type="text"
+              style={{ width: '100%', textAlign: 'left', color: '#0080FF' }}
+              onClick={() => router.push('/auth/change-password')}
+            >
+              <LockOutlined />
+              <span>Thay đổi mật khẩu</span>
+            </Button>
+          </div>
+        </>
+      )}
       <Popconfirm
         title="Bạn có chắc muốn đăng xuất?"
         onConfirm={onLogout}
@@ -167,6 +203,13 @@ const DesktopHeader = () => {
               }}
             />
             <Space>
+              <Button
+                size="small"
+                title="So sánh sản phẩm"
+                onClick={() => router.push('/customers/compare-products')}
+              >
+                <SwapOutlined />
+              </Button>
               <Button
                 size="small"
                 title="Sản phẩm yêu thích"

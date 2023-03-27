@@ -21,6 +21,7 @@ const Page: NextPageWithLayout = () => {
     try {
       setLoading(true)
       const payload: ListPayload = {
+        status: 1,
         page: 1,
         pageSize: 10
       }

@@ -27,6 +27,7 @@ export type ProductResponse = {
 }
 
 export type ListPayload = {
+  id?: number
   page?: number
   pageSize?: number
   categoryID?: number
@@ -34,6 +35,8 @@ export type ListPayload = {
   status?: number
   sortField?: string
   sortOrder?: string
+  brand?: string
+  price?: number
 }
 
 export type CreatePayload = {

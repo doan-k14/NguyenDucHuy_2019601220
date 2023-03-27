@@ -15,6 +15,8 @@ class OrderController extends Controller
         $page = $request->input('page', 1);
         $start = ($page - 1) * $pageSize;
 
+        $total = Order::all()->count();
+
         $orders = Order::query();
 
         if ($request->has('user_id') && $request['user_id'] !== -1)
@@ -32,8 +34,6 @@ class OrderController extends Controller
             ->skip($start)
             ->take($pageSize)
             ->get();
-
-        $total = $orders->count();
 
         return response()->json([
             'message' => 'Success',

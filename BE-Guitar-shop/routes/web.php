@@ -52,7 +52,7 @@ $router->group(['prefix' => 'order'], function () use ($router) {
     $router->post('update/{id}', 'OrderController@update');
 });
 $router->post('latest', 'OrderController@latest');
-$router->post('order-by-user', 'OrderController@getOrderByUser');
+$router->post('get-order', 'OrderController@getOrderByUser');
 $router->post('order-detail', 'OrderController@getOrderDetailByID');
 //Discount
 $router->group(['prefix' => 'discount'], function () use ($router) {
@@ -60,5 +60,5 @@ $router->group(['prefix' => 'discount'], function () use ($router) {
     $router->post('create', 'DiscountController@store');
     $router->post('{id}', 'DiscountController@show');
     $router->post('update/{id}', 'DiscountController@update');
-    $router->post('get', 'DiscountController@checkDiscount');
 });
+$router->post('get-discount', 'DiscountController@checkDiscount');

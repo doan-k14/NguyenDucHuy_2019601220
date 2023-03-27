@@ -21,14 +21,15 @@ import {
   ShoppingCartOutlined
 } from '@ant-design/icons'
 import { notificationError, notificationSuccess } from '@/helpers/notification'
+import { ListPayload, Product } from '@/types/product'
 import { NextPageWithLayout } from '@/types/next-page'
 import { ProductService } from '@/services/product'
 import { formatPrice } from '@/helpers/currency'
-import { Product } from '@/types/product'
 import { Cart } from '@/types/cart'
 import useLocalStorage from '@/hooks/localStorage'
 
 import BottomContent from '@/components/base/bottomContent'
+import NewProducts from '@/components/products/newProducts'
 import TopBanners from '@/components/base/topBanners'
 import Landing from '@/components/layouts/landing'
 
@@ -36,8 +37,12 @@ const Page: NextPageWithLayout = () => {
   const router = useRouter()
   const productID = router.query.id?.toString()
   const [loading, setLoading] = useState<boolean>(false)
+  const [suggestBrandLoading, setSuggestBrandLoading] = useState<boolean>(false)
+  const [suggestPriceLoading, setSuggestPriceLoading] = useState<boolean>(false)
   const [product, setProduct] = useState<Product>()
   const [cart, setCart] = useLocalStorage<Cart[]>('cart', [])
+  const [sameBrandProducts, setSameBrandProducts] = useState<Product[]>([])
+  const [samePriceProducts, setSamePriceProducts] = useState<Product[]>([])
 
   const onAddToCart = (product: Product) => {
     if (!cart.find(productCart => productCart.id === product.id)) {
@@ -58,6 +63,48 @@ const Page: NextPageWithLayout = () => {
     }
   }
 
+  const fetchSameBrandProducts = async () => {
+    try {
+      setSuggestBrandLoading(true)
+      const payload: ListPayload = {
+        id: product?.id,
+        status: 1,
+        page: 1,
+        brand: product?.brand,
+        pageSize: 10
+      }
+      const response = await ProductService.getList(payload)
+      if (response) {
+        setSameBrandProducts(response.products || [])
+      }
+    } catch {
+      notificationError('Có lỗi xảy ra')
+    } finally {
+      setSuggestBrandLoading(false)
+    }
+  }
+
+  const fetchSamePriceProducts = async () => {
+    try {
+      setSuggestPriceLoading(true)
+      const payload: ListPayload = {
+        id: product?.id,
+        status: 1,
+        page: 1,
+        price: product?.price,
+        pageSize: 10
+      }
+      const response = await ProductService.getList(payload)
+      if (response) {
+        setSamePriceProducts(response.products || [])
+      }
+    } catch {
+      notificationError('Có lỗi xảy ra')
+    } finally {
+      setSuggestPriceLoading(false)
+    }
+  }
+
   const fetchProductByID = async () => {
     try {
       setLoading(true)
@@ -73,6 +120,13 @@ const Page: NextPageWithLayout = () => {
   useEffect(() => {
     if (productID) fetchProductByID()
   }, [router])
+
+  useEffect(() => {
+    if (product) {
+      fetchSameBrandProducts()
+      fetchSamePriceProducts()
+    }
+  }, [product])
 
   return (
     <>
@@ -264,6 +318,42 @@ const Page: NextPageWithLayout = () => {
           </Spin>
         </Col>
       </Row>
+      {sameBrandProducts.length > 0 && (
+        <Row style={{ background: 'white' }}>
+          <Col span={18} offset={3} style={{ padding: '0 1rem' }}>
+            <div
+              style={{
+                color: '#00264D'
+              }}
+            >
+              <h2 className="homepage-title">Sản phẩm cùng hãng</h2>
+              <NewProducts
+                loading={suggestBrandLoading}
+                products={sameBrandProducts}
+                label={product?.brand || 'New'}
+              />
+            </div>
+          </Col>
+        </Row>
+      )}
+      {samePriceProducts.length > 0 && (
+        <Row style={{ background: 'white' }}>
+          <Col span={18} offset={3} style={{ padding: '0 1rem' }}>
+            <div
+              style={{
+                color: '#00264D'
+              }}
+            >
+              <h2 className="homepage-title">Sản phẩm trong khoảng giá</h2>
+              <NewProducts
+                loading={suggestPriceLoading}
+                products={samePriceProducts}
+                label="Hot"
+              />
+            </div>
+          </Col>
+        </Row>
+      )}
       <BottomContent />
     </>
   )

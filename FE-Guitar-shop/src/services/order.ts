@@ -23,7 +23,7 @@ export const OrderService = {
     return client.post('/latest')
   },
   getOrderByUser(payload: UserID): Promise<Order[]> {
-    return client.post('/order-by-user', { ...payload })
+    return client.post('/get-order', { ...payload })
   },
   getOrderDetailByID(payload: OrderID): Promise<OrderDetailResponse[]> {
     return client.post('/order-detail', { ...payload })

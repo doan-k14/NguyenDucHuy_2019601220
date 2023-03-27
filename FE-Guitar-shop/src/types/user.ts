@@ -3,9 +3,9 @@ export type UserInfo = {
   username: string
   password: string
   full_name: string
-  phone: number
+  phone?: number
   email: string
-  address: string
+  address?: string
   role: number
   created_at: string
   updated_at: string
@@ -14,4 +14,11 @@ export type UserInfo = {
 export type User = {
   isLoggedIn: boolean
   info?: UserInfo
+}
+
+export type UpdatePayload = {
+  full_name: string
+  email: string
+  phone?: number
+  address?: string
 }

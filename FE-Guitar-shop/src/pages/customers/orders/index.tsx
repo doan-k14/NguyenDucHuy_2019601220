@@ -21,15 +21,16 @@ const Page: NextPageWithLayout = () => {
   const [loading, setLoading] = useState<boolean>(false)
   const userLocal = useLocalStorage<UserInfo>('user', null)
   const userSession = useSessionStorage<UserInfo>('user', null)
+  const [user, setUser] = useState<UserInfo | null>(null)
 
   const fetchOrders = async () => {
     try {
       setLoading(true)
       const orders = await OrderService.getOrderByUser({
-        user_id: userLocal[0].id || userSession[0].id
+        user_id: user?.id || 1
       })
       if (orders) setOrders(orders)
-    } catch {
+    } catch (error: unknown) {
       notification.destroy()
       notificationError('Bạn không có đơn hàng nào')
     } finally {
@@ -38,8 +39,12 @@ const Page: NextPageWithLayout = () => {
   }
 
   useEffect(() => {
-    fetchOrders()
+    setUser(userLocal[0] || userSession[0])
   }, [])
+
+  useEffect(() => {
+    if (user) fetchOrders()
+  }, [user])
 
   return (
     <div>

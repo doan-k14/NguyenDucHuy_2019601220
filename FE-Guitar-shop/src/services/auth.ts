@@ -4,9 +4,8 @@ import {
   RegisterPayload,
   UserResponse
 } from '@/types/auth'
-
+import { UpdatePayload, UserInfo } from '@/types/user'
 import { client } from './client'
-import { UserInfo } from '@/types/user'
 
 export const AuthService = {
   register(payload: RegisterPayload): Promise<UserResponse> {
@@ -17,6 +16,9 @@ export const AuthService = {
   },
   changePassword(payload: ChangePasswordPayload) {
     return client.post('/user/change-password', { ...payload })
+  },
+  update(id: number, payload: UpdatePayload) {
+    return client.post(`/user/update/${id}`, { ...payload })
   },
   newUser(): Promise<UserInfo> {
     return client.post('/new-user')

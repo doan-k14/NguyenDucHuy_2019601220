@@ -1,4 +1,5 @@
-import { ReactElement, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
 
 import { notificationError, notificationSuccess } from '@/helpers/notification'
 import { ChangePasswordPayload } from '@/types/auth'
@@ -8,26 +9,36 @@ import { LockOutlined } from '@ant-design/icons'
 import { AuthService } from '@/services/auth'
 import { UserInfo } from '@/types/user'
 import useLocalStorage from '@/hooks/localStorage'
+import useSessionStorage from '@/hooks/sessionStorage'
 
 import Landing from '@/components/layouts/landing'
 
 const Page: NextPageWithLayout = () => {
+  const router = useRouter()
   const [loading, setLoading] = useState<boolean>(false)
-  const user = useLocalStorage<UserInfo>('user', null)
+  const [username, setUsername] = useState<string>('')
+  const userLocal = useLocalStorage<UserInfo>('user', null)
+  const userSession = useSessionStorage<UserInfo>('user', null)
 
   const onChangePassword = async (payload: ChangePasswordPayload) => {
     try {
       setLoading(true)
-      const username =
-        window.sessionStorage.getItem('username') || user[0].username
-      if (await AuthService.changePassword({ ...payload, username: username }))
+      if (
+        await AuthService.changePassword({ ...payload, username: username })
+      ) {
         notificationSuccess('Đổi mật khẩu thành công!')
+        router.push('/')
+      }
     } catch {
       notificationError('Mật khẩu cũ không chính xác')
     } finally {
       setLoading(false)
     }
   }
+
+  useEffect(() => {
+    setUsername(userLocal[0]?.username || userSession[0]?.username)
+  }, [userLocal, userSession])
 
   return (
     <div

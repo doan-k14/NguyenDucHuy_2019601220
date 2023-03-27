@@ -19,6 +19,6 @@ export const DiscountService = {
     return client.post(`/discount/update/${id}`, { ...payload })
   },
   get(payload: DiscountPayload): Promise<Discount[]> {
-    return client.post('/discount/get', { ...payload })
+    return client.post('/get-discount', { ...payload })
   }
 }

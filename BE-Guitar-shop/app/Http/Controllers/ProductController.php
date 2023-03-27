@@ -25,6 +25,14 @@ class ProductController extends Controller
         }
         if ($request->has('status') && $request['status'] !== -1)
             $products = $products->where('status', $request['status']);
+        if ($request->has('brand'))
+            $products = $products->where('brand', $request['brand']);
+        if ($request->has('id'))
+            $products = $products->where('id', '!=', $request['id']);
+
+        if ($request->has('price'))
+            $products = $products->where('price', '<=', $request['price'] + 1000000)
+            ->where('price', '>=', $request['price'] - 1000000);
 
         $sort_field = $request->input('sortField', 'created_at');
         $sort_order = $request->input('sortOrder', 'desc');
