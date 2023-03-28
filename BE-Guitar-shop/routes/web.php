@@ -62,3 +62,8 @@ $router->group(['prefix' => 'discount'], function () use ($router) {
     $router->post('update/{id}', 'DiscountController@update');
 });
 $router->post('get-discount', 'DiscountController@checkDiscount');
+//Rating
+$router->group(['prefix' => 'rating'], function () use ($router) {
+    $router->post('create', 'RatingController@store');
+    $router->post('score', 'RatingController@show');
+});

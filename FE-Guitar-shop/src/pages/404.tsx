@@ -1,11 +1,14 @@
 import { ReactElement } from 'react'
+import { useRouter } from 'next/router'
 
+import { Button, Col, Result, Row } from 'antd'
 import { NextPageWithLayout } from '@/types/next-page'
-import { Col, Row } from 'antd'
 
 import Landing from '@/components/layouts/landing'
 
 const NotFoundPage: NextPageWithLayout = () => {
+  const router = useRouter()
+
   return (
     <Row style={{ background: 'white' }}>
       <Col
@@ -16,24 +19,19 @@ const NotFoundPage: NextPageWithLayout = () => {
         offset={0}
         style={{ padding: '0 1rem' }}
       >
-        <div
-          style={{
-            color: '#00264D',
-            paddingTop: '3rem',
-            paddingBottom: '3rem',
-            height: '65vh'
-          }}
-        >
-          <p
-            style={{
-              fontSize: '1.5rem',
-              lineHeight: '2rem',
-              fontWeight: 'bold'
-            }}
-          >
-            404 - Page not found
-          </p>
-        </div>
+        <Result
+          status="404"
+          title="404"
+          subTitle="Oops!!! có vẻ như trang bạn tìm không tồn tại."
+          extra={
+            <Button
+              style={{ color: 'white', background: '#D72027' }}
+              onClick={() => router.push('/')}
+            >
+              Quay lại
+            </Button>
+          }
+        />
       </Col>
     </Row>
   )

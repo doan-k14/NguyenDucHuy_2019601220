@@ -51,7 +51,7 @@ const ProductActions = (props: Props) => {
     <Space>
       <InputNumber min={1} onChange={value => setAmount(value || 0)} />
       <Button
-        style={{ background: '#BF081D', color: 'white' }}
+        style={{ background: '#1677FF', color: 'white' }}
         onClick={onUpdate}
         loading={loading}
       >

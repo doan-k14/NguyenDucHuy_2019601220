@@ -3,6 +3,7 @@ import Head from 'next/head'
 import { Layout } from 'antd'
 
 import Footer from '../base/footer'
+import DesktopBanner from '../base/desktopBanner'
 import DesktopHeader from '../base/desktopHeader'
 
 type LayoutProps = {
@@ -20,6 +21,11 @@ export default function Landing({ children }: LayoutProps) {
       <main>
         <Layout className="landing-layout">
           <div style={{ color: '#000' }}>
+            <DesktopBanner />
+          </div>
+          <div
+            style={{ color: '#000', position: 'sticky', top: 0, zIndex: 50 }}
+          >
             <DesktopHeader />
           </div>
           {children}

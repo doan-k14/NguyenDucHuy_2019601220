@@ -21,11 +21,15 @@ import {
   ShoppingCartOutlined
 } from '@ant-design/icons'
 import { notificationError, notificationSuccess } from '@/helpers/notification'
+import { RatingPayload, ScoreResponse } from '@/types/rating'
 import { ListPayload, Product } from '@/types/product'
 import { NextPageWithLayout } from '@/types/next-page'
 import { ProductService } from '@/services/product'
+import { RatingService } from '@/services/rating'
 import { formatPrice } from '@/helpers/currency'
+import { UserInfo } from '@/types/user'
 import { Cart } from '@/types/cart'
+import useSessionStorage from '@/hooks/sessionStorage'
 import useLocalStorage from '@/hooks/localStorage'
 
 import BottomContent from '@/components/base/bottomContent'
@@ -36,13 +40,17 @@ import Landing from '@/components/layouts/landing'
 const Page: NextPageWithLayout = () => {
   const router = useRouter()
   const productID = router.query.id?.toString()
+  const [product, setProduct] = useState<Product>()
   const [loading, setLoading] = useState<boolean>(false)
   const [suggestBrandLoading, setSuggestBrandLoading] = useState<boolean>(false)
   const [suggestPriceLoading, setSuggestPriceLoading] = useState<boolean>(false)
-  const [product, setProduct] = useState<Product>()
-  const [cart, setCart] = useLocalStorage<Cart[]>('cart', [])
   const [sameBrandProducts, setSameBrandProducts] = useState<Product[]>([])
   const [samePriceProducts, setSamePriceProducts] = useState<Product[]>([])
+  const [cart, setCart] = useLocalStorage<Cart[]>('cart', [])
+  const [score, setScore] = useState<ScoreResponse>()
+  const [stars, setStars] = useState<number>(0)
+  const userLocal = useLocalStorage<UserInfo>('user', null)
+  const userSession = useSessionStorage<UserInfo>('user', null)
 
   const onAddToCart = (product: Product) => {
     if (!cart.find(productCart => productCart.id === product.id)) {
@@ -117,6 +125,36 @@ const Page: NextPageWithLayout = () => {
     }
   }
 
+  const getScore = async () => {
+    try {
+      const payload: RatingPayload = {
+        product_id: product?.id || 0,
+        user_id: userLocal[0]?.id || userSession[0]?.id
+      }
+      const response = await RatingService.detail(payload)
+      if (response) setScore(response)
+    } catch {
+      notificationError('Có lỗi xảy ra')
+    }
+  }
+
+  const onRating = async () => {
+    try {
+      if (stars === 0) notificationError('Vui lòng chọn số sao')
+      else {
+        const payload: RatingPayload = {
+          product_id: product?.id || 0,
+          user_id: userLocal[0]?.id || userSession[0]?.id,
+          score: stars
+        }
+        if (await RatingService.create(payload))
+          notificationSuccess('Cám ơn bạn đã đánh giá sản phẩm')
+      }
+    } catch {
+      notificationError('Gửi đánh giá thất bại')
+    }
+  }
+
   useEffect(() => {
     if (productID) fetchProductByID()
   }, [router])
@@ -125,6 +163,7 @@ const Page: NextPageWithLayout = () => {
     if (product) {
       fetchSameBrandProducts()
       fetchSamePriceProducts()
+      getScore()
     }
   }, [product])
 
@@ -166,10 +205,46 @@ const Page: NextPageWithLayout = () => {
                           {product.amount > 0 ? '(Còn hàng)' : '(Hết hàng)'}
                         </span>
                       </div>
-                      <Space>
-                        <Rate defaultValue={3} />
-                        <span> Đánh giá: 3/5 (Tổng: 100)</span>
-                      </Space>
+                      {score ? (
+                        <Space>
+                          {score.rated.length === 0 ? (
+                            <>
+                              <Rate
+                                allowHalf
+                                onChange={total => setStars(total)}
+                              />
+                              <Popconfirm
+                                title="Thông báo"
+                                description="Bạn có chắc muốn đánh giá sản phẩm này?"
+                                onConfirm={onRating}
+                                disabled={!userLocal[0] && !userSession[0]}
+                                okText="Đồng ý"
+                                cancelText="Đóng"
+                              >
+                                <Button
+                                  size="small"
+                                  style={{
+                                    color: 'white',
+                                    background: '#D92930'
+                                  }}
+                                  disabled={!userLocal[0] && !userSession[0]}
+                                >
+                                  Đánh giá
+                                </Button>
+                              </Popconfirm>
+                            </>
+                          ) : (
+                            <Rate allowHalf value={parseFloat(score.score)} />
+                          )}
+                          <span>
+                            {' '}
+                            Đánh giá: {parseFloat(score.score) || 0}/5 (Tổng
+                            đánh giá: {score.total})
+                          </span>
+                        </Space>
+                      ) : (
+                        <Spin size="small" />
+                      )}
                       <div>
                         <Space>
                           <DollarCircleFilled

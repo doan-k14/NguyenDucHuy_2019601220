@@ -20,6 +20,7 @@ const Cart = (props: Props) => {
   const { discount, onChangeProducts, onDiscount } = props
   const [products, setProducts] = useState<Cart[]>([])
   const [discountCode, setDiscountCode] = useState<string>('')
+  const [loading, setLoading] = useState<boolean>(false)
   const cart = useLocalStorage<Cart[]>('cart', [])
 
   const getTotalPrice = () => {
@@ -46,6 +47,7 @@ const Cart = (props: Props) => {
 
   const getDiscount = async () => {
     try {
+      setLoading(true)
       if (discountCode === '') notificationError('Bạn chưa điền mã giảm giá')
       else {
         const payload: DiscountPayload = {
@@ -58,6 +60,8 @@ const Cart = (props: Props) => {
       }
     } catch {
       notificationError('Mã giảm giá không đúng')
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -108,6 +112,7 @@ const Cart = (props: Props) => {
         <Col span={6}>
           <Button
             style={{ background: '#D72027', color: 'white' }}
+            loading={loading}
             onClick={getDiscount}
           >
             Áp dụng
@@ -141,7 +146,7 @@ const Cart = (props: Props) => {
                     textDecorationLine: 'line-through'
                   }}
                 >
-                  {formatPrice(getTotalPrice())}
+                  {formatPrice(getTotalPrice())} VND
                 </span>
               </>
             )}

@@ -4,7 +4,6 @@ import { useRouter } from 'next/router'
 import {
   Button,
   Col,
-  Image,
   Menu,
   MenuProps,
   Popconfirm,
@@ -147,7 +146,7 @@ const DesktopHeader = () => {
   }, [])
 
   return (
-    <>
+    <div style={{ background: '#D72027' }}>
       <Row>
         <Col
           xxl={{ span: 14, offset: 5 }}
@@ -161,91 +160,57 @@ const DesktopHeader = () => {
             alignItems: 'center'
           }}
         >
-          <Image
-            alt="logo"
-            preview={false}
-            src="https://firebasestorage.googleapis.com/v0/b/ndhuy-498b5.appspot.com/o/2efd6b44584243558050bfeb3f36751a.png?alt=media&token=45310f90-38bf-4015-8679-8a46f3ff2eff"
-            height="10rem"
-          />
-          <Image
-            alt="header-banner"
-            preview={false}
-            src="https://images.cdn4.stockunlimited.net/preview1300/music-banner_1826190.jpg"
-            height="10rem"
-          />
-        </Col>
-      </Row>
-      {/* Menu */}
-      <div style={{ background: '#D72027' }}>
-        <Row>
-          <Col
-            xxl={{ span: 14, offset: 5 }}
-            xl={{ span: 18, offset: 3 }}
-            lg={{ span: 20, offset: 2 }}
-            span={24}
-            offset={0}
+          <Menu
+            onClick={onClick}
+            mode="horizontal"
+            items={items}
             style={{
+              background: '#D72027',
+              color: 'white',
               display: 'flex',
-              justifyContent: 'space-between',
+              textTransform: 'uppercase',
               alignItems: 'center'
             }}
-          >
-            <Menu
-              onClick={onClick}
-              mode="horizontal"
-              items={items}
-              style={{
-                background: '#D72027',
-                color: 'white',
-                display: 'flex',
-                textTransform: 'uppercase',
-                alignItems: 'center'
-              }}
-            />
-            <Space>
+          />
+          <Space>
+            <Button
+              size="small"
+              title="So sánh sản phẩm"
+              onClick={() => router.push('/customers/compare-products')}
+            >
+              <SwapOutlined />
+            </Button>
+            <Button
+              size="small"
+              title="Sản phẩm yêu thích"
+              onClick={() => router.push('/product/favourite')}
+            >
+              <HeartFilled style={{ color: '#FF1935' }} />
+            </Button>
+            <div style={{ marginRight: '0.5rem' }}>
               <Button
                 size="small"
-                title="So sánh sản phẩm"
-                onClick={() => router.push('/customers/compare-products')}
+                title="Giỏ hàng"
+                onClick={() => router.push('/customers/cart')}
               >
-                <SwapOutlined />
+                <ShoppingCartOutlined style={{ color: '#0080FF' }} />
               </Button>
-              <Button
-                size="small"
-                title="Sản phẩm yêu thích"
-                onClick={() => router.push('/product/favourite')}
-              >
-                <HeartFilled style={{ color: '#FF1935' }} />
+            </div>
+            {user ? (
+              <Popover content={popContent} placement="bottom" trigger="click">
+                <Button type="text" style={{ color: 'white' }}>
+                  Xin chào, {user.full_name}!
+                </Button>
+              </Popover>
+            ) : (
+              <Button onClick={() => router.push('/auth/login')}>
+                Đăng nhập
               </Button>
-              <div style={{ marginRight: '0.5rem' }}>
-                <Button
-                  size="small"
-                  title="Giỏ hàng"
-                  onClick={() => router.push('/customers/cart')}
-                >
-                  <ShoppingCartOutlined style={{ color: '#0080FF' }} />
-                </Button>
-              </div>
-              {user ? (
-                <Popover
-                  content={popContent}
-                  placement="bottom"
-                  trigger="click"
-                >
-                  <Button type="text" style={{ color: 'white' }}>
-                    Xin chào, {user.full_name}!
-                  </Button>
-                </Popover>
-              ) : (
-                <Button onClick={() => router.push('/auth/login')}>
-                  Đăng nhập
-                </Button>
-              )}
-            </Space>
-          </Col>
-        </Row>
-      </div>
-    </>
+            )}
+          </Space>
+        </Col>
+      </Row>
+    </div>
   )
 }
 

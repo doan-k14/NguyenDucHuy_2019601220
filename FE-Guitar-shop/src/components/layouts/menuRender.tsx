@@ -13,7 +13,7 @@ export const userMenu: MenuProps['items'] = [
     label: 'Quản lý',
     children: [
       {
-        key: '/user',
+        key: '/users',
         icon: <AreaChartOutlined />,
         label: 'Dashboard'
       },
