@@ -1,8 +1,8 @@
 import React, { ReactElement, useState } from 'react'
 import { useRouter } from 'next/router'
 
+import { Button, DatePicker, Form, Input, Select, Space } from 'antd'
 import { notificationError, notificationSuccess } from '@/helpers/notification'
-import { Button, Form, Input, Space } from 'antd'
 import { NextPageWithLayout } from '@/types/next-page'
 import { RegisterPayload } from '@/types/auth'
 import { AuthService } from '@/services/auth'
@@ -55,6 +55,7 @@ const Register: NextPageWithLayout = () => {
           autoComplete="off"
           onFinish={onSubmit}
         >
+          {/* Name */}
           <Form.Item
             label="Họ và tên"
             name="full_name"
@@ -62,7 +63,29 @@ const Register: NextPageWithLayout = () => {
           >
             <Input />
           </Form.Item>
-
+          {/* Gender */}
+          <Form.Item
+            name="gender"
+            label="Giới tính"
+            rules={[{ required: true, message: 'Vui lòng chọn giới tính!' }]}
+            initialValue={0}
+          >
+            <Select
+              options={[
+                { value: 0, label: 'Nam' },
+                { value: 1, label: 'Nữ' }
+              ]}
+            />
+          </Form.Item>
+          {/* Date of birth */}
+          <Form.Item
+            name="birth"
+            label="Ngày sinh"
+            rules={[{ required: true, message: 'Vui lòng chọn ngày sinh!' }]}
+          >
+            <DatePicker placeholder="Ngày sinh" format="DD/MM/YYYY" />
+          </Form.Item>
+          {/* Email */}
           <Form.Item
             label="Email"
             name="email"
@@ -72,7 +95,7 @@ const Register: NextPageWithLayout = () => {
           >
             <Input />
           </Form.Item>
-
+          {/* Username */}
           <Form.Item
             label="Tài khoản"
             name="username"
@@ -80,7 +103,7 @@ const Register: NextPageWithLayout = () => {
           >
             <Input />
           </Form.Item>
-
+          {/* Password ... */}
           <Form.Item
             label="Mật khẩu"
             name="password"

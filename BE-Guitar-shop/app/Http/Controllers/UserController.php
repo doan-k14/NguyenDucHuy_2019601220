@@ -21,7 +21,8 @@ class UserController extends Controller
         ]);
     }
 
-    public function newUser(){
+    public function newUser()
+    {
         $user = Users::orderby('created_at', 'desc')->first();
 
         return response()->json([
@@ -36,7 +37,8 @@ class UserController extends Controller
             'username' => 'required',
             'password' => 'required|min:6',
             'full_name' => 'required',
-            'email' => 'required|email'
+            'email' => 'required|email',
+            'gender' => 'required'
         ]);
 
         $user = Users::create($request->input());

@@ -12,6 +12,8 @@ class Users extends Model
         'full_name',
         'phone',
         'email',
-        'address'
+        'address',
+        'birth',
+        'gender'
     ];
 }

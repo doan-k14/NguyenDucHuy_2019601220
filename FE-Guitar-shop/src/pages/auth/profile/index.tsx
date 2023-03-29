@@ -2,8 +2,7 @@ import React, { ReactElement, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 
 import { NextPageWithLayout } from '@/types/next-page'
-import { Avatar, Button } from 'antd'
-import { getAvatar } from '@/helpers/user'
+import { Button, Image } from 'antd'
 import { UserInfo } from '@/types/user'
 import useSessionStorage from '@/hooks/sessionStorage'
 import useLocalStorage from '@/hooks/localStorage'
@@ -32,57 +31,124 @@ const Login: NextPageWithLayout = () => {
     >
       <div>
         <h2 className="homepage-title">Thông tin người dùng</h2>
-        <div style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
-          <Avatar
-            style={{ background: '#D72027', verticalAlign: 'middle' }}
-            size={100}
-          >
-            <div style={{ fontSize: '3rem' }}>
-              {getAvatar(user?.full_name || 'User')}
-            </div>
-          </Avatar>
+        <div style={{ display: 'flex', gap: '2rem' }}>
+          <div>
+            <Image
+              preview={false}
+              src={
+                user?.gender === 1
+                  ? '/images/users/avatar_female.png'
+                  : '/images/users/avatar_male.png'
+              }
+              height="20rem"
+              width="90%"
+            />
+          </div>
           <div style={{ lineHeight: '1.5rem', fontSize: '1rem' }}>
             <div>
-              <b>Tài khoản: </b>
+              <span
+                style={{
+                  fontSize: '0.9rem',
+                  color: 'gray'
+                }}
+              >
+                Tài khoản:{' '}
+              </span>
               <span>{user?.username}</span>
             </div>
             <div>
-              <b>Họ và tên: </b>
+              <span
+                style={{
+                  fontSize: '0.9rem',
+                  color: 'gray'
+                }}
+              >
+                Họ và tên:{' '}
+              </span>
               <span>{user?.full_name}</span>
             </div>
             <div>
-              <b>Số điện thoại: </b>
+              <span
+                style={{
+                  fontSize: '0.9rem',
+                  color: 'gray'
+                }}
+              >
+                Ngày sinh:{' '}
+              </span>
+              <span>{user?.birth?.slice(0, 10)}</span>
+            </div>
+            <div>
+              <span
+                style={{
+                  fontSize: '0.9rem',
+                  color: 'gray'
+                }}
+              >
+                Giới tính:{' '}
+              </span>
+              <span>{user?.gender === 1 ? 'Nữ' : 'Nam'}</span>
+            </div>
+            <div>
+              <span
+                style={{
+                  fontSize: '0.9rem',
+                  color: 'gray'
+                }}
+              >
+                Số điện thoại:{' '}
+              </span>
               <span>{user?.phone && '0' + user?.phone}</span>
             </div>
             <div>
-              <b>Email: </b>
+              <span
+                style={{
+                  fontSize: '0.9rem',
+                  color: 'gray'
+                }}
+              >
+                Email:{' '}
+              </span>
               <span>{user?.email}</span>
             </div>
             <div>
-              <b>Địa chỉ: </b>
+              <span
+                style={{
+                  fontSize: '0.9rem',
+                  color: 'gray'
+                }}
+              >
+                Địa chỉ:{' '}
+              </span>
               <span>{user?.address}</span>
             </div>
             <div>
-              <b>Ngày gia nhập: </b>
+              <span
+                style={{
+                  fontSize: '0.9rem',
+                  color: 'gray'
+                }}
+              >
+                Ngày gia nhập:{' '}
+              </span>
               <span>
                 {user?.created_at &&
                   new Date(user?.created_at).toLocaleString()}
               </span>
             </div>
+            <div
+              style={{
+                marginTop: '2rem'
+              }}
+            >
+              <Button
+                style={{ color: 'white', background: '#D72027' }}
+                onClick={() => router.push('/auth/profile/update')}
+              >
+                Cập nhật thông tin
+              </Button>
+            </div>
           </div>
-        </div>
-        <div
-          style={{
-            marginTop: '2rem',
-            textAlign: 'center'
-          }}
-        >
-          <Button
-            style={{ color: 'white', background: '#D72027' }}
-            onClick={() => router.push('/auth/profile/update')}
-          >
-            Cập nhật thông tin
-          </Button>
         </div>
       </div>
     </div>

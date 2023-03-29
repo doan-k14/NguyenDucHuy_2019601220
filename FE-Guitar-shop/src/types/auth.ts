@@ -1,4 +1,4 @@
-import { UserInfo } from "./user"
+import { UserInfo } from './user'
 
 export type LoginPayload = {
   username: string
@@ -12,6 +12,8 @@ export type RegisterPayload = {
   email: string
   phone: number
   address: string
+  birth: string
+  gender: number
 }
 
 export type ChangePasswordPayload = {

@@ -7,6 +7,8 @@ export type UserInfo = {
   email: string
   address?: string
   role: number
+  gender: number
+  birth?: string
   created_at: string
   updated_at: string
 }
@@ -21,4 +23,6 @@ export type UpdatePayload = {
   email: string
   phone?: number
   address?: string
+  gender: number
+  birth?: string
 }

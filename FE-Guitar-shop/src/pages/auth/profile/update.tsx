@@ -1,13 +1,14 @@
 import React, { ReactElement, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 
+import { Button, DatePicker, Form, Input, InputNumber, Select } from 'antd'
 import { notificationError, notificationSuccess } from '@/helpers/notification'
-import { Button, Form, Input, InputNumber } from 'antd'
 import { NextPageWithLayout } from '@/types/next-page'
 import { UpdatePayload, UserInfo } from '@/types/user'
 import { AuthService } from '@/services/auth'
 import useSessionStorage from '@/hooks/sessionStorage'
 import useLocalStorage from '@/hooks/localStorage'
+import dayjs from 'dayjs'
 
 import Landing from '@/components/layouts/landing'
 
@@ -30,14 +31,18 @@ const Login: NextPageWithLayout = () => {
               address: payload.address,
               email: payload.email,
               full_name: payload.full_name,
-              phone: payload.phone
+              phone: payload.phone,
+              gender: payload.gender,
+              birth: payload.birth
             })
           : setUserSession({
               ...userSession,
               address: payload.address,
               email: payload.email,
               full_name: payload.full_name,
-              phone: payload.phone
+              phone: payload.phone,
+              gender: payload.gender,
+              birth: payload.birth
             })
         notificationSuccess('Cập nhật thành công')
         router.push('/auth/profile')
@@ -79,6 +84,30 @@ const Login: NextPageWithLayout = () => {
           >
             <Input />
           </Form.Item>
+          {/* Gender */}
+          <Form.Item
+            name="gender"
+            label="Giới tính"
+            rules={[{ required: true, message: 'Vui lòng chọn giới tính!' }]}
+            initialValue={userLocal?.gender || userSession?.gender || 0}
+          >
+            <Select
+              options={[
+                { value: 0, label: 'Nam' },
+                { value: 1, label: 'Nữ' }
+              ]}
+            />
+          </Form.Item>
+          {/* Date of birth */}
+          <Form.Item
+            name="birth"
+            label="Ngày sinh"
+            initialValue={dayjs(
+              userLocal?.birth || userSession?.birth || undefined
+            )}
+          >
+            <DatePicker placeholder="Ngày sinh" format="DD/MM/YYYY" />
+          </Form.Item>
           {/* Phone */}
           <Form.Item
             label="Điện thoại:"
@@ -107,15 +136,26 @@ const Login: NextPageWithLayout = () => {
           <div
             style={{
               marginTop: '2rem',
-              textAlign: 'center'
+              textAlign: 'right'
             }}
           >
             <Button
               htmlType="submit"
-              style={{ color: 'white', background: '#D72027' }}
+              style={{
+                color: 'white',
+                background: '#D72027',
+                marginRight: '0.5rem'
+              }}
               loading={loading}
             >
               Cập nhật thông tin
+            </Button>
+            <Button
+              style={{ color: 'white', background: '#0080FF' }}
+              loading={loading}
+              onClick={() => router.push('/auth/profile')}
+            >
+              Quay lại
             </Button>
           </div>
         </Form>
