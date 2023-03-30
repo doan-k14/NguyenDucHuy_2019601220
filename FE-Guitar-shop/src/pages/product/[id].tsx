@@ -174,7 +174,14 @@ const Page: NextPageWithLayout = () => {
       {/* Content */}
       <h2 className="homepage-title">chi tiết sản phẩm #{productID}</h2>
       <Row style={{ background: 'white', marginBottom: '4rem' }}>
-        <Col span={16} offset={4}>
+        <Col
+          xxl={{ span: 14, offset: 5 }}
+          xl={{ span: 18, offset: 3 }}
+          lg={{ span: 20, offset: 2 }}
+          span={24}
+          offset={0}
+          style={{ padding: '0 1rem' }}
+        >
           {/* Products */}
           <Spin spinning={loading}>
             <div
@@ -185,6 +192,7 @@ const Page: NextPageWithLayout = () => {
             >
               {product ? (
                 <Row>
+                  {/* Image */}
                   <Col span={10}>
                     <Image
                       alt="product"
@@ -198,6 +206,7 @@ const Page: NextPageWithLayout = () => {
                     />
                   </Col>
                   <Col span={14}>
+                    {/* Product name */}
                     <div style={{ marginLeft: '2rem' }}>
                       <div>
                         <span style={{ fontSize: '2rem' }}>{product.name}</span>{' '}
@@ -206,6 +215,7 @@ const Page: NextPageWithLayout = () => {
                         </span>
                       </div>
                       {score ? (
+                        // Rating
                         <Space>
                           {score.rated.length === 0 ? (
                             <>
@@ -237,20 +247,24 @@ const Page: NextPageWithLayout = () => {
                             <Rate allowHalf value={parseFloat(score.score)} />
                           )}
                           <span>
-                            {' '}
-                            Đánh giá: {parseFloat(score.score) || 0}/5 (Tổng
-                            đánh giá: {score.total})
+                            <span className="label-info">Đánh giá:</span>{' '}
+                            <span className="product-info">
+                              {parseFloat(score.score) || 0}/5
+                            </span>{' '}
+                            (<span className="label-info">Tổng:</span>{' '}
+                            <span className="product-info">{score.total}</span>)
                           </span>
                         </Space>
                       ) : (
                         <Spin size="small" />
                       )}
+                      {/* Price */}
                       <div>
                         <Space>
                           <DollarCircleFilled
                             style={{ color: '#FFA800', fontSize: '1rem' }}
                           />
-                          Giá bán:
+                          <span className="label-info">Giá bán:</span>
                         </Space>
                         <span
                           style={{
@@ -275,9 +289,9 @@ const Page: NextPageWithLayout = () => {
                           <GiftFilled
                             style={{ color: '#D72027', fontSize: '1rem' }}
                           />
-                          Quà tặng kèm thêm:{' '}
+                          <span className="label-info">Quà tặng kèm thêm:</span>
                         </div>
-                        <div> - {product.bonus}</div>
+                        <div className="product-info"> - {product.bonus}</div>
                       </div>
                       <div>
                         <Space
@@ -287,33 +301,41 @@ const Page: NextPageWithLayout = () => {
                           }}
                         >
                           <SendOutlined style={{ fontSize: '1rem' }} />
-                          Thông số:{' '}
+                          Thông số:
                         </Space>
                         <div>
-                          {' '}
-                          - <b>Xuất xứ:</b> {product.origin}
+                          - <span className="label-info">Xuất xứ:</span>{' '}
+                          <span className="product-info">{product.origin}</span>
                         </div>
                         <div>
-                          {' '}
-                          - <b>Hãng:</b> {product.brand}
+                          - <span className="label-info">Hãng:</span>{' '}
+                          <span className="product-info">{product.brand}</span>
                         </div>
                         {product.style && (
                           <>
                             <div>
-                              {' '}
-                              - <b>Kiểu dáng:</b> {product.style}
+                              - <span className="label-info">Kiểu dáng:</span>{' '}
+                              <span className="product-info">
+                                {product.style}
+                              </span>
                             </div>
                             <div>
-                              {' '}
-                              - <b>Chất liệu:</b> {product.material}
+                              - <span className="label-info">Chất liệu:</span>{' '}
+                              <span className="product-info">
+                                {product.material}
+                              </span>
                             </div>
                             <div>
-                              {' '}
-                              - <b>Loại sơn:</b> {product.paint}
+                              - <span className="label-info">Loại sơn:</span>{' '}
+                              <span className="product-info">
+                                {product.paint}
+                              </span>
                             </div>
                             <div>
-                              {' '}
-                              - <b>Dây đàn:</b> {product.string_name}
+                              - <span className="label-info">Dây đàn:</span>{' '}
+                              <span className="product-info">
+                                {product.string_name}
+                              </span>
                             </div>
                           </>
                         )}
@@ -321,7 +343,7 @@ const Page: NextPageWithLayout = () => {
                       <Space
                         style={{
                           fontSize: '1rem',
-                          fontWeight: 'bold',
+                          fontWeight: 500,
                           marginTop: '0.5rem',
                           marginBottom: '0.2rem',
                           color: '#FFA800'
@@ -333,7 +355,7 @@ const Page: NextPageWithLayout = () => {
                       <Space
                         style={{
                           fontSize: '1rem',
-                          fontWeight: 'bold',
+                          fontWeight: 500,
                           color: '#FFA800',
                           marginBottom: '1rem'
                         }}
@@ -394,40 +416,32 @@ const Page: NextPageWithLayout = () => {
         </Col>
       </Row>
       {sameBrandProducts.length > 0 && (
-        <Row style={{ background: 'white' }}>
-          <Col span={18} offset={3} style={{ padding: '0 1rem' }}>
-            <div
-              style={{
-                color: '#00264D'
-              }}
-            >
-              <h2 className="homepage-title">Sản phẩm cùng hãng</h2>
-              <NewProducts
-                loading={suggestBrandLoading}
-                products={sameBrandProducts}
-                label={product?.brand || 'New'}
-              />
-            </div>
-          </Col>
-        </Row>
+        <div
+          style={{
+            color: '#00264D'
+          }}
+        >
+          <h2 className="homepage-title">Sản phẩm cùng hãng</h2>
+          <NewProducts
+            loading={suggestBrandLoading}
+            products={sameBrandProducts}
+            label={product?.brand || 'New'}
+          />
+        </div>
       )}
       {samePriceProducts.length > 0 && (
-        <Row style={{ background: 'white' }}>
-          <Col span={18} offset={3} style={{ padding: '0 1rem' }}>
-            <div
-              style={{
-                color: '#00264D'
-              }}
-            >
-              <h2 className="homepage-title">Sản phẩm trong khoảng giá</h2>
-              <NewProducts
-                loading={suggestPriceLoading}
-                products={samePriceProducts}
-                label="Hot"
-              />
-            </div>
-          </Col>
-        </Row>
+        <div
+          style={{
+            color: '#00264D'
+          }}
+        >
+          <h2 className="homepage-title">Sản phẩm trong khoảng giá</h2>
+          <NewProducts
+            loading={suggestPriceLoading}
+            products={samePriceProducts}
+            label="Hot"
+          />
+        </div>
       )}
       <BottomContent />
     </>

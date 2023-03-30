@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 
-import { Badge, Button, Card, Image, Skeleton, Space } from 'antd'
+import { Badge, Button, Card, Col, Image, Row, Skeleton, Space } from 'antd'
 import { HeartFilled, HeartOutlined, SwapOutlined } from '@ant-design/icons'
 import { notificationError, notificationSuccess } from '@/helpers/notification'
 import { formatPrice } from '@/helpers/currency'
@@ -100,44 +100,59 @@ const NewProducts = (props: Props) => {
   }
 
   return (
-    <div
-      style={{
-        marginBottom: '2rem',
-        overflowX: 'scroll',
-        background: '#F0F0F0'
-      }}
-    >
-      {loading ? (
-        <Skeleton active />
-      ) : (
-        <Space style={{ margin: '0.5rem' }}>
-          {products &&
-            products.map(product => (
-              <Badge.Ribbon
-                key={product.id}
-                text={label}
-                color={label === 'Hot' ? 'volcano' : 'green'}
-                style={{ display: 'flex' }}
-              >
-                <Card
-                  size="small"
-                  hoverable
-                  style={{ width: 220 }}
-                  cover={
-                    <Image preview={false} alt="product" src={product.image} />
-                  }
-                  onClick={() => router.push(`/product/${product.id}`)}
-                >
-                  <Meta
-                    title={product.name}
-                    description={description(product)}
-                  />
-                </Card>
-              </Badge.Ribbon>
-            ))}
-        </Space>
-      )}
-    </div>
+    <Row style={{ background: 'white', marginBottom: '2rem' }}>
+      <Col
+        xxl={{ span: 14, offset: 5 }}
+        xl={{ span: 18, offset: 3 }}
+        lg={{ span: 20, offset: 2 }}
+        span={24}
+        offset={0}
+        style={{ padding: '0 1rem' }}
+      >
+        <div
+          style={{
+            marginBottom: '2rem',
+            overflowX: 'scroll',
+            background: '#F0F0F0'
+          }}
+        >
+          {loading ? (
+            <Skeleton active />
+          ) : (
+            <Space style={{ margin: '0.5rem' }}>
+              {products &&
+                products.map(product => (
+                  <Badge.Ribbon
+                    key={product.id}
+                    text={label}
+                    color={label === 'Hot' ? 'volcano' : 'green'}
+                    style={{ display: 'flex' }}
+                  >
+                    <Card
+                      size="small"
+                      hoverable
+                      style={{ width: 220 }}
+                      cover={
+                        <Image
+                          preview={false}
+                          alt="product"
+                          src={product.image}
+                        />
+                      }
+                      onClick={() => router.push(`/product/${product.id}`)}
+                    >
+                      <Meta
+                        title={product.name}
+                        description={description(product)}
+                      />
+                    </Card>
+                  </Badge.Ribbon>
+                ))}
+            </Space>
+          )}
+        </div>
+      </Col>
+    </Row>
   )
 }
 

@@ -72,7 +72,7 @@ const Page: NextPageWithLayout = () => {
       />
       <div>
         <Button
-          style={{ background: '#D72027', color: 'white' }}
+          style={{ background: '#D72027', color: 'white', marginTop: '1rem' }}
           onClick={() => router.push('/users/order')}
         >
           Quay lại

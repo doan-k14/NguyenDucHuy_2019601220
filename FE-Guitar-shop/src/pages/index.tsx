@@ -4,7 +4,6 @@ import { ListPayload, Product } from '@/types/product'
 import { NextPageWithLayout } from '@/types/next-page'
 import { notificationError } from '@/helpers/notification'
 import { ProductService } from '@/services/product'
-import { Col, Row } from 'antd'
 
 import BottomContent from '@/components/base/bottomContent'
 import NewProducts from '@/components/products/newProducts'
@@ -53,31 +52,23 @@ const Page: NextPageWithLayout = () => {
       {/* Banner */}
       <TopBanners />
       {/* New products */}
-      <Row style={{ background: 'white' }}>
-        <Col span={18} offset={3} style={{ padding: '0 1rem' }}>
-          <div
-            style={{
-              color: '#00264D'
-            }}
-          >
-            <h2 className="homepage-title">Sản phẩm mới nhất</h2>
-            <NewProducts loading={loading} products={products} label="New" />
-          </div>
-        </Col>
-      </Row>
+      <div
+        style={{
+          color: '#00264D'
+        }}
+      >
+        <h2 className="homepage-title">Sản phẩm mới nhất</h2>
+        <NewProducts loading={loading} products={products} label="New" />
+      </div>
       {/* Hot products */}
-      <Row style={{ background: 'white' }}>
-        <Col span={18} offset={3} style={{ padding: '0 1rem' }}>
-          <div
-            style={{
-              color: '#00264D'
-            }}
-          >
-            <h2 className="homepage-title">Sản phẩm bán chạy</h2>
-            <NewProducts loading={loading} products={hotProducts} label="Hot" />
-          </div>
-        </Col>
-      </Row>
+      <div
+        style={{
+          color: '#00264D'
+        }}
+      >
+        <h2 className="homepage-title">Sản phẩm bán chạy</h2>
+        <NewProducts loading={loading} products={hotProducts} label="Hot" />
+      </div>
       <BottomContent />
     </>
   )

@@ -46,6 +46,9 @@ const Page: NextPageWithLayout = () => {
         })
       )
         notificationSuccess('Cập sản phẩm thành công!')
+      setTimeout(() => {
+        router.push('/users/product')
+      }, 1000)
     } catch {
       notificationError('Có lỗi xảy ra')
     } finally {

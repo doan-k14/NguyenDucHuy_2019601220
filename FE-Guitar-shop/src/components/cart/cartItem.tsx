@@ -68,7 +68,7 @@ const CartItem = (props: Props) => {
           </Button>
         </div>
       </Col>
-      <Col span={4}>
+      <Col span={5}>
         <div style={{ color: '#F64F61', fontWeight: 'bold' }}>
           {formatPrice(product.price)}
         </div>
@@ -85,7 +85,7 @@ const CartItem = (props: Props) => {
           }}
         />
       </Col>
-      <Col span={4}>
+      <Col span={5}>
         <div style={{ color: '#F64F61', fontWeight: 'bold' }}>
           {formatPrice(totalPrice)}
         </div>

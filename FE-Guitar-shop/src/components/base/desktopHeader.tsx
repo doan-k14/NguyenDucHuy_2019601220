@@ -13,6 +13,7 @@ import {
 } from 'antd'
 import {
   AreaChartOutlined,
+  DownOutlined,
   HeartFilled,
   HomeFilled,
   LockOutlined,
@@ -62,7 +63,30 @@ const DesktopHeader = () => {
     },
     {
       label: 'Phụ kiện',
-      key: '/category/4'
+      key: '/category/4',
+      icon: <DownOutlined />,
+      children: [
+        {
+          label: 'EQ',
+          key: '/category/6'
+        },
+        {
+          label: 'BAO ĐÀN',
+          key: '/category/7'
+        },
+        {
+          label: 'DÂY ĐÀN',
+          key: '/category/8'
+        },
+        {
+          label: 'CAPO',
+          key: '/category/9'
+        },
+        {
+          label: 'LOA',
+          key: '/category/10'
+        }
+      ]
     }
   ]
 

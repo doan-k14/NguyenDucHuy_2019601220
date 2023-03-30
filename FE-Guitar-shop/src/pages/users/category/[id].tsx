@@ -34,6 +34,9 @@ const Page: NextPageWithLayout = () => {
       setSubmitLoading(true)
       if (await CategoryService.update(categoryID, payload))
         notificationSuccess('Cập nhật danh mục thành công!')
+      setTimeout(() => {
+        router.push('/users/category')
+      }, 1000)
     } catch {
       notificationError('Có lỗi xảy ra')
     } finally {

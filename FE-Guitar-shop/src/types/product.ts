@@ -37,6 +37,8 @@ export type ListPayload = {
   sortOrder?: string
   brand?: string
   price?: number
+  fromPrice?: number
+  toPrice?: number
 }
 
 export type CreatePayload = {

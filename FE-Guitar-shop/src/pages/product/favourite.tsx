@@ -95,7 +95,14 @@ const Page: NextPageWithLayout = () => {
       {/* Content */}
       <h2 className="homepage-title">Sản phẩm yêu thích</h2>
       <Row style={{ background: 'white', marginBottom: '2rem' }}>
-        <Col span={18} offset={3} style={{ padding: '0 1rem' }}>
+        <Col
+          xxl={{ span: 14, offset: 5 }}
+          xl={{ span: 18, offset: 3 }}
+          lg={{ span: 20, offset: 2 }}
+          span={24}
+          offset={0}
+          style={{ padding: '0 1rem' }}
+        >
           {/* Products */}
           <div
             style={{

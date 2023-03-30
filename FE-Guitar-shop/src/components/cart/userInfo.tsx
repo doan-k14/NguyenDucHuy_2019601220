@@ -20,7 +20,7 @@ const UserInfo = (props: Props) => {
   const cart = useLocalStorage<Cart[]>('cart', [])
 
   return (
-    <div style={{ marginLeft: '5rem' }}>
+    <div>
       <div style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>
         Thông tin người mua hàng
       </div>
@@ -47,7 +47,7 @@ const UserInfo = (props: Props) => {
           rules={[{ required: true, message: 'Vui lòng nhập họ tên!' }]}
           initialValue={userSession[0]?.full_name || userLocal[0]?.full_name}
         >
-          <Input style={{ width: '50%' }} />
+          <Input />
         </Form.Item>
         <Form.Item
           label="Địa chỉ:"
@@ -63,7 +63,7 @@ const UserInfo = (props: Props) => {
           rules={[{ required: true, message: 'Vui lòng nhập số điện thoại!' }]}
           initialValue={userSession[0]?.phone || userLocal[0]?.phone}
         >
-          <Input style={{ width: '30%' }} />
+          <Input style={{ width: '50%' }} />
         </Form.Item>
         <Form.Item
           label="Email:"
@@ -71,7 +71,7 @@ const UserInfo = (props: Props) => {
           rules={[{ required: true, message: 'Vui lòng nhập email!' }]}
           initialValue={userSession[0]?.email || userLocal[0]?.email}
         >
-          <Input style={{ width: '40%' }} />
+          <Input />
         </Form.Item>
         <Form.Item label="Ghi chú:" name="note">
           <Input.TextArea rows={5} />

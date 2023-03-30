@@ -212,3 +212,43 @@ a {
   background-color: #0080FF;
   border-color: #0080FF;
 }
+
+.label-info {
+  font-size: 14px;
+  color: gray;
+}
+
+.product-info {
+  font-size: 15px;
+  font-weight: 500;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.small-title h4 {
+  font-size: 16px;
+  display: block;
+  font-weight: 700;
+  line-height: 1.4;
+  margin-bottom: 22px;
+}
+
+.ant-slider .ant-slider-track {
+  background-color: #FF1935 !important;
+}
+
+.ant-slider .ant-slider-handle::after {
+  box-shadow: 0 0 0 2px #D72027 !important;
+}
+
+.ant-radio-wrapper .ant-radio-checked .ant-radio-inner {
+  border-color: #FF1935;
+  background-color: #FF1935;
+}
+
+.ant-menu-light .ant-menu-submenu-selected >.ant-menu-submenu-title {
+  color: white;
+}
+
+.ant-menu-submenu-title:hover:not(.ant-menu-item-selected):not(.ant-menu-submenu-selected) {
+  color: white !important;
+}

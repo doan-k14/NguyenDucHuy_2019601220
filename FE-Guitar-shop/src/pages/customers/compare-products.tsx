@@ -42,10 +42,11 @@ const Page: NextPageWithLayout = () => {
         <Row style={{ background: 'white' }}>
           <Col
             xxl={{ span: 14, offset: 5 }}
-            xl={{ span: 16, offset: 4 }}
-            lg={{ span: 18, offset: 3 }}
+            xl={{ span: 18, offset: 3 }}
+            lg={{ span: 20, offset: 2 }}
             span={24}
             offset={0}
+            style={{ padding: '0 1rem' }}
           >
             <table border={1} style={{ width: '100%', marginBottom: '4rem' }}>
               <tbody>
@@ -75,7 +76,9 @@ const Page: NextPageWithLayout = () => {
                   ))}
                 </tr>
                 <tr>
-                  <th>Thương hiệu</th>
+                  <th style={{ paddingLeft: '0.5rem', paddingRight: '0.5rem' }}>
+                    Thương hiệu
+                  </th>
                   {products.map(product => (
                     <td
                       key={product.id}
@@ -86,7 +89,9 @@ const Page: NextPageWithLayout = () => {
                   ))}
                 </tr>
                 <tr>
-                  <th>Quà tặng kèm</th>
+                  <th style={{ paddingLeft: '0.5rem', paddingRight: '0.5rem' }}>
+                    Quà tặng kèm
+                  </th>
                   {products.map(product => (
                     <td
                       key={product.id}
@@ -97,7 +102,9 @@ const Page: NextPageWithLayout = () => {
                   ))}
                 </tr>
                 <tr>
-                  <th>Xuất xứ</th>
+                  <th style={{ paddingLeft: '0.5rem', paddingRight: '0.5rem' }}>
+                    Xuất xứ
+                  </th>
                   {products.map(product => (
                     <td
                       key={product.id}
@@ -108,7 +115,9 @@ const Page: NextPageWithLayout = () => {
                   ))}
                 </tr>
                 <tr>
-                  <th>Kiểu dáng</th>
+                  <th style={{ paddingLeft: '0.5rem', paddingRight: '0.5rem' }}>
+                    Kiểu dáng
+                  </th>
                   {products.map(product => (
                     <td
                       key={product.id}
@@ -119,7 +128,9 @@ const Page: NextPageWithLayout = () => {
                   ))}
                 </tr>
                 <tr>
-                  <th>Nguyên liệu</th>
+                  <th style={{ paddingLeft: '0.5rem', paddingRight: '0.5rem' }}>
+                    Nguyên liệu
+                  </th>
                   {products.map(product => (
                     <td
                       key={product.id}
@@ -130,7 +141,9 @@ const Page: NextPageWithLayout = () => {
                   ))}
                 </tr>
                 <tr>
-                  <th>Kiểu sơn</th>
+                  <th style={{ paddingLeft: '0.5rem', paddingRight: '0.5rem' }}>
+                    Kiểu sơn
+                  </th>
                   {products.map(product => (
                     <td
                       key={product.id}
@@ -141,7 +154,9 @@ const Page: NextPageWithLayout = () => {
                   ))}
                 </tr>
                 <tr>
-                  <th>Dây đàn</th>
+                  <th style={{ paddingLeft: '0.5rem', paddingRight: '0.5rem' }}>
+                    Dây đàn
+                  </th>
                   {products.map(product => (
                     <td
                       key={product.id}
@@ -152,7 +167,9 @@ const Page: NextPageWithLayout = () => {
                   ))}
                 </tr>
                 <tr>
-                  <th>Đã bán</th>
+                  <th style={{ paddingLeft: '0.5rem', paddingRight: '0.5rem' }}>
+                    Đã bán
+                  </th>
                   {products.map(product => (
                     <td
                       key={product.id}
@@ -163,7 +180,9 @@ const Page: NextPageWithLayout = () => {
                   ))}
                 </tr>
                 <tr>
-                  <th>Thao tác</th>
+                  <th style={{ paddingLeft: '0.5rem', paddingRight: '0.5rem' }}>
+                    Thao tác
+                  </th>
                   {products.map(product => (
                     <td
                       key={product.id}
@@ -211,7 +230,9 @@ const Page: NextPageWithLayout = () => {
           </Col>
         </Row>
       ) : (
-        <Empty description="Chưa có sản phẩm nào" />
+        <div style={{ margin: '3rem' }}>
+          <Empty description="Chưa có sản phẩm nào" />
+        </div>
       )}
       {/* News and middle banner */}
       <BottomContent />

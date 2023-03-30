@@ -84,20 +84,20 @@ const Page: NextPageWithLayout = () => {
       <TopBanners />
       {/* Content */}
       <h2 className="homepage-title">Giỏ hàng</h2>
-      <div style={{ padding: '0 1rem' }}>
-        {/* Products */}
-        <div
-          style={{
-            color: '#00264D',
-            justifyContent: 'center',
-            margin: '3rem'
-          }}
+      <Row style={{ marginTop: '3rem', marginBottom: '3rem' }}>
+        <Col
+          xxl={{ span: 14, offset: 5 }}
+          xl={{ span: 18, offset: 3 }}
+          lg={{ span: 20, offset: 2 }}
+          span={24}
+          offset={0}
+          style={{ padding: '0 1rem' }}
         >
           <Row>
-            <Col span={12}>
+            <Col span={10}>
               <UserInfo onSubmit={onOrder} loading={loading} />
             </Col>
-            <Col span={12}>
+            <Col span={14}>
               <Cart
                 discount={discount}
                 onChangeProducts={products => setProducts(products)}
@@ -105,8 +105,8 @@ const Page: NextPageWithLayout = () => {
               />
             </Col>
           </Row>
-        </div>
-      </div>
+        </Col>
+      </Row>
       <BottomContent />
     </div>
   )

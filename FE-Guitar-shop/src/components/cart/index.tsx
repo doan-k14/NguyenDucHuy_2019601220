@@ -70,7 +70,7 @@ const Cart = (props: Props) => {
   }, [])
 
   return (
-    <div style={{ marginLeft: '1rem', marginRight: '1rem' }}>
+    <div>
       <Row
         style={{ marginBottom: '1rem', fontWeight: 'bold', color: '#888888' }}
       >
@@ -80,9 +80,9 @@ const Cart = (props: Props) => {
         <Col span={7} style={{ textAlign: 'center' }}>
           Sản phẩm
         </Col>
-        <Col span={4}>Giá</Col>
-        <Col span={4}>Số lượng mua</Col>
-        <Col span={4}>Thành tiền</Col>
+        <Col span={5}>Giá</Col>
+        <Col span={4}>Số lượng</Col>
+        <Col span={5}>Thành tiền</Col>
         <Col span={2} style={{ textAlign: 'center' }}>
           Thao tác
         </Col>

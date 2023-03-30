@@ -35,7 +35,7 @@ const Page: NextPageWithLayout = () => {
           notificationSuccess('Tạo mới thành công')
         setTimeout(() => {
           router.push('/users/product')
-        }, 2000)
+        }, 1000)
       }
     } catch {
       notificationError('Có lỗi xảy ra')

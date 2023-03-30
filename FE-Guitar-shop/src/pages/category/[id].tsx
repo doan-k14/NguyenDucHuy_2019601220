@@ -10,8 +10,7 @@ import {
   Input,
   Pagination,
   Row,
-  Select,
-  Space,
+  Slider,
   Spin
 } from 'antd'
 import { HeartFilled, HeartOutlined, SwapOutlined } from '@ant-design/icons'
@@ -25,8 +24,8 @@ import { formatPrice } from '@/helpers/currency'
 import useLocalStorage from '@/hooks/localStorage'
 
 import BottomContent from '@/components/base/bottomContent'
-import SortFilter from '@/components/filters/sortFilter'
 import TopBanners from '@/components/base/topBanners'
+import SideSort from '@/components/filters/sideSort'
 import Landing from '@/components/layouts/landing'
 
 const { Meta } = Card
@@ -38,12 +37,12 @@ const Page: NextPageWithLayout = () => {
   const [products, setProducts] = useState<Product[]>([])
 
   const [page, setPage] = useState<number>(defaultPagination.page)
-  const [pageSize, setPageSize] = useState<number>(defaultPagination.size)
   const [total, setTotal] = useState<number>(defaultPagination.total)
 
   const [sortString, setSortString] = useState<string>('desc')
   const [sortField, setSortField] = useState<string>('created_at')
   const [search, setSearch] = useState<string>()
+  const [priceRange, setPriceRange] = useState<number[]>([0, 10000000])
 
   const [loveProducts, setLoveProducts] = useLocalStorage<Product[]>(
     'love-products',
@@ -69,12 +68,14 @@ const Page: NextPageWithLayout = () => {
       setLoading(true)
       const payload: ListPayload = {
         page: page,
-        pageSize: pageSize,
+        pageSize: 6,
         categoryID: parseInt(categoryID || '1'),
         status: 1,
         name: search,
         sortField: sortField,
-        sortOrder: sortString
+        sortOrder: sortString,
+        fromPrice: priceRange[0],
+        toPrice: priceRange[1]
       }
       const response = await ProductService.getList(payload)
       if (response) {
@@ -153,7 +154,7 @@ const Page: NextPageWithLayout = () => {
 
   useEffect(() => {
     if (categoryID) fetchProductByID()
-  }, [router, page, pageSize])
+  }, [router, page])
 
   return (
     <>
@@ -162,97 +163,128 @@ const Page: NextPageWithLayout = () => {
       {/* Content */}
       <h2 className="homepage-title">Danh sách sản phẩm</h2>
       <Row style={{ background: 'white', marginBottom: '2rem' }}>
-        <Col span={18} offset={3} style={{ padding: '0 1rem' }}>
-          {/* Filters */}
-          <Space style={{ marginBottom: '0.5rem', marginLeft: '1rem' }}>
-            <SortFilter
-              sortString={sortString}
-              options={productFilter}
-              onSortField={setSortField}
-              onSorting={setSortString}
-            />
-            <Input
-              allowClear={true}
-              placeholder="Nhập tên/hãng"
-              onBlur={e => setSearch(e.target.value)}
-            />
-            <Button
-              onClick={fetchProductByID}
-              style={{ background: '#D72027', color: 'white' }}
-            >
-              Tìm kiếm
-            </Button>
-          </Space>
-          {/* Products */}
-          <Spin spinning={loading}>
-            <div
-              style={{
-                color: '#00264D',
-                display: 'flex',
-                flexWrap: 'wrap',
-                gap: '2rem',
-                justifyContent: 'center',
-                marginTop: '3rem'
-              }}
-            >
-              {products.length > 0 ? (
-                products.map(product => (
-                  <Card
-                    key={product.id}
-                    size="small"
-                    hoverable
-                    style={{ width: 220 }}
-                    cover={
-                      <Image
-                        preview={false}
-                        alt="product"
-                        src={product.image}
-                      />
-                    }
-                    onClick={() => router.push(`/product/${product.id}`)}
-                  >
-                    <Meta
-                      title={product.name}
-                      description={description(product)}
-                    />
-                  </Card>
-                ))
-              ) : (
-                <Empty description="Không có sản phẩm nào" />
-              )}
-            </div>
-          </Spin>
-        </Col>
-      </Row>
-      {/* Paginate */}
-      <Row style={{ background: 'white', marginBottom: '2rem' }}>
         <Col
-          span={16}
-          offset={4}
-          style={{ padding: '0 1rem', display: 'flex' }}
+          xxl={{ span: 14, offset: 5 }}
+          xl={{ span: 18, offset: 3 }}
+          lg={{ span: 20, offset: 2 }}
+          span={24}
+          offset={0}
+          style={{ padding: '0 1rem' }}
         >
-          <Pagination
-            defaultCurrent={1}
-            pageSize={pageSize}
-            current={page}
-            total={total}
-            onChange={page => setPage(page)}
-          />
-          <Select
-            style={{ width: '110px' }}
-            defaultValue={8}
-            options={[
-              { value: 4, label: '4 / Trang' },
-              { value: 8, label: '8 / Trang' },
-              { value: 20, label: '20 / Trang' }
-            ]}
-            onChange={value => {
-              setPage(1)
-              setPageSize(value)
-            }}
-          />
+          <Row>
+            <Col span={6}>
+              {/* Filters */}
+              <div
+                style={{
+                  marginTop: '3rem',
+                  border: '1px solid #E8EAED',
+                  padding: '1rem'
+                }}
+              >
+                <div>
+                  <div className="small-title">
+                    <h4>Tên/hãng:</h4>
+                  </div>
+                  <Input
+                    allowClear={true}
+                    placeholder="Nhập tên/hãng"
+                    onBlur={e => setSearch(e.target.value)}
+                  />
+                </div>
+                <div>
+                  <div className="small-title" style={{ marginTop: '0.6rem' }}>
+                    <h4>Giá tiền:</h4>
+                  </div>
+                  <Slider
+                    range
+                    defaultValue={[500000, 5000000]}
+                    max={10000000}
+                    step={500000}
+                    min={0}
+                    onChange={setPriceRange}
+                    style={{ color: 'blue' }}
+                  />
+                </div>
+                <div>
+                  <div className="small-title">
+                    <h4>Sắp xếp:</h4>
+                  </div>
+                  <SideSort
+                    sortString={sortString}
+                    options={productFilter}
+                    onSortField={setSortField}
+                    onSorting={setSortString}
+                  />
+                </div>
+                <Button
+                  onClick={fetchProductByID}
+                  style={{
+                    background: '#D72027',
+                    color: 'white',
+                    width: '100%'
+                  }}
+                >
+                  Tìm kiếm
+                </Button>
+              </div>
+            </Col>
+            <Col span={18}>
+              {/* Products */}
+              <Spin spinning={loading}>
+                <div
+                  style={{
+                    color: '#00264D',
+                    display: 'flex',
+                    flexWrap: 'wrap',
+                    gap: '2rem',
+                    justifyContent: 'center',
+                    marginTop: '3rem'
+                  }}
+                >
+                  {products.length > 0 ? (
+                    products.map(product => (
+                      <Card
+                        key={product.id}
+                        size="small"
+                        hoverable
+                        style={{ width: 220 }}
+                        cover={
+                          <Image
+                            preview={false}
+                            alt="product"
+                            src={product.image}
+                          />
+                        }
+                        onClick={() => router.push(`/product/${product.id}`)}
+                      >
+                        <Meta
+                          title={product.name}
+                          description={description(product)}
+                        />
+                      </Card>
+                    ))
+                  ) : (
+                    <Empty description="Không có sản phẩm nào" />
+                  )}
+                </div>
+              </Spin>
+            </Col>
+          </Row>
+          {/* Paginate */}
+          <Row>
+            <Col offset={6} style={{ marginTop: '2rem' }}>
+              <Pagination
+                defaultCurrent={1}
+                pageSize={6}
+                current={page}
+                total={total}
+                onChange={page => setPage(page)}
+              />
+            </Col>
+          </Row>
         </Col>
       </Row>
+      {/* Middle Banner & news */}
       <BottomContent />
     </>
   )

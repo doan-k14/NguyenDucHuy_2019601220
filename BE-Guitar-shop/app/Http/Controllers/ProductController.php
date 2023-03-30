@@ -32,7 +32,10 @@ class ProductController extends Controller
 
         if ($request->has('price'))
             $products = $products->where('price', '<=', $request['price'] + 1000000)
-            ->where('price', '>=', $request['price'] - 1000000);
+                ->where('price', '>=', $request['price'] - 1000000);
+        if ($request->has('fromPrice') && $request->has('toPrice'))
+            $products = $products->where('price', '>=', $request['fromPrice'])
+                ->where('price', '<=', $request['toPrice']);
 
         $sort_field = $request->input('sortField', 'created_at');
         $sort_order = $request->input('sortOrder', 'desc');
