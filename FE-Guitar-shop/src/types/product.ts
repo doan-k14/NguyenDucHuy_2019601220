@@ -15,6 +15,8 @@ export type Product = {
   sold?: number
   brand?: string
   status: number
+  rating_count?: number
+  rating_score?: string
   created_at: string
   updated_at: string
 }

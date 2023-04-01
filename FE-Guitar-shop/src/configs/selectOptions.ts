@@ -1,7 +1,8 @@
 export const productFilter = [
-  { value: 'created_at', label: 'Ngày ra mắt' },
+  { value: 'products.created_at', label: 'Ngày ra mắt' },
   { value: 'price', label: 'Giá' },
-  { value: 'amount', label: 'Số lượng còn' }
+  { value: 'amount', label: 'Số lượng còn' },
+  { value: 'rating_score', label: 'Số sao' }
 ]
 
 export const orderFilter = [

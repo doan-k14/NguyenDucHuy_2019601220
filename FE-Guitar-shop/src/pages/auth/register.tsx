@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from 'react'
+import React, { ReactElement, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 
 import { Button, DatePicker, Form, Input, Select, Space } from 'antd'
@@ -33,6 +33,10 @@ const Register: NextPageWithLayout = () => {
       setLoading(false)
     }
   }
+
+  useEffect(() => {
+    document.body.scrollTop = 0
+  }, [])
 
   return (
     <div

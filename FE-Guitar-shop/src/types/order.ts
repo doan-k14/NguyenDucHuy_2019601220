@@ -69,6 +69,8 @@ export type OrderDetailResponse = {
   sold: null
   status: number
   brand?: string
+  rating_count?: number
+  rating_score?: string
 }
 
 export type UserID = {

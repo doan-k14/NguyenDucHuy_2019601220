@@ -1,4 +1,4 @@
-import { ReactElement } from 'react'
+import { ReactElement, useEffect } from 'react'
 
 import { NextPageWithLayout } from '@/types/next-page'
 import { Col, Image, Row } from 'antd'
@@ -8,6 +8,10 @@ import Landing from '@/components/layouts/landing'
 import Share from '@/components/news/share'
 
 const Page: NextPageWithLayout = () => {
+  useEffect(() => {
+    document.body.scrollTop = 0
+  }, [])
+
   return (
     <>
       <Row style={{ background: 'white' }}>

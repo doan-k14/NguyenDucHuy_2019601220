@@ -7,7 +7,27 @@ const BottomContent = () => {
     <div>
       {/* Static banner */}
       <Row>
-        <Image alt="middle-banner" preview={false} src="/images/slide3.jpg" />
+        <div style={{ position: 'relative' }}>
+          <Image alt="middle-banner" preview={false} src="/images/slide3.jpg" />
+          <div
+            style={{
+              position: 'absolute',
+              top: '28%',
+              right: '12%',
+              width: '30%',
+              color: 'white',
+              fontSize: '1.5rem',
+              fontFamily: 'cursive'
+            }}
+          >
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa ad
+            iure porro mollitia architecto hic consequuntur.
+            <br />
+            <br />
+            Distinctio nisi perferendis dolore, ipsa consectetur? Fugiat quaerat
+            eos qui, libero neque sed nulla.
+          </div>
+        </div>
       </Row>
       {/* News */}
       <Row style={{ background: 'white', marginBottom: '2rem' }}>

@@ -156,6 +156,7 @@ const Page: NextPageWithLayout = () => {
   }
 
   useEffect(() => {
+    document.body.scrollTop = 600
     if (productID) fetchProductByID()
   }, [router])
 
@@ -249,7 +250,7 @@ const Page: NextPageWithLayout = () => {
                           <span>
                             <span className="label-info">Đánh giá:</span>{' '}
                             <span className="product-info">
-                              {parseFloat(score.score) || 0}/5
+                              {parseFloat(score.score) || 0} / 5
                             </span>{' '}
                             (<span className="label-info">Tổng:</span>{' '}
                             <span className="product-info">{score.total}</span>)

@@ -1,4 +1,5 @@
 import { OrderDetailResponse } from '@/types/order'
+import { StarFilled } from '@ant-design/icons'
 import { Product } from '@/types/product'
 
 export const getDetail = (product: Product | OrderDetailResponse) => {
@@ -15,6 +16,13 @@ export const getDetail = (product: Product | OrderDetailResponse) => {
       {product.brand && (
         <div>
           <span style={{ fontWeight: 'bold' }}>Hãng:</span> {product.brand}
+        </div>
+      )}
+      {product.rating_score && (
+        <div>
+          <span style={{ fontWeight: 'bold' }}>Đánh giá sao:</span>{' '}
+          {parseFloat(product.rating_score)} ({product.rating_count} đánh giá)
+          <StarFilled style={{ color: '#FFA800' }} />
         </div>
       )}
       {product.bonus && (

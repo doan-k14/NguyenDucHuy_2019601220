@@ -3,6 +3,7 @@ export type Category = {
   name: string
   description: string
   status: number
+  product_count?: number
   created_at: string
   updated_at: string
 }

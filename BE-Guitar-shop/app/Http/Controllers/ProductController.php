@@ -28,7 +28,7 @@ class ProductController extends Controller
         if ($request->has('brand'))
             $products = $products->where('brand', $request['brand']);
         if ($request->has('id'))
-            $products = $products->where('id', '!=', $request['id']);
+            $products = $products->where('products.id', '!=', $request['id']);
 
         if ($request->has('price'))
             $products = $products->where('price', '<=', $request['price'] + 1000000)
@@ -37,7 +37,7 @@ class ProductController extends Controller
             $products = $products->where('price', '>=', $request['fromPrice'])
                 ->where('price', '<=', $request['toPrice']);
 
-        $sort_field = $request->input('sortField', 'created_at');
+        $sort_field = $request->input('sortField', 'products.created_at');
         $sort_order = $request->input('sortOrder', 'desc');
         $products = $products->orderBy($sort_field, $sort_order);
 
@@ -46,6 +46,10 @@ class ProductController extends Controller
         $products = $products
             ->skip($start)
             ->take($pageSize)
+            ->leftJoin('ratings', 'ratings.product_id', '=', 'products.id')
+            ->select('products.*')
+            ->selectRaw('count(ratings.id) as rating_count, avg(ratings.score) as rating_score')
+            ->groupBy('products.id')
             ->get();
 
         return response()->json([

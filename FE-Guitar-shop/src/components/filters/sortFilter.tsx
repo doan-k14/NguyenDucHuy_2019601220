@@ -15,7 +15,7 @@ const SortFilter = (props: Props) => {
   return (
     <Space>
       <Select
-        defaultValue="created_at"
+        defaultValue="products.created_at"
         style={{ width: '150px' }}
         options={options}
         status="error"

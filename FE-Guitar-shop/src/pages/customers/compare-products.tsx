@@ -29,6 +29,7 @@ const Page: NextPageWithLayout = () => {
   }
 
   useEffect(() => {
+    document.body.scrollTop = 600
     setProducts(compareProducts)
   }, [])
 

@@ -39,6 +39,7 @@ const Page: NextPageWithLayout = () => {
   }
 
   useEffect(() => {
+    document.body.scrollTop = 600
     setUser(userLocal[0] || userSession[0])
   }, [])
 

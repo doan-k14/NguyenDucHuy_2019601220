@@ -37,6 +37,7 @@ const Page: NextPageWithLayout = () => {
   }
 
   useEffect(() => {
+    document.body.scrollTop = 0
     setUsername(userLocal[0]?.username || userSession[0]?.username)
   }, [userLocal, userSession])
 

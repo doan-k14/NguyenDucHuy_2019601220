@@ -23,6 +23,7 @@ const Page: NextPageWithLayout = () => {
   const [cart, setCart] = useLocalStorage<Cart[]>('cart', [])
 
   useEffect(() => {
+    document.body.scrollTop = 600
     setLoveProducts(products[0])
   }, [])
 

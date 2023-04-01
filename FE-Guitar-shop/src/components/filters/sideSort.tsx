@@ -15,7 +15,7 @@ const SideSort = (props: Props) => {
   return (
     <div>
       <Select
-        defaultValue="created_at"
+        defaultValue="products.created_at"
         style={{ width: '100%' }}
         options={options}
         status="error"

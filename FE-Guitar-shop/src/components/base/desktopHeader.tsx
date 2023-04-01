@@ -87,6 +87,10 @@ const DesktopHeader = () => {
           key: '/category/10'
         }
       ]
+    },
+    {
+      label: 'Liên hệ',
+      key: '/contact'
     }
   ]
 

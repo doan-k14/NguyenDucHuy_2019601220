@@ -13,8 +13,8 @@ const NotFoundPage: NextPageWithLayout = () => {
     <Row style={{ background: 'white' }}>
       <Col
         xxl={{ span: 14, offset: 5 }}
-        xl={{ span: 16, offset: 4 }}
-        lg={{ span: 18, offset: 3 }}
+        xl={{ span: 18, offset: 3 }}
+        lg={{ span: 20, offset: 2 }}
         span={24}
         offset={0}
         style={{ padding: '0 1rem' }}

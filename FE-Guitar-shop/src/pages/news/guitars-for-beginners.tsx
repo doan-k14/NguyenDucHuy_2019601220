@@ -1,4 +1,4 @@
-import { ReactElement } from 'react'
+import { ReactElement, useEffect } from 'react'
 
 import { NextPageWithLayout } from '@/types/next-page'
 import { Col, Image, Row } from 'antd'
@@ -14,6 +14,10 @@ const Page: NextPageWithLayout = () => {
     marginBottom: '0.5rem',
     fontSize: '0.9rem'
   }
+
+  useEffect(() => {
+    document.body.scrollTop = 0
+  }, [])
 
   return (
     <>

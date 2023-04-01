@@ -40,6 +40,7 @@ const Page: NextPageWithLayout = () => {
   }
 
   useEffect(() => {
+    document.body.scrollTop = 0
     if (shouldEffect.current) {
       fetchProducts(true)
       fetchProducts(false)

@@ -40,7 +40,7 @@ const Page: NextPageWithLayout = () => {
   const [total, setTotal] = useState<number>(defaultPagination.total)
 
   const [sortString, setSortString] = useState<string>('desc')
-  const [sortField, setSortField] = useState<string>('created_at')
+  const [sortField, setSortField] = useState<string>('products.created_at')
   const [search, setSearch] = useState<string>()
   const [priceRange, setPriceRange] = useState<number[]>([0, 10000000])
 
@@ -153,6 +153,7 @@ const Page: NextPageWithLayout = () => {
   }
 
   useEffect(() => {
+    document.body.scrollTop = 600
     if (categoryID) fetchProductByID()
   }, [router, page])
 
@@ -197,12 +198,18 @@ const Page: NextPageWithLayout = () => {
                   </div>
                   <Slider
                     range
-                    defaultValue={[500000, 5000000]}
+                    defaultValue={[0, 5000000]}
                     max={10000000}
                     step={500000}
                     min={0}
                     onChange={setPriceRange}
                     style={{ color: 'blue' }}
+                    tooltip={{ formatter: value => formatPrice(value || 0) }}
+                    marks={{
+                      0: '0đ',
+                      5000000: '5tr',
+                      10000000: '10tr'
+                    }}
                   />
                 </div>
                 <div>

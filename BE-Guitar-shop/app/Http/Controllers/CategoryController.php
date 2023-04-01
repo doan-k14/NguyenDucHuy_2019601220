@@ -10,7 +10,12 @@ class CategoryController extends Controller
     public function index()
     {
         $total = Category::all()->count();
-        $categories = Category::all();
+        $categories = Category::query()
+        ->leftJoin('products', 'products.category_id', '=', 'categories.id')
+        ->select('categories.*')
+        ->selectRaw('count(products.id) as product_count')
+        ->groupBy('categories.id')
+        ->get();
 
         return response()->json([
             'message' => 'Success',

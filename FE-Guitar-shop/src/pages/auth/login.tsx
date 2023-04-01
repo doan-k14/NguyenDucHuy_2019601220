@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from 'react'
+import React, { ReactElement, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 
 import { notificationError, notificationSuccess } from '@/helpers/notification'
@@ -41,6 +41,10 @@ const Login: NextPageWithLayout = () => {
       setLoading(false)
     }
   }
+
+  useEffect(() => {
+    document.body.scrollTop = 0
+  }, [])
 
   return (
     <div

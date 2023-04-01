@@ -34,6 +34,7 @@ const Page: NextPageWithLayout = () => {
   }
 
   useEffect(() => {
+    document.body.scrollTop = 600
     if (orderID) fetchOrderDetails()
   }, [router])
 

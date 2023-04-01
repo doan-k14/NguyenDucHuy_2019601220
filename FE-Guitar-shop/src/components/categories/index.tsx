@@ -56,6 +56,10 @@ const Categories = (props: Props) => {
       }
     },
     {
+      title: 'Số sản phẩm',
+      render: (_, data) => data.product_count
+    },
+    {
       title: 'Thao tác',
       render: (_, data) => <CategoryActions id={data.id} />
     }

@@ -31,7 +31,7 @@ const Page: NextPageWithLayout = () => {
   const [categoryID, setCategoryID] = useState<number>(-1)
   const [status, setStatus] = useState<number>(-1)
   const [sortString, setSortString] = useState<string>('desc')
-  const [sortField, setSortField] = useState<string>('created_at')
+  const [sortField, setSortField] = useState<string>('products.created_at')
 
   const [loading, setLoading] = useState<boolean>(false)
 
