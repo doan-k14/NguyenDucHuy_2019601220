@@ -38,8 +38,6 @@ $router->group(['prefix' => 'user'], function () use ($router) {
     $router->post('register', 'UserController@register');
     $router->post('login', 'UserController@login');
     $router->post('change-password', 'UserController@changePassword');
-    $router->post('list', 'UserController@index');
-    $router->post('{id}', 'UserController@show');
     $router->post('update/{id}', 'UserController@update');
 });
 $router->post('new-user', 'UserController@newUser');
@@ -48,7 +46,6 @@ $router->group(['prefix' => 'order'], function () use ($router) {
     $router->post('', 'OrderController@index');
     $router->post('create', 'OrderController@create');
     $router->post('detail/create', 'OrderController@insert');
-    $router->post('{id}', 'OrderController@show');
     $router->post('update/{id}', 'OrderController@update');
 });
 $router->post('latest', 'OrderController@latest');

@@ -1,4 +1,4 @@
-import { ReactElement } from 'react'
+import { ReactElement, useEffect } from 'react'
 
 import { NextPageWithLayout } from '@/types/next-page'
 import { Col, Image, Row } from 'antd'
@@ -8,6 +8,10 @@ import TopBanners from '@/components/base/topBanners'
 import Landing from '@/components/layouts/landing'
 
 const Page: NextPageWithLayout = () => {
+  useEffect(() => {
+    document.body.scrollTop = 600
+  }, [])
+
   return (
     <div>
       {/* Banners */}
@@ -35,8 +39,8 @@ const Page: NextPageWithLayout = () => {
             <p>
               Cảm ơn quý khách đã đặt hàng của Elden Song! Quý khách vui lòng
               kiểm tra đơn hàng trong hòm thư điện tử hoặc theo dõi tình trạng
-              đơn hàng trong mục &quot;Theo dõi đơn hàng&quot; trong tab người dùng trên
-              thanh menu.
+              đơn hàng trong mục &quot;Theo dõi đơn hàng&quot; trong tab người
+              dùng trên thanh menu.
             </p>
             <p style={{ color: '#FFAD00' }}>
               *Lưu ý: Nếu Email của bạn không đúng, kết quả cũng như tình trạng

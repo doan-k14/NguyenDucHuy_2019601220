@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Database\Factories\ProductFactory;
 
 class Product extends Model
 {
@@ -23,4 +24,9 @@ class Product extends Model
         'string_name',
         'sold'
     ];
+
+    protected static function newFactory()
+    {
+        return ProductFactory::new();
+    }
 }

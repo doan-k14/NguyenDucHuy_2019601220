@@ -21,6 +21,7 @@ import CategorySelect from '@/components/utilities/categorySelect'
 
 const Page: NextPageWithLayout = () => {
   const router = useRouter()
+  const categoryParam = router.query.category?.toString()
   const [products, setProducts] = useState<Product[]>()
 
   const [total, setTotal] = useState<number>(defaultPagination.total)
@@ -28,7 +29,9 @@ const Page: NextPageWithLayout = () => {
   const [pageSize, setPageSize] = useState<number>(defaultPagination.size)
 
   const [search, setSearch] = useState<string>()
-  const [categoryID, setCategoryID] = useState<number>(-1)
+  const [categoryID, setCategoryID] = useState<number>(
+    parseInt(categoryParam || '-1')
+  )
   const [status, setStatus] = useState<number>(-1)
   const [sortString, setSortString] = useState<string>('desc')
   const [sortField, setSortField] = useState<string>('products.created_at')

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Database\Factories\UsersFactory;
 
 class Users extends Model
 {
@@ -16,4 +17,9 @@ class Users extends Model
         'birth',
         'gender'
     ];
+
+    protected static function newFactory()
+    {
+        return UsersFactory::new();
+    }
 }

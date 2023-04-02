@@ -7,20 +7,6 @@ use App\Models\Users;
 
 class UserController extends Controller
 {
-    public function index()
-    {
-        $total = Users::all()->count();
-        $users = Users::all();
-
-        return response()->json([
-            'message' => 'Success',
-            'result' => [
-                'total' => $total,
-                'users' => $users
-            ]
-        ]);
-    }
-
     public function newUser()
     {
         $user = Users::orderby('created_at', 'desc')->first();
@@ -80,7 +66,7 @@ class UserController extends Controller
                 'errors' => 'Mật khẩu không đúng',
                 'success' => false,
                 'message' => 'Input error',
-            ], 400);
+            ], 422);
 
         $user->password = $request->input('new_password');
 
@@ -88,21 +74,6 @@ class UserController extends Controller
 
         return response()->json([
             'message' => 'Change password success',
-            'result' => $user
-        ]);
-    }
-
-    public function show($id)
-    {
-        $user = Users::find($id);
-
-        if (!$user)
-            $message = "Cannot find username by id:$id!";
-        else
-            $message = 'Success!';
-
-        return response()->json([
-            'message' => $message,
             'result' => $user
         ]);
     }

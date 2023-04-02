@@ -64,9 +64,12 @@ const Page: NextPageWithLayout = () => {
           })
           return tempDetail
         }
-        const payload = orderDetailPayload()
 
-        if (await OrderService.createOrderDetail({ products: payload })) {
+        if (
+          await OrderService.createOrderDetail({
+            products: orderDetailPayload()
+          })
+        ) {
           cart[1]([])
           notificationSuccess('Đặt hàng thành công')
           router.push('/customers/order-success')

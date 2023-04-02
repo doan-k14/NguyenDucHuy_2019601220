@@ -1,3 +1,5 @@
+import Router from 'next/router'
+
 import { categoryStatus } from '@/configs/status'
 import { ColumnsType } from 'antd/es/table'
 import { Tag, Table, Popover, Button } from 'antd'
@@ -38,7 +40,11 @@ const Categories = (props: Props) => {
       title: 'Tên danh mục',
       render: (_, data) => (
         <Popover content={getCategoryTime(data)} trigger="hover">
-          <Button type="text" style={{ fontWeight: 'bold' }}>
+          <Button
+            type="text"
+            style={{ fontWeight: 'bold' }}
+            onClick={() => Router.push(`/users/product?category=${data.id}`)}
+          >
             {data.name}
           </Button>
         </Popover>

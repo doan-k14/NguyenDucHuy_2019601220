@@ -39,8 +39,8 @@ return [
             'host' => 'smtp.gmail.com',
             'port' => 587,
             'encryption' => 'tls',
-            'username' => '',
-            'password' => '',
+            'username' => 'eldensong160201@gmail.com',
+            'password' => 'oopppibgflaoryyk',
             'timeout' => null,
             'local_domain' => null,
         ],
@@ -98,7 +98,7 @@ return [
     */
 
     'from' => [
-        'address' => '',
+        'address' => 'eldensong160201@gmail.com',
         'name' => 'Elden Song',
     ],
 
