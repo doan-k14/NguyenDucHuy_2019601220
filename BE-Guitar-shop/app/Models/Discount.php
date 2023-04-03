@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Database\Factories\DiscountFactory;
 
 class Discount extends Model
 {
@@ -12,4 +13,9 @@ class Discount extends Model
         'status',
         'label'
     ];
+
+    protected static function newFactory()
+    {
+        return DiscountFactory::new();
+    }
 }

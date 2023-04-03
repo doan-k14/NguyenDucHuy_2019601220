@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Database\Factories\RatingFactory;
 
 class Rating extends Model
 {
@@ -11,4 +12,9 @@ class Rating extends Model
         'product_id',
         'score'
     ];
+
+    protected static function newFactory()
+    {
+        return RatingFactory::new();
+    }
 }
