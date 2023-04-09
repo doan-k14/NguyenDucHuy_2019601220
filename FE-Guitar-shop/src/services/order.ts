@@ -9,6 +9,7 @@ import {
   OrderUpdate,
   UserID
 } from '@/types/order'
+import { OrderDetail } from './../types/order'
 import { client } from './client'
 
 export const OrderService = {
@@ -32,5 +33,8 @@ export const OrderService = {
   },
   getList(payload: FilterPayload): Promise<OrderResponse> {
     return client.post('order', { ...payload })
+  },
+  showDetail(id: number): Promise<OrderDetail[]> {
+    return client.post(`order/${id}`)
   }
 }

@@ -46,6 +46,7 @@ $router->group(['prefix' => 'order'], function () use ($router) {
     $router->post('', 'OrderController@index');
     $router->post('create', 'OrderController@create');
     $router->post('detail/create', 'OrderController@insert');
+    $router->post('{id}', 'OrderController@show');
     $router->post('update/{id}', 'OrderController@update');
 });
 $router->post('latest', 'OrderController@latest');

@@ -69,20 +69,6 @@ const UserDropdown = (props: Props) => {
         }}
       >
         <div>
-          {/* <div
-            style={{
-              borderBottomStyle: 'solid',
-              borderBottomWidth: '1px',
-              borderBottomColor: '#F7F8FA',
-              paddingTop: '0.5rem',
-              paddingBottom: '0.5rem'
-            }}
-          >
-            <Button type="link" style={{ width: '100%', textAlign: 'left' }}>
-              <AuditOutlined style={{ color: '#0080FF' }} />
-              <span>Thông tin tài khoản</span>
-            </Button>
-          </div> */}
           <div style={{ paddingTop: '0.5rem', paddingBottom: '0.5rem' }}>
             <Button
               type="link"

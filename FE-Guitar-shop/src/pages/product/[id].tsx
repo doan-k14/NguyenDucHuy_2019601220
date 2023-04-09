@@ -58,7 +58,7 @@ const Page: NextPageWithLayout = () => {
       notificationSuccess('Thêm vào giỏ hàng thành công!')
     } else {
       const temProducts = cart.map(obj => {
-        if (product.id === obj.id)
+        if (product.id === obj.id && product.amount > (obj.quantity || 0))
           return {
             ...obj,
             quantity: (obj.quantity || 1) + 1,
@@ -212,7 +212,7 @@ const Page: NextPageWithLayout = () => {
                       <div>
                         <span style={{ fontSize: '2rem' }}>{product.name}</span>{' '}
                         <span style={{ fontWeight: 'bold', color: '#D72027' }}>
-                          {product.amount > 0 ? '(Còn hàng)' : '(Hết hàng)'}
+                          {product.amount > 0 ? `(Còn hàng: ${product.amount})` : '(Hết hàng)'}
                         </span>
                       </div>
                       {score ? (

@@ -29,7 +29,7 @@ const SideSort = (props: Props) => {
           <Radio value="asc">
             <ArrowUpOutlined />
             Tăng dần
-          </Radio>
+          </Radio><br/>
           <Radio value="desc">
             <ArrowDownOutlined />
             Giảm dần

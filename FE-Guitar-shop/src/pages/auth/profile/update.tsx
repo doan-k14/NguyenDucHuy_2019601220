@@ -106,7 +106,7 @@ const Login: NextPageWithLayout = () => {
               userLocal?.birth || userSession?.birth || undefined
             )}
           >
-            <DatePicker placeholder="Ngày sinh" format="DD/MM/YYYY" />
+            <DatePicker placeholder="Ngày sinh" format="DD/MM/YYYY" allowClear={false} />
           </Form.Item>
           {/* Phone */}
           <Form.Item
@@ -152,7 +152,6 @@ const Login: NextPageWithLayout = () => {
             </Button>
             <Button
               style={{ color: 'white', background: '#0080FF' }}
-              loading={loading}
               onClick={() => router.push('/auth/profile')}
             >
               Quay lại

@@ -13,7 +13,12 @@ import {
   Slider,
   Spin
 } from 'antd'
-import { HeartFilled, HeartOutlined, SwapOutlined } from '@ant-design/icons'
+import {
+  CheckOutlined,
+  HeartFilled,
+  HeartOutlined,
+  SwapOutlined
+} from '@ant-design/icons'
 import { notificationError, notificationSuccess } from '@/helpers/notification'
 import { ListPayload, Product } from '@/types/product'
 import { NextPageWithLayout } from '@/types/next-page'
@@ -90,6 +95,13 @@ const Page: NextPageWithLayout = () => {
     }
   }
 
+  const onDeleteCompare = (compareProduct: Product) => {
+    setCompareProducts(
+      compareProducts.filter(product => product.id !== compareProduct.id)
+    )
+    notificationSuccess('Xóa khỏi mục so sánh thành công!')
+  }
+
   const onSelectLoveProduct = (loveProduct: Product) => {
     if (!loveProducts.find(product => product.id === loveProduct.id)) {
       setLoveProducts([...loveProducts, loveProduct])
@@ -114,16 +126,34 @@ const Page: NextPageWithLayout = () => {
           <span style={{ fontSize: '0.8rem' }}> đ</span>
         </span>
         <span>
-          <Button
-            size="small"
-            title="So sánh sản phẩm"
-            onClick={e => {
-              e.stopPropagation()
-              onCompare(loveProduct)
-            }}
-          >
-            <SwapOutlined />
-          </Button>
+          {compareProducts.find(product => product.id === loveProduct.id) ? (
+            <Button
+              size="small"
+              title="Đã có trong mục so sánh"
+              style={{
+                color: 'white',
+                background: '#D72027'
+              }}
+              onClick={e => {
+                e.stopPropagation()
+                onDeleteCompare(loveProduct)
+              }}
+            >
+              <CheckOutlined />
+            </Button>
+          ) : (
+            <Button
+              size="small"
+              title="So sánh sản phẩm"
+              onClick={e => {
+                e.stopPropagation()
+                onCompare(loveProduct)
+              }}
+            >
+              <SwapOutlined />
+            </Button>
+          )}
+
           {loveProducts.find(product => product.id === loveProduct.id) ? (
             <Button
               size="small"

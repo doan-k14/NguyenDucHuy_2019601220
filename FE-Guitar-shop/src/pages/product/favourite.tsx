@@ -33,7 +33,7 @@ const Page: NextPageWithLayout = () => {
       notificationSuccess('Thêm vào giỏ hàng thành công!')
     } else {
       const temProducts = cart.map(obj => {
-        if (product.id === obj.id)
+        if (product.id === obj.id && product.amount > (obj.quantity || 0))
           return {
             ...obj,
             quantity: (obj.quantity || 1) + 1,

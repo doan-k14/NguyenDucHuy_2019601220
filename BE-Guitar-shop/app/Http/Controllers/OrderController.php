@@ -107,6 +107,16 @@ class OrderController extends Controller
         ]);
     }
 
+    public function show($id)
+    {
+        $orderDetail = OrderDetail::query()->where('order_id', $id)->get();
+
+        return response()->json([
+            'message' => 'success',
+            'result' => $orderDetail
+        ]);
+    }
+
     public function update(Request $request, $id)
     {
         $this->validate($request, [
