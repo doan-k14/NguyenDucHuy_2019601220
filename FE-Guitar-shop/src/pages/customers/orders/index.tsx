@@ -1,7 +1,7 @@
 import { ReactElement, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 
-import { Button, Table, notification } from 'antd'
+import { Button, Col, Row, Table, notification } from 'antd'
 import { NextPageWithLayout } from '@/types/next-page'
 import { notificationError } from '@/helpers/notification'
 import { OrderService } from '@/services/order'
@@ -53,34 +53,44 @@ const Page: NextPageWithLayout = () => {
       <TopBanners />
       {/* Content */}
       <h2 className="homepage-title">Danh sách đơn hàng</h2>
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          marginBottom: '4rem'
-        }}
-      >
-        <Table
-          columns={orderColumns}
-          dataSource={orders}
-          pagination={false}
-          rowKey="id"
-          loading={loading}
-        />
-      </div>
-      <div style={{ display: 'flex', justifyContent: 'end' }}>
-        <Button
-          style={{
-            marginBottom: '4rem',
-            marginRight: '6rem',
-            background: '#D72027',
-            color: 'white'
-          }}
-          onClick={() => router.push('/')}
+      <Row style={{ background: 'white', marginBottom: '2rem' }}>
+        <Col
+          xxl={{ span: 14, offset: 5 }}
+          xl={{ span: 18, offset: 3 }}
+          lg={{ span: 20, offset: 2 }}
+          span={24}
+          offset={0}
+          style={{ padding: '0 1rem' }}
         >
-          Quay lại
-        </Button>
-      </div>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              marginBottom: '4rem'
+            }}
+          >
+            <Table
+              columns={orderColumns}
+              dataSource={orders}
+              pagination={false}
+              rowKey="id"
+              loading={loading}
+            />
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'end' }}>
+            <Button
+              style={{
+                marginBottom: '4rem',
+                background: '#D72027',
+                color: 'white'
+              }}
+              onClick={() => router.push('/')}
+            >
+              Quay lại
+            </Button>
+          </div>
+        </Col>
+      </Row>
       <BottomContent />
     </div>
   )

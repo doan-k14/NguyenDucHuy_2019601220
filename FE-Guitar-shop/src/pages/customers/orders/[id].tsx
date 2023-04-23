@@ -1,7 +1,7 @@
 import { ReactElement, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 
-import { Button, Table, notification } from 'antd'
+import { Button, Col, Row, Table, notification } from 'antd'
 import { OrderDetailResponse } from '@/types/order'
 import { NextPageWithLayout } from '@/types/next-page'
 import { notificationError } from '@/helpers/notification'
@@ -44,35 +44,37 @@ const Page: NextPageWithLayout = () => {
       <TopBanners />
       {/* Content */}
       <h2 className="homepage-title">Chi tiết đơn hàng #{orderID}</h2>
-      <div
-        style={{
-          marginBottom: '2rem',
-          marginLeft: '4rem',
-          marginRight: '4rem'
-        }}
-      >
-        <Table
-          columns={orderDetailColumns}
-          dataSource={orderDetail}
-          pagination={false}
-          rowKey="id"
-          loading={loading}
-        />
-        <div style={{ display: 'flex', justifyContent: 'end' }}>
-          <Button
-            style={{
-              marginBottom: '4rem',
-              marginTop: '4rem',
-              marginRight: '6rem',
-              background: '#D72027',
-              color: 'white'
-            }}
-            onClick={() => router.push('/customers/orders')}
-          >
-            Quay lại
-          </Button>
-        </div>
-      </div>
+      <Row style={{ background: 'white', marginBottom: '2rem' }}>
+        <Col
+          xxl={{ span: 14, offset: 5 }}
+          xl={{ span: 18, offset: 3 }}
+          lg={{ span: 20, offset: 2 }}
+          span={24}
+          offset={0}
+          style={{ padding: '0 1rem' }}
+        >
+          <Table
+            columns={orderDetailColumns}
+            dataSource={orderDetail}
+            pagination={false}
+            rowKey="id"
+            loading={loading}
+          />
+          <div style={{ display: 'flex', justifyContent: 'end' }}>
+            <Button
+              style={{
+                marginBottom: '4rem',
+                marginTop: '4rem',
+                background: '#D72027',
+                color: 'white'
+              }}
+              onClick={() => router.push('/customers/orders')}
+            >
+              Quay lại
+            </Button>
+          </div>
+        </Col>
+      </Row>
 
       <BottomContent />
     </div>

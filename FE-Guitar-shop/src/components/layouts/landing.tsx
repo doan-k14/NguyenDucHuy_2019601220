@@ -3,6 +3,7 @@ import Head from 'next/head'
 import { Layout } from 'antd'
 
 import Footer from '../base/footer'
+import CallAction from '../utilities/callAction'
 import DesktopBanner from '../base/desktopBanner'
 import DesktopHeader from '../base/desktopHeader'
 
@@ -32,6 +33,7 @@ export default function Landing({ children }: LayoutProps) {
           <div style={{ color: '#000' }}>
             <Footer />
           </div>
+          <CallAction />
         </Layout>
       </main>
     </>
