@@ -29,7 +29,7 @@ const Page: NextPageWithLayout = () => {
       const orders = await OrderService.getOrderByUser({
         user_id: user?.id || 1
       })
-      if (orders) setOrders(orders)
+      if (orders) setOrders(orders.reverse())
     } catch (error: unknown) {
       notification.destroy()
       notificationError('Bạn không có đơn hàng nào')

@@ -118,10 +118,10 @@ const AdminOrderActions = (props: Props) => {
           onConfirm={() => onAction(0)}
           okText="Đồng ý"
           cancelText="Đóng"
-          disabled={order.status === 3 || order.status === 0}
+          disabled={order.status !== 1}
         >
           <Button
-            disabled={order.status === 3 || order.status === 0}
+            disabled={order.status !== 1}
             type="text"
             style={{ color: 'red' }}
           >
