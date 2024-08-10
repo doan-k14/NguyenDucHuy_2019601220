@@ -15,6 +15,8 @@ import TopBanners from '@/components/base/topBanners'
 import UserInfo from '@/components/cart/userInfo'
 import Landing from '@/components/layouts/landing'
 import Cart from '@/components/cart'
+import { ProductService } from '@/services/product'
+import { UpdatePayload } from '@/types/product'
 
 const Page: NextPageWithLayout = () => {
   const router = useRouter()
@@ -70,6 +72,7 @@ const Page: NextPageWithLayout = () => {
             products: orderDetailPayload()
           })
         ) {
+          await onChangeAmount(latestOrder.id)
           cart[1]([])
           notificationSuccess('Đặt hàng thành công')
           router.push('/customers/order-success')
@@ -79,6 +82,51 @@ const Page: NextPageWithLayout = () => {
       notificationError('Đặt hàng thất bại')
     } finally {
       setLoading(false)
+    }
+  }
+  const onChangeAmount = async (id: number) => {
+    try {
+      // Lấy chi tiết đơn hàng qua id
+      const response = await OrderService.showDetail(id)
+      // Cập nhật số hàng tồn
+      if (response) {
+        response.forEach(orderDetail => {
+          fetchProductAmount(orderDetail.product_id, orderDetail.quantity)
+        })
+      }
+    } catch {
+      notificationError('Trừ hàng tồn thất bại')
+    }
+  }
+
+const fetchProductAmount = async (id: number, quantity: number) => {
+    try {
+      const response = await ProductService.show(id)
+      if (response) {
+        updateProductAmount(
+          id,
+          response.amount - quantity,
+          (response.sold || 0)
+        )
+      }
+    } catch {
+      notificationError('Không tìm thấy sản phẩm')
+    }
+  }
+
+  const updateProductAmount = async (
+    productID: number,
+    amount: number,
+    sold: number
+  ) => {
+    try {
+      const payload: UpdatePayload = {
+        amount: amount,
+        sold: sold
+      }
+      await ProductService.update(productID, payload)
+    } catch {
+      notificationError('Cập nhật số lượng thất bại')
     }
   }
 

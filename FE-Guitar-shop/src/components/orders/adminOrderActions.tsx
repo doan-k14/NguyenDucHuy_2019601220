@@ -22,14 +22,14 @@ const AdminOrderActions = (props: Props) => {
   const { order } = props
   const router = useRouter()
 
-  const fetchProductAmount = async (id: number, quantity: number) => {
+  const fetchProductAmount = async (id: number, quantity: number, status: 'done' | 'cancel') => {
     try {
       const response = await ProductService.show(id)
       if (response) {
         updateProductAmount(
           id,
-          response.amount - quantity,
-          (response.sold || 0) + quantity
+          response.amount + (status === 'done' ? 0 : quantity),
+          (response.sold || 0) + (status === 'done' ? quantity : 0)
         )
       }
     } catch {
@@ -53,14 +53,14 @@ const AdminOrderActions = (props: Props) => {
     }
   }
 
-  const onChangeAmount = async () => {
+  const onChangeAmount = async (status: 'done' | 'cancel') => {
     try {
       // Lấy chi tiết đơn hàng qua id
       const response = await OrderService.showDetail(order.id)
       // Cập nhật số hàng tồn
       if (response) {
         response.forEach(orderDetail => {
-          fetchProductAmount(orderDetail.product_id, orderDetail.quantity)
+          fetchProductAmount(orderDetail.product_id, orderDetail.quantity, status)
         })
       }
     } catch {
@@ -103,7 +103,7 @@ const AdminOrderActions = (props: Props) => {
           type="text"
           style={{ color: '#00B96B' }}
           onClick={() => {
-            onChangeAmount()
+            onChangeAmount('done')
             onAction(3)
           }}
           disabled={order.status !== 2}
@@ -115,7 +115,10 @@ const AdminOrderActions = (props: Props) => {
         <Popconfirm
           title="Cảnh báo"
           description="Bạn có chắc muốn hủy đơn hàng này?"
-          onConfirm={() => onAction(0)}
+          onConfirm={() => {
+            onChangeAmount('cancel')
+            onAction(0)
+          }}
           okText="Đồng ý"
           cancelText="Đóng"
           disabled={order.status !== 1}
