@@ -6,9 +6,55 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Models\OrderDetail;
 use App\Models\Order;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Http\JsonResponse;
 
 class OrderController extends Controller
 {
+    public function getChartData(): JsonResponse
+    {
+        // Lấy thời gian hiện tại
+        $now = Carbon::now();
+
+        // Xác định phạm vi thời gian cho 12 tháng qua
+        $startOfPeriod = $now->copy()->subMonths(12)->startOfMonth();
+        $endOfPeriod = $now->copy()->endOfMonth();
+
+        // Tính tổng total_price trong 12 tháng qua
+        $data = Order::selectRaw('SUM(total_price) as total, MONTH(created_at) as month, YEAR(created_at) as year')
+            ->whereBetween('created_at', [$startOfPeriod, $endOfPeriod])
+            ->where('status', 3)
+            ->groupByRaw('YEAR(created_at), MONTH(created_at)')
+            ->orderByRaw('YEAR(created_at), MONTH(created_at)')
+            ->get();
+
+        // Định dạng kết quả
+        $result = [];
+        foreach ($data as $item) {
+            $yearMonthKey = str_pad($item->month, 2, '0', STR_PAD_LEFT) . '-' . $item->year;
+            $result[$yearMonthKey] = $item->total;
+        }
+
+        // Đảm bảo rằng tất cả các tháng trong 12 tháng qua đều có dữ liệu, kể cả nếu không có bản ghi
+        for ($i = 0; $i < 12; $i++) {
+            $month = $now->copy()->subMonths(12 - $i)->format('m-Y');
+            if (!isset($result[$month])) {
+                $result[$month] = 0;
+            }
+        }
+
+        // Sắp xếp kết quả theo tháng
+        ksort($result);
+
+        return response()->json([
+            'message' => 'Success',
+            'result' => [
+                'data' => $result
+            ]
+        ]);
+    }
+
     public function index(Request $request)
     {
         $pageSize = $request->input('pageSize', 10);

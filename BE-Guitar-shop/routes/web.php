@@ -52,6 +52,7 @@ $router->group(['prefix' => 'order'], function () use ($router) {
 $router->post('latest', 'OrderController@latest');
 $router->post('get-order', 'OrderController@getOrderByUser');
 $router->post('order-detail', 'OrderController@getOrderDetailByID');
+$router->post('chart', 'OrderController@getChartData');
 //Discount
 $router->group(['prefix' => 'discount'], function () use ($router) {
     $router->post('', 'DiscountController@index');
