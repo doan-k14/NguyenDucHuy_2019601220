@@ -1,14 +1,60 @@
-import { ReactElement } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
+import dynamic from 'next/dynamic'
 
 import { NextPageWithLayout } from '@/types/next-page'
 
 import User from '@/components/layouts/user'
-import { FolderOpenOutlined, FundOutlined, GiftOutlined, MenuUnfoldOutlined, PhoneOutlined } from '@ant-design/icons'
-import { Card } from 'antd'
+import { MenuUnfoldOutlined } from '@ant-design/icons'
+import { notification } from 'antd'
+import { notificationError } from '@/helpers/notification'
+import { OrderService } from '@/services/order'
+
+const Column = dynamic(
+  () => import('@ant-design/charts').then(mod => mod.Column),
+  { ssr: false }
+)
 
 const Page: NextPageWithLayout = () => {
   const router = useRouter()
+  const [chartData, setChartData] = useState<any[]>([])
+
+  const fetchOrders = async () => {
+    try {
+      const response = await OrderService.getChart()
+      if (response) {
+        let res = response.data
+        let result: any[] = []
+        const keys = Object.keys(res)
+        keys.map((key: any) => {
+          result.push({
+            type: key,
+            sales: parseInt(res[key])
+          })
+        })
+        setChartData(result)
+      }
+    } catch {
+      notification.destroy()
+      notificationError('Có lỗi xảy ra')
+    }
+  }
+
+  useEffect(() => {
+    fetchOrders()
+  }, [])
+
+  const chart = {
+    data: chartData,
+    xField: 'type',
+    yField: 'sales',
+    colorField: 'type',
+    barWidthRatio: 0.8,
+    meta: {
+      type: { alias: 'Category' },
+      value: { alias: 'Value' }
+    }
+  }
 
   return (
     <div
@@ -35,96 +81,10 @@ const Page: NextPageWithLayout = () => {
         }}
       >
         <MenuUnfoldOutlined />
-        <div>Dashboard</div>
+        <div>Thống kê doanh số 12 tháng gần nhất</div>
       </div>
-      {/* Row 1 */}
-      <div style={{ margin: '1rem' }}>
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            marginLeft: '2rem',
-            marginRight: '2rem'
-          }}
-        >
-          <span style={{ width: '48%' }}>
-            <Card
-              hoverable
-              style={{
-                textAlign: 'center',
-                background: '#DD9BB1',
-                color: 'white'
-              }}
-              onClick={() => router.push('/users/category')}
-            >
-              <div>
-                <FolderOpenOutlined style={{ fontSize: '3rem' }} />
-                <div style={{ fontSize: '1.2rem' }}>Danh mục</div>
-              </div>
-            </Card>
-          </span>
-          <span style={{ width: '48%' }}>
-            <Card
-              hoverable
-              style={{
-                textAlign: 'center',
-                background: '#F7ED00',
-                color: 'white'
-              }}
-              onClick={() => router.push('/users/product')}
-            >
-              <div>
-              <GiftOutlined style={{ fontSize: '3rem' }} />
-                <div style={{ fontSize: '1.2rem' }}>Sản phẩm</div>
-              </div>
-            </Card>
-          </span>
-        </div>
-      </div>
-      {/* Row 2 */}
-      <div style={{ margin: '1rem' }}>
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            marginLeft: '2rem',
-            marginRight: '2rem'
-          }}
-        >
-          <span style={{ width: '48%' }}>
-            <Card
-              hoverable
-              style={{
-                textAlign: 'center',
-                background: '#F7B300',
-                color: 'white'
-              }}
-              onClick={() => router.push('/users/order')}
-            >
-              <div>
-              <PhoneOutlined style={{ fontSize: '3rem' }} />
-                <div style={{ fontSize: '1.2rem' }}>Đơn hàng</div>
-              </div>
-            </Card>
-          </span>
-          <span style={{ width: '48%' }}>
-            <Card
-              hoverable
-              style={{
-                textAlign: 'center',
-                background: '#74B7FF',
-                color: 'white'
-              }}
-              onClick={() => router.push('/users/discount')}
-            >
-              <div>
-              <FundOutlined style={{ fontSize: '3rem' }} />
-                <div style={{ fontSize: '1.2rem' }}>Mã giảm giá</div>
-              </div>
-            </Card>
-          </span>
-        </div>
-      </div>
+      {/* Chart */}
+      <Column {...chart} />
     </div>
   )
 }

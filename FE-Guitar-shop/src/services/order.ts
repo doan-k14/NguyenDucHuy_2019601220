@@ -36,5 +36,8 @@ export const OrderService = {
   },
   showDetail(id: number): Promise<OrderDetail[]> {
     return client.post(`order/${id}`)
+  },
+  getChart(): Promise<any> {
+    return client.post('/chart')
   }
 }
