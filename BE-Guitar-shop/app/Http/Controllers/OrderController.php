@@ -55,6 +55,49 @@ class OrderController extends Controller
         ]);
     }
 
+    public function getNotPayChartData(): JsonResponse
+    {
+        // Lấy thời gian hiện tại
+        $now = Carbon::now();
+
+        // Xác định phạm vi thời gian cho 12 tháng qua
+        $startOfPeriod = $now->copy()->subMonths(12)->startOfMonth();
+        $endOfPeriod = $now->copy()->endOfMonth();
+
+        // Tính toán dữ liệu trong 12 tháng qua
+        $data = DB::table('orders') // Thay 'your_table_name' bằng tên bảng của bạn
+            ->select(DB::raw('COUNT(*) as count'), DB::raw('MONTH(created_at) as month'))
+            ->where('created_at', '>=', $now->subMonths(12))
+            ->where('status', '!=', 3)
+            ->groupBy(DB::raw('MONTH(created_at)'))
+            ->orderBy(DB::raw('MIN(created_at)'))
+            ->get();
+        
+        // Định dạng kết quả
+        $result = [];
+        foreach ($data as $item) {
+            $result[$item->month] = $item->count;
+        }
+
+        // Đảm bảo rằng tất cả các tháng trong 12 tháng qua đều có dữ liệu, kể cả nếu không có bản ghi
+        for ($i = 1; $i <= 12; $i++) {
+            $month = $now->copy()->subMonths(12 - $i)->format('n');
+            if (!isset($result[$month])) {
+                $result[$month] = 0;
+            }
+        }
+
+        // Sắp xếp kết quả theo tháng
+        ksort($result);
+
+        return response()->json([
+            'message' => 'Success',
+            'result' => [
+                'data' => $result
+            ]
+        ]);
+    }
+
     public function index(Request $request)
     {
         $pageSize = $request->input('pageSize', 10);
