@@ -39,5 +39,8 @@ export const OrderService = {
   },
   getChart(): Promise<any> {
     return client.post('/chart')
+  },
+  getColumnChart(): Promise<any> {
+    return client.post('/columnChart')
   }
 }
