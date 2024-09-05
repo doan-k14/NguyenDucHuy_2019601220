@@ -60,13 +60,9 @@ class OrderController extends Controller
         // Lấy thời gian hiện tại
         $now = Carbon::now();
 
-        // Xác định phạm vi thời gian cho 12 tháng qua
-        $startOfPeriod = $now->copy()->subMonths(12)->startOfMonth();
-        $endOfPeriod = $now->copy()->endOfMonth();
-
         // Tính toán dữ liệu trong 12 tháng qua
         $data = DB::table('orders') // Thay 'your_table_name' bằng tên bảng của bạn
-            ->select(DB::raw('COUNT(*) as count'), DB::raw('MONTH(created_at) as month'))
+            ->select(DB::raw('COUNT(*) as count'), DB::raw('MONTH(created_at) as month'), DB::raw('YEAR(created_at) as year'))
             ->where('created_at', '>=', $now->subMonths(12))
             ->where('status', '!=', 3)
             ->groupBy(DB::raw('MONTH(created_at)'))
@@ -76,12 +72,13 @@ class OrderController extends Controller
         // Định dạng kết quả
         $result = [];
         foreach ($data as $item) {
-            $result[$item->month] = $item->count;
+            $yearMonthKey = str_pad($item->month, 2, '0', STR_PAD_LEFT) . '-' . $item->year;
+            $result[$yearMonthKey] = $item->count;
         }
 
         // Đảm bảo rằng tất cả các tháng trong 12 tháng qua đều có dữ liệu, kể cả nếu không có bản ghi
         for ($i = 1; $i <= 12; $i++) {
-            $month = $now->copy()->subMonths(12 - $i)->format('n');
+            $month = $now->copy()->subMonths(12 - $i)->format('m-Y');
             if (!isset($result[$month])) {
                 $result[$month] = 0;
             }
